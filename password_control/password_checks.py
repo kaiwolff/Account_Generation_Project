@@ -1,17 +1,22 @@
 def check_list(self, password):
     # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
-    with open('common_passwords.txt', 'r') as password_file:
-        # iterates through whole file
-        for line in password_file:
-            if password in line:
-                password_file.close()
-                return False
-            elif line == False:
-                # line will be empty if nothing left in file
-                print("end of file reached")
-                password_file.close()
-                break
-    return True
+    # sql_password = getpass("Please input your SQL database password: ")
+    with connect(host="localhost", user="root", password=sql_password, database="common_password_db") as connection:
+
+        with connection.cursor()as cursor:
+            command = f"SELECT * FROM `common_passwords` WHERE password = '{password}';"
+            cursor.execute(command)
+            cursor.fetchall()
+            print(cursor.rowcount)
+            print(password)
+            num_occurences = cursor.rowcount
+            # print("num_occurences assigned")
+            cursor.close()
+
+        if num_occurences > 0:
+            return False
+        elif num_occurences == 0:
+            return True
 
 
 def check_policy(self, password):
