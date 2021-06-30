@@ -14,7 +14,7 @@ class PassTest(unittest.TestCase):
         manage = AccountManager()
     def test_delete_account(self):
         self.assertTrue(self.table_update(self, "something"))
-    #check if the database has been updat
+    #check if the database has been updated
     def test_check_deletion(self):
         self.assertFalse(self.check_existence(self, "username"))
     #check if the account no longer exists
