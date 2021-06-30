@@ -26,4 +26,4 @@ class PassTest(unittest.TestCase):
         self.assertTrue(self.checker.check_user_details("s$Y9h70OXO)nXb7Y", "Kai", "Wolff", "1992"))
 
     def test_read_policy(self):
-        self.assertEqual(self.checker.read_password_policy(),[1, 3, 3, 4, 8, 16, "~!$^&*()_-+="])
+        self.assertEqual(self.checker.read_password_policy(),[1, 3, 3, 4, 8, 16, "~!$^*()_-+="])
