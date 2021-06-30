@@ -4,6 +4,7 @@ import configparser
 import string
 import random
 
+import password_control.Access_rights
 
 class TestAcessRights(unittest.TestCase):
 
