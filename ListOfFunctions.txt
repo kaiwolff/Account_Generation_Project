@@ -1,0 +1,7 @@
+password_strength_prompt
+check_admin()
+change_access()
+change_username()
+table_update()
+check_existence()
+create_new_user()
