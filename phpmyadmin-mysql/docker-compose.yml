@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mysql_dbms:
+    image: mysql/mysql-server
+    container_name: mysql_dbms
+    environment:
+      MYSQL_ROOT_PASSWORD:
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./init-sql:/docker-entrypoint-initdb.d
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - mysql_dbms
+    environment:
+      PMA_HOST: mysql_dbms
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8099:80
+volumes:
+  dbdata:
