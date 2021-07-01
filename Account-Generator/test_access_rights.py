@@ -6,7 +6,7 @@ import random
 
 from user_account_details import UserAccountDetails
 
-class TestAcessRights(unittest.TestCase):
+class TestAccessRights(unittest.TestCase):
 
     def test_access(self):
         #change user name

@@ -4,12 +4,12 @@ import configparser
 import string
 import random
 
-from Password_Analyzer import PasswordChecker
+from  password_checks import UserPasswordDetails
 
 
 class PassTest(unittest.TestCase):
 
-    checker = PasswordChecker()
+    checker = UserPasswordDetails()
 
     def test_policy(self):
         self.assertFalse(self.checker.check_policy("password"))
