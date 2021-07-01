@@ -6,7 +6,7 @@ class UserPasswordDetails():
     with connect(host="localhost", user="root", password=sql_password, database="common_password_db") as connection:
 
         with connection.cursor()as cursor:
-            command = f"SELECT * FROM `common_passwords` WHERE password = '{password}';"
+            command = "SELECT * FROM `common_passwords` WHERE password = '{}';".format(password)
             cursor.execute(command)
             cursor.fetchall()
             #print(cursor.rowcount)
