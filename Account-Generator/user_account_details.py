@@ -15,22 +15,27 @@ class UserAccountDetails():
 
     def check_existence(self, user_name): # checks if a user exists in a database
 
-        with connect(host="localhost", user="root", password=sql_password, database="common_password_db") as connection:
+        with connect(host="localhost", user="root", password=sql_password, database="User_database.db") as connection:
 
               with connection.cursor()as cursor:
-                  command = f"SELECT * FROM `common_passwords` WHERE password = '{password}';"
+                  command = f"SELECT * FROM `User_database` WHERE UserName= '{user_name}';"
                   cursor.execute(command)
                   cursor.fetchall()
-                  print(cursor.rowcount)
-                  print(password)
                   num_occurences = cursor.rowcount
                   # print("num_occurences assigned")
                   cursor.close()
 
               if num_occurences > 0:
-                  return False
-              elif num_occurences == 0:
                   return True
+              elif num_occurences == 0:
+                  return False
 
-    def create_new_user(): # creates user details
-        pass
+    def create_new_user(self,user_name,first_name,last_name,birth_year): # creates user details
+
+        with connect(host="localhost", user="root", password=sql_password, database="User_database.db") as connection:
+
+              with connection.cursor()as cursor:
+                  command = f"INSERT INTO User_database (UserName, FirstName, LastName, BirthYear) VALUES ('{user_name}, '{first_name}', '{last_name}', '{birth_year}');"
+                  cursor.execute(command)
+                  cursor.close()
+                  pass

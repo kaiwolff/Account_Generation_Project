@@ -7,8 +7,8 @@ def check_list(self, password):
             command = f"SELECT * FROM `common_passwords` WHERE password = '{password}';"
             cursor.execute(command)
             cursor.fetchall()
-            print(cursor.rowcount)
-            print(password)
+            #print(cursor.rowcount)
+            #print(password)
             num_occurences = cursor.rowcount
             # print("num_occurences assigned")
             cursor.close()

@@ -1,7 +1,23 @@
-password_strength_prompt
 check_admin()
 change_access()
 change_username()
-table_update()
+table_update() # changed to delete_new_user
 check_existence()
 create_new_user()
+
+
+
+
+
+
+
+password_strength_prompt() # the same as check_policy
+read_password_policy()
+check_policy()
+check_list()
+check_user_details()
+
+
+
+# To improve for future:
+# - Not writing the password into the file
