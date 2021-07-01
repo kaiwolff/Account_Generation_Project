@@ -8,7 +8,7 @@ class UserAccountDetails():
 
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
-            with connection.cursor()as cursor:
+            with connection.cursor() as cursor:
                 command = f"SELECT * FROM `user_info` WHERE `username`= '{user_name}' AND `password` = '{user_password}' AND `Manager` = '1';"
                 cursor.execute(command)
                 cursor.fetchall()
