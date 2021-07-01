@@ -44,7 +44,7 @@ class UserAccountDetails():
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if check_existence(user_name):
-                return "{user_name} already exists."
+                return "{} already exists.".format(user_name)
 
             elif check_admin(manager_name, manager_password):
 
