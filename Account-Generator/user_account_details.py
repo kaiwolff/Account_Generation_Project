@@ -1,5 +1,7 @@
-class UserAccountDetails():
+from mysql.connector import connect, Error
 
+
+class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
 
     def check_admin(self, user_name, user_password):# check if the admin value is true
@@ -7,7 +9,7 @@ class UserAccountDetails():
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor()as cursor:
-                command = f"SELECT * FROM `user_info` WHERE `username`= '{user_name}' AND 'password' = '{user_password}' AND Manager = 1;"
+                command = f"SELECT * FROM `user_info` WHERE `username`= '{user_name}' AND `password` = '{user_password}' AND `Manager` = 1;"
                 cursor.execute(command)
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
