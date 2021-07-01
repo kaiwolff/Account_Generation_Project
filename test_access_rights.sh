@@ -1,1 +1,1 @@
-py.test --junit-xml test-reports/results.xml Account_Generation_Project/test_access_rights.py
+py.test --junit-xml test-reports/results.xml Account-Generator/test_access_rights.py
