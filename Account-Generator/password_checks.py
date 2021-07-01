@@ -1,4 +1,6 @@
-def check_list(self, password):
+class UserPasswordDetails():
+
+    def check_list(self, password):
     # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
     # sql_password = getpass("Please input your SQL database password: ")
     with connect(host="localhost", user="root", password=sql_password, database="common_password_db") as connection:
@@ -7,8 +9,8 @@ def check_list(self, password):
             command = f"SELECT * FROM `common_passwords` WHERE password = '{password}';"
             cursor.execute(command)
             cursor.fetchall()
-            print(cursor.rowcount)
-            print(password)
+            #print(cursor.rowcount)
+            #print(password)
             num_occurences = cursor.rowcount
             # print("num_occurences assigned")
             cursor.close()
