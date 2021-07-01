@@ -28,7 +28,6 @@ pipeline {
       steps {
           sh './build.sh'
           stash(name: 'compiled-results', includes: 'Account-Generator/.py*')
-          stash(name: 'compiled-results', includes: 'Account-Generator/.py*')
       }
     }
 
@@ -39,7 +38,7 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    			sh 'py.test --junit-xml test-reports/results_access_rights.xml Account-Generator/test_access_rights.py'
     	}
     	post {
     			always {
@@ -54,7 +53,7 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    			sh 'py.test --junit-xml test-reports/results_acc_deletion.xml Account-Generator/test_account_deletion.py'
     	}
     	post {
     			always {
@@ -69,7 +68,7 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    			sh 'py.test --junit-xml test-reports/results_acc_management.xml Account-Generator/test_account_management.py'
     	}
     	post {
     			always {
@@ -84,7 +83,7 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    			sh 'py.test --junit-xml test-reports/results.xml Account-Generator/test_password_control.py'
     	}
     	post {
     			always {
@@ -99,7 +98,7 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    			sh 'py.test --junit-xml test-reports/results.xml Account-Generator/test_password_response.py'
     	}
     	post {
     			always {
