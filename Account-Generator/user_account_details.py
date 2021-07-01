@@ -6,11 +6,12 @@ class UserAccountDetails():
 
     def check_admin(self, user_name, user_password): # check if the admin value is true
 
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host = "localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor() as cursor:
 
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}' AND `Manager` = 1;".format(user_name, user_password)
+
                 cursor.execute(command)
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
@@ -48,6 +49,7 @@ class UserAccountDetails():
             if check_existence(user_name):
                 return "{} already exists.".format(user_name)
 
+
             elif UserPasswordDetails.check_list(password) or UserPasswordDetails.check_policy(password) or UserPasswordDetails.check_user_details(password, first_name, last_name, birth_year):
                 password = UserPasswordDetails.generate_password()
                 with connection.cursor()as cursor:
@@ -62,6 +64,7 @@ class UserAccountDetails():
                     cursor.execute(command)
                     cursor.close()
                     return "The user {} has been added to the database.".format(user_name)
+
 
 
     def change_to_manager(self, user_name, manager_name, manager_password): # changes the value of user role back to manager role
@@ -84,6 +87,7 @@ class UserAccountDetails():
             if check_admin(manager_name, manager_password):
                 with connection.cursor()as cursor:
                     command = "UPDATE `user_info` SET `Manager` = 0 WHERE `username` = '{user_name}';".format(user_name)
+
                     cursor.execute(command)
                     cursor.close()
                     return "{} has been changed to user".format(user_name)
@@ -97,10 +101,12 @@ class UserAccountDetails():
             if check_admin(manager_name, manager_password):
 
                 with connection.cursor()as cursor:
+
                     command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(new_user_name, old_user_name)
                     cursor.execute(command)
                     cursor.close()
                     return "{} has been changed to {}".format(old_user_name, new_user_name)
+
             else:
                 return "You require an admin level account to update a username."
 
