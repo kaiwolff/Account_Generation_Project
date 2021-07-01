@@ -6,10 +6,10 @@ class UserAccountDetails():
 
     def check_admin(self, user_name, user_password):# check if the admin value is true
 
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host = "localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor() as cursor:
-                command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password` = '{}' AND `Manager` = '1';".format(user_name,user_password)
+                command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password` = '{}' AND `Manager` = '1';".format(user_name, user_password)
                 cursor.execute(command)
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
@@ -27,7 +27,7 @@ class UserAccountDetails():
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor()as cursor:
-                command = f"SELECT * FROM `user_info` WHERE `username`= '{user_name}';"
+                command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
                 cursor.execute(command)
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
@@ -44,27 +44,27 @@ class UserAccountDetails():
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if check_existence(user_name):
-                return f"{user_name} already exists."
+                return "{user_name} already exists."
 
             elif check_admin(manager_name, manager_password):
 
                 with connection.cursor()as cursor:
-                    command = f"INSERT INTO `user_info` (username, FirstName, LastName, password, BirthYear) VALUES ('{user_name}, '{first_name}', '{last_name}', '{password}', '{birth_year}');"
+                    command = "INSERT INTO `user_info` (username, FirstName, LastName, password, BirthYear) VALUES ('{}, '{}', '{}', '{}', '{}');".format(user_name, first_name, last_name, password, birth_year)
                     cursor.execute(command)
                     cursor.close()
-                    return f"The user {user_name} has been added to the database."
+                    return "The user {} has been added to the database.".format(user_name)
             else:
-                return f"You require an admin level account to create a new user."
+                return "You require an admin level account to create a new user."
 
     def change_to_manager(self, user_name, manager_name, manager_password): # changes the value of user role back to manager role
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if check_admin(manager_name, manager_password):
                 with connection.cursor()as cursor:
-                    command = f"UPDATE `user_info` SET `Manager`= 1 WHERE `username` = '{user_name}';"
+                    command = "UPDATE `user_info` SET `Manager`= 1 WHERE `username` = '{}';".format(user_name)
                     cursor.execute(command)
                     cursor.close()
-                    return f"{user_name} has been changed to admin status."
+                    return "{} has been changed to admin status.".format(user_name)
 
             else:
                 return "You require an admin level account to change from user to admin status."
@@ -74,10 +74,10 @@ class UserAccountDetails():
 
             if check_admin(manager_name, manager_password):
                 with connection.cursor()as cursor:
-                    command = f"UPDATE `user_info` SET `Manager` = 0 WHERE `username` = '{user_name}';"
+                    command = "UPDATE `user_info` SET `Manager` = 0 WHERE `username` = '{}';".format(user_name)
                     cursor.execute(command)
                     cursor.close()
-                    return f"{user_name} has been changed to user"
+                    return "{} has been changed to user".format(user_name)
 
             else:
                 return "You require an admin level account to update user status."
@@ -88,10 +88,10 @@ class UserAccountDetails():
             if check_admin(manager_name, manager_password):
 
                 with connection.cursor()as cursor:
-                    command = f"UPDATE `user_info` SET `username` = '{new_user_name}' WHERE `username` = '{old_user_name}';"
+                    command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(new_user_name,old_user_name)
                     cursor.execute(command)
                     cursor.close()
-                    return f"{old_user_name} has been changed to {new_user_name}"
+                    return "{} has been changed to {}".format(old_user_name,new_user_name)
             else:
                 return "You require an admin level account to update a username."
 
@@ -101,9 +101,9 @@ class UserAccountDetails():
             if check_admin(manager_name, manager_password):
 
                 with connection.cursor()as cursor:
-                  command = f"DELETE FROM `user_info` WHERE `username`= '{user_name}';"
+                  command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
                   cursor.execute(command)
                   cursor.close()
-                  return f"{user_name} has been deleted from the database"
+                  return "{} has been deleted from the database".format(user_name)
             else:
                 return "You require an admin level account to delete user details."
