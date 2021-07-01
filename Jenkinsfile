@@ -27,7 +27,7 @@ pipeline {
       }
       steps {
           sh './build.sh'
-          stash(name: 'compiled-results', includes: 'Account-Generator/.py*')
+          stash(name: 'compiled-results', includes: 'Account-Generator/*.py*')
       }
     }
 
