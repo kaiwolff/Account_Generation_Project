@@ -12,7 +12,7 @@ pipeline {
   }
 
   stages {
-    stage('Cloning our Git') {
+    stage('Clone from Git') {
     		steps {
             git branch: 'main',
             url: 'https://github.com/kaiwolff/Account_Generation_Project.git'
@@ -27,19 +27,79 @@ pipeline {
       }
       steps {
           sh './build.sh'
-          stash(name: 'compiled-results', includes: 'Account_Generation_Project/test_cases/*.py*')
-          stash(name: 'compiled-results', includes: 'Account_Generation_Project/password_control/*.py*')
+          stash(name: 'compiled-results', includes: 'Account-Generator/.py*')
+          stash(name: 'compiled-results', includes: 'Account-Generator/.py*')
       }
     }
 
-    stage('Test') {
+    stage('Test access rights') {
     	agent {
     			docker {
     					image 'qnib/pytest'
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml calculator/test_TDD.py'
+    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    	}
+    	post {
+    			always {
+    					junit 'test-reports/results.xml'
+    			}
+    	}
+    }
+    stage('Test account deletion') {
+    	agent {
+    			docker {
+    					image 'qnib/pytest'
+    			}
+    	}
+    	steps {
+    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    	}
+    	post {
+    			always {
+    					junit 'test-reports/results.xml'
+    			}
+    	}
+    }
+    stage('Test account management') {
+    	agent {
+    			docker {
+    					image 'qnib/pytest'
+    			}
+    	}
+    	steps {
+    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    	}
+    	post {
+    			always {
+    					junit 'test-reports/results.xml'
+    			}
+    	}
+    }
+    stage('Test password control') {
+    	agent {
+    			docker {
+    					image 'qnib/pytest'
+    			}
+    	}
+    	steps {
+    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
+    	}
+    	post {
+    			always {
+    					junit 'test-reports/results.xml'
+    			}
+    	}
+    }
+    stage('Test password response') {
+    	agent {
+    			docker {
+    					image 'qnib/pytest'
+    			}
+    	}
+    	steps {
+    			sh 'py.test --junit-xml test-reports/results.xml test_cases/test_TDD.py'
     	}
     	post {
     			always {
