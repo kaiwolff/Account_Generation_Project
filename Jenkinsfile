@@ -38,11 +38,11 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results_access_rights.xml Account-Generator/test_access_rights.py'
+    			sh './test_access_rights.sh'
     	}
     	post {
     			always {
-    					junit 'test-reports/results.xml'
+    					junit 'test-reports/results_access_rights.xml'
     			}
     	}
     }
@@ -53,11 +53,11 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results_acc_deletion.xml Account-Generator/test_account_deletion.py'
+    			sh './test_account_deletion.sh'
     	}
     	post {
     			always {
-    					junit 'test-reports/results.xml'
+    					junit 'test-reports/results_acc_deletion.xml'
     			}
     	}
     }
@@ -68,11 +68,11 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results_acc_management.xml Account-Generator/test_account_management.py'
+    			sh './test_account_management.sh'
     	}
     	post {
     			always {
-    					junit 'test-reports/results.xml'
+    					junit 'test-reports/results_acc_management.xml'
     			}
     	}
     }
@@ -83,11 +83,11 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml Account-Generator/test_password_control.py'
+    			sh './test_password_control.sh'
     	}
     	post {
     			always {
-    					junit 'test-reports/results.xml'
+    					junit 'test-reports/results_password_control.xml'
     			}
     	}
     }
@@ -98,11 +98,11 @@ pipeline {
     			}
     	}
     	steps {
-    			sh 'py.test --junit-xml test-reports/results.xml Account-Generator/test_password_response.py'
+    			sh './test_password_response.sh'
     	}
     	post {
     			always {
-    					junit 'test-reports/results.xml'
+    					junit 'test-reports/results_password_response.xml'
     			}
     	}
     }
