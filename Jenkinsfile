@@ -106,6 +106,21 @@ pipeline {
     			}
     	}
     }
+    stage('Test password check strength') {
+    	agent {
+    			docker {
+    					image 'qnib/pytest'
+    			}
+    	}
+    	steps {
+    			sh './test_password_check_strength.sh'
+    	}
+    	post {
+    			always {
+    					junit 'test-reports/test_password_check_strength.xml'
+    			}
+    	}
+    }
 
     stage('Build-Image') {
     	steps{
