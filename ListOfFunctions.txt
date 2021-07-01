@@ -1,16 +1,17 @@
-check_admin()
-change_access()
-change_username()
-table_update() # changed to delete_new_user
-check_existence()
-create_new_user()
+check_admin(self, user_name)
+change_access(self, user_name)
+change_username(self, old_user_name, new_user_name)
+table_update(self, user_name) # changed to delete_new_user
+delete_new_user(self, user_name)
+check_existence(self, user_name)
+create_new_user(self,user_name,first_name,last_name,birth_year)
 
 
 
 
 
 
-
+## Completed from previous
 password_strength_prompt() # the same as check_policy
 read_password_policy()
 check_policy()
