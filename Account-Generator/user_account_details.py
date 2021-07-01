@@ -7,7 +7,7 @@ class UserAccountDetails():
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor()as cursor:
-                command = f"SELECT * FROM `user_info` WHERE username= '{user_name}' AND password= {user_password} AND Manager = 1;"
+                command = f"SELECT * FROM `user_info` WHERE `username`= '{user_name}' AND 'password' = '{user_password}' AND Manager = 1;"
                 cursor.execute(command)
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
@@ -25,7 +25,7 @@ class UserAccountDetails():
         with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor()as cursor:
-                command = f"SELECT * FROM `user_info` WHERE username= '{user_name}';"
+                command = f"SELECT * FROM `user_info` WHERE `username`= '{user_name}';"
                 cursor.execute(command)
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
@@ -47,7 +47,7 @@ class UserAccountDetails():
             elif check_admin(manager_name, manager_password):
 
                 with connection.cursor()as cursor:
-                    command = f"INSERT INTO `user_info` (username, FirstName, LastName, BirthYear) VALUES ('{user_name}, '{first_name}', '{last_name}', '{birth_year}');"
+                    command = f"INSERT INTO `user_info` (username, FirstName, LastName, password, BirthYear) VALUES ('{user_name}, '{first_name}', '{last_name}', '{password}', '{birth_year}');"
                     cursor.execute(command)
                     cursor.close()
                     return f"The user {user_name} has been added to the database."
@@ -99,7 +99,7 @@ class UserAccountDetails():
             if check_admin(manager_name, manager_password):
 
                 with connection.cursor()as cursor:
-                  command = f"DELETE FROM `user_info` WHERE username= '{user_name}';"
+                  command = f"DELETE FROM `user_info` WHERE `username`= '{user_name}';"
                   cursor.execute(command)
                   cursor.close()
                   return f"{user_name} has been deleted from the database"
