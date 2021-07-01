@@ -1,24 +1,28 @@
+import configparser
+from mysql.connector import connect, Error
+
 class UserPasswordDetails():
 
     def check_list(self, password):
     # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
     # sql_password = getpass("Please input your SQL database password: ")
-    with connect(host="localhost", user="root", password=sql_password, database="common_password_db") as connection:
 
-        with connection.cursor()as cursor:
-            command = "SELECT * FROM `common_passwords` WHERE password = '{}';".format(password)
-            cursor.execute(command)
-            cursor.fetchall()
-            #print(cursor.rowcount)
-            #print(password)
-            num_occurences = cursor.rowcount
-            # print("num_occurences assigned")
-            cursor.close()
+        with connect(host="localhost", user="root", password=sql_password, database="common_password_db") as connection:
 
-        if num_occurences > 0:
-            return False
-        elif num_occurences == 0:
-            return True
+            with connection.cursor()as cursor:
+                command = "SELECT * FROM `common_passwords` WHERE password = '{}';".format(password)
+                cursor.execute(command)
+                cursor.fetchall()
+                #print(cursor.rowcount)
+                #print(password)
+                num_occurences = cursor.rowcount
+                # print("num_occurences assigned")
+                cursor.close()
+
+            if num_occurences > 0:
+                return False
+            elif num_occurences == 0:
+                return True
 
 
     def check_policy(self, password):
@@ -75,3 +79,19 @@ class UserPasswordDetails():
             return False
         else:
             return True
+
+    def read_password_policy(self):
+        # reads in password policy, returns variables as a list. Written by KW
+        # password_policy = open('password_policy.txt', 'r')
+        policy = configparser.ConfigParser()
+        policy.read('password_policy.txt')
+        num_specials = policy.getint('Policy', 'num_specials')
+        num_lowercase = policy.getint('Policy', 'num_lowercase')
+        num_uppercase = policy.getint('Policy', 'num_uppercase')
+        num_numbers = policy.getint('Policy', 'num_numbers')
+        min_length = policy.getint('Policy', 'min_length')
+        max_length = policy.getint('Policy', 'max_length')
+        allowed_specials = policy.get('Policy', 'allowed_specials')
+
+        return [int(num_specials), int(num_lowercase), int(num_uppercase), int(num_numbers), int(min_length),
+                int(max_length), allowed_specials]

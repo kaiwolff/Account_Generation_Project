@@ -4,7 +4,7 @@ import configparser
 import string
 import random
 
-from  password_checks import UserPasswordDetails
+from password_checks import UserPasswordDetails
 
 
 class PassTest(unittest.TestCase):
