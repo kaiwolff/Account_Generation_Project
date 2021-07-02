@@ -5,7 +5,7 @@ import random
 
 class UserPasswordDetails():
 
-      def generate_password(self):
+    def generate_password(self):
 
             # reading through the password policy and looping through to extract necessary values to check and generates the password
             policy_checklist = self.read_password_policy()
@@ -38,7 +38,7 @@ class UserPasswordDetails():
         with connect(host="localhost", user="root", password=sql_password, database="pw_user_db") as connection:
 
             with connection.cursor()as cursor:
-                command = "SELECT * FROM `common_passwords` WHERE password = '{}';".format{password}
+                command = "SELECT * FROM `common_passwords` WHERE `password` = '{}';".format(password)
                 cursor.execute(command)
                 cursor.fetchall()
                 #print(cursor.rowcount)
