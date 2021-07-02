@@ -43,7 +43,7 @@ pipeline {
     			}
     	}
     	steps {
-          sh 'virtualenv venv --distribute && . venv/bin/activate && pip install -r requirements.txt && ./test_access_rights.sh'
+          sh 'pip install -r requirements.txt && ./test_access_rights.sh'
     	}
     	post {
     			always {
@@ -58,7 +58,7 @@ pipeline {
     			}
     	}
     	steps {
-          
+
     			sh 'virtualenv venv --distribute && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
     	}
     	post {
