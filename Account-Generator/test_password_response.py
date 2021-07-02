@@ -1,19 +1,17 @@
-# as a user, I want to be prompted that my password is weak or strong  
-
-import pytest 
-import unittest 
+import pytest
+import unittest
+import configparser
+import string
 import random
 
-from strength_checker import StrengthChecker 
+from user_account_details import UserAccountDetails
 
-class StrengthChecker(unittest.Testcase):
+class ResponseTest(unittest.TestCase):
 
-	checker = StrengthChecker()
+	checker = UserAccountDetails()
 
 	def test_check(self):
-		self.assertEqual(self.checker.password_strength_prompt("password"), "This password is weak")
-		self.assertEqual(self.checker.password_strength_prompt("s$Y9h70OXO)nXb7Y"), "This password is strong")
-		self.assertEqual(self.checker.password_strength_prompt("Afshanapw", "Afshana", "Begum", "1997"), "This password is weak")
-		self.assertEqual(self.checker.password_strength_prompt("s$Y9h70OXO)nXb7Y", "Afshana", "Begum", "1997"), "This password is strong")
-
-	
+		self.assertEqual(self.checker.create_new_user("test_username","test_firstname","test_lastname", "1997", "password"), "Your password is weak.") # testing for password
+		self.assertEqual(self.checker.create_new_user("test_username","test_firstname","test_lastname", "1997", "s$Y9h70OXO)nXb7Y"), "You have been successfully added to the database system.") # testing for password
+		self.assertEqual(self.checker.create_new_user( "Afshana", "Afshana", "Begum", "1997", "Afshanapw"), "This password is weak.") # test checks is user details are in password
+		self.assertEqual(self.checker.create_new_user("Afshana_username","Afshana", "Begum", "1997", "s$Y9h70OXO)nXb7Y"), "You have been successfully added to the database system.") 

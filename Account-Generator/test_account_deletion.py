@@ -6,15 +6,16 @@ import configparser
 import string
 import random
 
-from Password_Analyzer import PasswordChecker
+from user_account_details import UserAccountDetails
+
 
 # use mock  package to run tests
 class PassTest(unittest.TestCase):
-        checker = AccountChecker()
-        manage = AccountManager()
+    checker = UserAccountDetails()
+
     def test_delete_account(self):
-        self.assertTrue(self.delete_user(self, "something"))
+        self.assertEqual(self.checker.delete_user("test_username", "test_manager", "test_password"),"The account {} has been deleted from the database".format("test_username"))
     #check if the database has been updated
     def test_check_deletion(self):
-        self.assertFalse(self.check_existence(self, "username"))
+        self.assertFalse(self.checker.check_existence("username"))
     #check if the account no longer exists
