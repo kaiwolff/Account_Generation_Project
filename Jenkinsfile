@@ -47,7 +47,7 @@ pipeline {
     	}
     	post {
     			always {
-    					junit 'test-reports/results_access_rights.xml'
+    					junit allowEmptyResults: true, testResults: '**/test-results/*.xml'
     			}
     	}
     }
@@ -80,6 +80,7 @@ pipeline {
     	}
     	post {
     			always {
+
     					junit 'test-reports/results_acc_management.xml'
     			}
     	}
