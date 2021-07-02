@@ -1,3 +1,5 @@
+import configparser
+from mysql.connector import connect, Error
 import string
 import random
 
@@ -30,6 +32,7 @@ class UserPasswordDetails():
 
     def check_list(self, password):
 
+
         # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
         # sql_password = getpass("Please input your SQL database password: ")
         with connect(host="localhost", user="root", password=sql_password, database="pw_user_db") as connection:
@@ -45,9 +48,10 @@ class UserPasswordDetails():
                 cursor.close()
 
             if num_occurences > 0:
-                return True
-            elif num_occurences == 0:
+
                 return False
+            elif num_occurences == 0:
+                return True
 
 
 
@@ -105,3 +109,19 @@ class UserPasswordDetails():
             return False
         else:
             return True
+
+    def read_password_policy(self):
+        # reads in password policy, returns variables as a list. Written by KW
+        # password_policy = open('password_policy.txt', 'r')
+        policy = configparser.ConfigParser()
+        policy.read('password_policy.txt')
+        num_specials = policy.getint('Policy', 'num_specials')
+        num_lowercase = policy.getint('Policy', 'num_lowercase')
+        num_uppercase = policy.getint('Policy', 'num_uppercase')
+        num_numbers = policy.getint('Policy', 'num_numbers')
+        min_length = policy.getint('Policy', 'min_length')
+        max_length = policy.getint('Policy', 'max_length')
+        allowed_specials = policy.get('Policy', 'allowed_specials')
+
+        return [int(num_specials), int(num_lowercase), int(num_uppercase), int(num_numbers), int(min_length),
+                int(max_length), allowed_specials]
