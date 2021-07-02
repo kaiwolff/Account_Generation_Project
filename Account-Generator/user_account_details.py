@@ -56,14 +56,14 @@ class UserAccountDetails():
                     command = "INSERT INTO `user_info` (username, FirstName, LastName, password, BirthYear, Manager) VALUES ('{}, '{}', '{}', '{}', '{}', '0');".format(user_name, first_name, last_name, password, birth_year)
                     cursor.execute(command)
                     cursor.close()
-                return "Your password is weak. Your new password is {}".format(password)
+                return "Your password is weak."
 
             else:
                 with connection.cursor()as cursor:
                     command = "INSERT INTO `user_info` (username, FirstName, LastName, password, BirthYear, Manager) VALUES ('{}', '{}', '{}', '{}', '{}','0');".format(user_name, first_name, last_name, password, birth_year)
                     cursor.execute(command)
                     cursor.close()
-                    return "The user {} has been added to the database.".format(user_name)
+                    return "You have been successfully added to the database system."
 
 
 
@@ -75,7 +75,7 @@ class UserAccountDetails():
                     command = "UPDATE `user_info` SET `Manager`= 1 WHERE `username` = '{}';".format(user_name)
                     cursor.execute(command)
                     cursor.close()
-                    return "{} has been changed to admin status.".format(user_name)
+                    return "The account has been changed to admin status."
 
             else:
                 return "You require an admin level account to change from user to admin status."
@@ -90,7 +90,7 @@ class UserAccountDetails():
 
                     cursor.execute(command)
                     cursor.close()
-                    return "{} has been changed to user".format(user_name)
+                    return "The account has been changed to user"
 
             else:
                 return "You require an admin level account to update user status."
@@ -120,6 +120,6 @@ class UserAccountDetails():
                   command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
                   cursor.execute(command)
                   cursor.close()
-                  return "{} has been deleted from the database".format(user_name)
+                  return "The account {} has been deleted from the database".format(user_name)
             else:
                 return "You require an admin level account to delete user details."
