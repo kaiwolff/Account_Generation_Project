@@ -2,6 +2,7 @@ import configparser
 from mysql.connector import connect, Error
 import string
 import random
+#from password_policy import policy
 
 class UserPasswordDetails():
 

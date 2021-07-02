@@ -10,14 +10,14 @@ from password_checks import UserPasswordDetails
 class WeakUser(unittest.TestCase):
 
     pwd_strength = UserAccountDetails()
+    checker = UserPasswordDetails()
 
     def test_existence(self):
-        self.assertTrue(self.pwd_strength.check_existence(self, "duplicate_username"))
+        self.assertTrue(self.pwd_strength.check_existence("duplicate_username"))
 
     def test_password(self):
-        self.pwd_strength.create_new_user("first_name","last_name","username","password")
+        self.pwd_strength.create_new_user("username","first_name","last_name","1993","password")
 
-        checker = UserPasswordDetails()
 
     def test_policy(self):
         self.assertFalse(self.checker.check_policy("password"))
