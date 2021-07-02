@@ -3,8 +3,11 @@ venv/
 __pycache__/
 .pytest_cache/
 env/
+*.pyc
 .mysql_password
+terraform_sql
 .terraform/
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+
