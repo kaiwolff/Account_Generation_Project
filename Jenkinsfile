@@ -43,6 +43,8 @@ pipeline {
     			}
     	}
     	steps {
+          sh 'python3 -m venv venv'
+          sh '. venv/bin/activate && pip install -r requirements.txt'
     			sh './test_access_rights.sh'
     	}
     	post {
@@ -58,6 +60,8 @@ pipeline {
     			}
     	}
     	steps {
+          sh 'python3 -m venv venv'
+          sh '. venv/bin/activate && pip install -r requirements.txt'
     			sh './test_account_deletion.sh'
     	}
     	post {
@@ -73,6 +77,8 @@ pipeline {
     			}
     	}
     	steps {
+          sh 'python3 -m venv venv'
+          sh '. venv/bin/activate && pip install -r requirements.txt'
     			sh './test_account_management.sh'
     	}
     	post {
@@ -88,6 +94,8 @@ pipeline {
     			}
     	}
     	steps {
+          sh 'python3 -m venv venv'
+          sh '. venv/bin/activate && pip install -r requirements.txt'
     			sh './test_password_control.sh'
     	}
     	post {
@@ -103,6 +111,8 @@ pipeline {
     			}
     	}
     	steps {
+          sh 'python3 -m venv venv'
+          sh '. venv/bin/activate && pip install -r requirements.txt'
     			sh './test_password_response.sh'
     	}
     	post {
