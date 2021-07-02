@@ -43,9 +43,7 @@ pipeline {
     			}
     	}
     	steps {
-          sh 'python3 -m venv venv'
-          sh '. venv/bin/activate && pip install -r requirements.txt'
-    			sh './test_access_rights.sh'
+          sh 'virtualenv venv --distribute && . venv/bin/activate && pip install -r requirements.txt && ./test_access_rights.sh'
     	}
     	post {
     			always {
@@ -60,9 +58,8 @@ pipeline {
     			}
     	}
     	steps {
-          sh 'python3 -m venv venv'
-          sh '. venv/bin/activate && pip install -r requirements.txt'
-    			sh './test_account_deletion.sh'
+          
+    			sh 'virtualenv venv --distribute && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
     	}
     	post {
     			always {
