@@ -1,1 +1,0 @@
-# MySQL and PhpMyAdmin Containers
