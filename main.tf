@@ -50,6 +50,15 @@ resource "aws_security_group" "Eng88_web_server_security_group_tf" {
 variable "aws_private_key" {
   default = "/home/kali/.ssh/cyber-jenkins-key.pem"
 }
+resource "aws_s3_bucket" "Eng88_web_server_db_tf" {
+  bucket = "Eng88webserverdb"
+  acl = "private"
+
+  tags = {
+    Name = "Eng-88 Cyber - Eng88 Web Server Bucket"
+    Environment = "Dev"
+  }
+}
 
 resource "aws_instance" "Eng88_web_server_instance_tf" {
   ami                         = "ami-0f89681a05a3a9de7"
@@ -78,6 +87,66 @@ resource "aws_instance" "Eng88_web_server_instance_tf" {
   provisioner "remote-exec" {
     inline = [
       "docker run -d -p 80:5000 jamesdidit72/account-generation"
+    ]
+  }
+  provisioner "file" {
+    source = "./init-scripts"
+    destination = "/tmp/init-scripts"
+  }
+  provisioner "file" {
+    source = "./.mysql_password"
+    destination = "tmp/.mysql_password"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/init-scripts/docker_install.sh",
+      "/tmp/init-scripts/docker_install.sh",
+    ]
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/init-scripts/mysql_install.sh",
+      "tmp/init-scripts/mysql_install.sh",
+    ]
+  }
+  provisioner "file" {
+    source = "./init-sql"
+    destination = "/tmp"
+  }
+  provisioner "remote-exec" {
+    when = destroy
+    inline = [
+      "chmod +x /tmp/init-scripts/stop.sh",
+      "/tmp/init-scripts/stop.sh",
+    ]
+  }
+}
+
+resource "aws_volume_attachment" "Eng88_web_server_db_volume_attachment_tf" {
+  device_name = "/dev/xvdz"
+  volume_id = "vol-0e32e0dd6a7e660f4"
+  instance_id = aws_instance.Eng88_web_server_instance_tf.id
+  skip_destroy = true
+
+  connection {
+    type = "ssh"
+    host = aws_instance.Eng88_web_server_instance_tf.public_ip
+    user = "ec2-user"
+    private_key = file(var.aws_private_key)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/init-scripts/mount.sh",
+      "/tmp/init-scripts/mount.sh",
+      "/tmp/init-scripts/mount/sh"
+    ]
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "cd /tmp/init-scripts/",
+      "chmod +x launch.sh",
+      "./launch.sh"
     ]
   }
 }

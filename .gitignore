@@ -3,4 +3,9 @@ venv/
 __pycache__/
 .pytest_cache/
 env/
+<<<<<<< HEAD
 *.pyc
+=======
+.mysql_password
+
+>>>>>>> 95f7cba91db13aeb4384bffd643f051e600caf7e
