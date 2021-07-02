@@ -29,7 +29,7 @@ pipeline {
           withCredentials([string(credentialsId: 'sql_auth', variable: 'sqlCredential')]){
           sh 'echo $sqlCredential > .mysql_password'
           }
-
+          sh 'virtualenv venv && . venv/bin/activate && pip install -r requirements.txt'
           sh './build.sh'
           stash(name: 'compiled-results', includes: 'Account-Generator/*.py*')
       }
