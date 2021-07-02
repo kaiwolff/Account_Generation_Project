@@ -14,7 +14,7 @@ class PassTest(unittest.TestCase):
     checker = UserAccountDetails()
 
     def test_delete_account(self):
-        self.assertTrue(self.checker.delete_user("test_username", "test_manager", "test_password"))
+        self.assertEqual(self.checker.delete_user("test_username", "test_manager", "test_password"),"The account {} has been deleted from the database".format("test_username"))
     #check if the database has been updated
     def test_check_deletion(self):
         self.assertFalse(self.checker.check_existence("username"))

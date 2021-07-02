@@ -4,20 +4,20 @@ import configparser
 import string
 import random
 
-from Password_Analyzer import AccountChecker, PasswordChecker
-
+from user_account_details import UserAccountDetails
+from password_checks import UserPasswordDetails
 
 class WeakUser(unittest.TestCase):
 
-    pwd_strength = AccountChecker()
+    pwd_strength = UserAccountDetails()
 
     def test_existence(self):
-        self.assertTrue(self.check_existence(self, "duplicate_username"))
+        self.assertTrue(self.pwd_strength.check_existence(self, "duplicate_username"))
 
     def test_password(self):
         self.pwd_strength.create_new_user("first_name","last_name","username","password")
 
-        checker = PasswordChecker()
+        checker = UserPasswordDetails()
 
     def test_policy(self):
         self.assertFalse(self.checker.check_policy("password"))
