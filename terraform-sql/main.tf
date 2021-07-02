@@ -56,15 +56,7 @@ resource "aws_security_group" "Eng88_sql_server_security_group_tf" {
 variable "aws_private_key" {
   default = "/home/kali/.ssh/cyber-jenkins-key.pem"
 }
-resource "aws_s3_bucket" "Eng88_sql_server_db_tf" {
-  bucket = "Eng88webserverdb"
-  acl = "private"
 
-  tags = {
-    Name = "Eng-88 Cyber - Eng88 Web Server Bucket"
-    Environment = "Dev"
-  }
-}
 
 resource "aws_instance" "Eng88_sql_server_instance_tf" {
   ami                         = "ami-0f89681a05a3a9de7"
@@ -78,7 +70,7 @@ resource "aws_instance" "Eng88_sql_server_instance_tf" {
     type = "ssh"
     host = self.public_ip
     user = "ec2-user"
-    private_key = file(var.aws_private_key)
+    private_key = file("/home/kali/.ssh/cyber-jenkins-key.pem")
 
   }
   provisioner "remote-exec" {
@@ -88,11 +80,6 @@ resource "aws_instance" "Eng88_sql_server_instance_tf" {
       "sudo yum install docker -y",
       "sudo service docker start",
       "sudo usermod -a -G docker ec2-user"
-    ]
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "docker run -d -p 80:5000 jamesdidit72/account-generation"
     ]
   }
   provisioner "file" {
