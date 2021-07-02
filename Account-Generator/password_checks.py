@@ -31,14 +31,13 @@ class UserPasswordDetails():
 
 
     def check_list(self, password):
-
-
+        with connect(host="localhost", user="root", password=sql_password, database="pw_user_db") as connection:
         # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
         # sql_password = getpass("Please input your SQL database password: ")
-        with connect(host="localhost", user="root", password=sql_password, database="pw_user_db") as connection:
-
             with connection.cursor()as cursor:
+
                 command = "SELECT * FROM `common_passwords` WHERE `password` = '{}';".format(password)
+
                 cursor.execute(command)
                 cursor.fetchall()
                 #print(cursor.rowcount)
