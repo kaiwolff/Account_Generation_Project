@@ -1,4 +1,3 @@
-pip install -r requirements.txt
 python3 -m py_compile Account-Generator/test_access_rights.py
 python3 -m py_compile Account-Generator/test_account_deletion.py
 python3 -m py_compile Account-Generator/test_account_management.py
