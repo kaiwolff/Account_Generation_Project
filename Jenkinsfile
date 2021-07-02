@@ -2,7 +2,6 @@ pipeline {
   environment {
     registry = "jamesdidit72/account-generation"
     registryCredential = "docker_auth"
-    sqlCredential = "sql_auth"
     dockerImage = ''
   }
 
@@ -27,7 +26,10 @@ pipeline {
           }
       }
       steps {
-          sh 'echo sqlCredential > .mysql_password'
+          withCredentials([file(credentialsId: 'sql_auth', variable: 'sqlCredential')]){
+          sh 'echo $sqlCredential > .mysql_password'
+          }
+
           sh './build.sh'
           stash(name: 'compiled-results', includes: 'Account-Generator/*.py*')
       }
