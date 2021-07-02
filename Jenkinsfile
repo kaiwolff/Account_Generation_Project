@@ -26,7 +26,7 @@ pipeline {
           }
       }
       steps {
-          withCredentials([file(credentialsId: 'sql_auth', variable: 'sqlCredential')]){
+          withCredentials([string(credentialsId: 'sql_auth', variable: 'sqlCredential')]){
           sh 'echo $sqlCredential > .mysql_password'
           }
 
