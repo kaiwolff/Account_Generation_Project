@@ -4,4 +4,7 @@ __pycache__/
 .pytest_cache/
 env/
 .mysql_password
-
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
