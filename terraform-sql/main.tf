@@ -73,22 +73,14 @@ resource "aws_instance" "Eng88_sql_server_instance_tf" {
     private_key = file("/home/kali/.ssh/cyber-jenkins-key.pem")
 
   }
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo amazon-linux-extras install docker -y",
-      "sudo yum install docker -y",
-      "sudo service docker start",
-      "sudo usermod -a -G docker ec2-user"
-    ]
-  }
+
   provisioner "file" {
     source = "../init-scripts"
     destination = "/tmp/init-scripts"
   }
   provisioner "file" {
     source = "../.mysql_password"
-    destination = "tmp/.mysql_password"
+    destination = "/tmp/.mysql_password"
   }
   provisioner "remote-exec" {
     inline = [
@@ -99,7 +91,7 @@ resource "aws_instance" "Eng88_sql_server_instance_tf" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/init-scripts/mysql_install.sh",
-      "tmp/init-scripts/mysql_install.sh",
+      "/tmp/init-scripts/mysql_install.sh",
     ]
   }
   provisioner "file" {
@@ -131,8 +123,7 @@ resource "aws_volume_attachment" "Eng88_sql_server_db_volume_attachment_tf" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/init-scripts/mount.sh",
-      "/tmp/init-scripts/mount.sh",
-      "/tmp/init-scripts/mount/sh"
+      "/tmp/init-scripts/mount.sh"
     ]
   }
   provisioner "remote-exec" {
