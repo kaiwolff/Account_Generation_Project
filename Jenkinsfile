@@ -26,6 +26,10 @@ pipeline {
           }
       }
       steps {
+          withCredentials([string(credentialsId: 'sql_auth', variable: 'sqlCredential')]){
+          sh 'echo $sqlCredential > .mysql_password'
+          }
+
           sh './build.sh'
           stash(name: 'compiled-results', includes: 'Account-Generator/*.py*')
       }
@@ -103,21 +107,6 @@ pipeline {
     	post {
     			always {
     					junit 'test-reports/results_password_response.xml'
-    			}
-    	}
-    }
-    stage('Test password check strength') {
-    	agent {
-    			docker {
-    					image 'qnib/pytest'
-    			}
-    	}
-    	steps {
-    			sh './test_password_check_strength.sh'
-    	}
-    	post {
-    			always {
-    					junit 'test-reports/test_password_check_strength.xml'
     			}
     	}
     }
