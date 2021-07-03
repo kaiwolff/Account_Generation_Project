@@ -27,12 +27,12 @@ class UserPasswordDetails():
                     password += random.choice(string.ascii_uppercase)
                 else:
                     password += random.choice(string.digits)
-
+            #print(password) testing
             return password
 
 
     def check_list(self, password):
-        with connect(host="52.214.153.42", user="root", password=sql_password, database="pw_user_db") as connection:
+        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
         # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
         # sql_password = getpass("Please input your SQL database password: ")
             with connection.cursor()as cursor:
@@ -46,11 +46,12 @@ class UserPasswordDetails():
                 num_occurences = cursor.rowcount
                 # print("num_occurences assigned")
                 cursor.close()
-
+            #print(num_occurences) Tests
             if num_occurences > 0:
-
+                #print("In DB")
                 return False
             elif num_occurences == 0:
+                #print("Not in DB")
                 return True
 
 
@@ -59,7 +60,7 @@ class UserPasswordDetails():
         # reads password policy, checks if password complies with requirements. Returns True if yes, False if not. Written by KW
         policy_list = self.read_password_policy()
         # print(policy_list)
-        # now hav ea list defining password policy
+        # now have a list defining password policy
         num_specials = policy_list[0]
         num_lowercase = policy_list[1]
         num_uppercase = policy_list[2]
@@ -75,6 +76,7 @@ class UserPasswordDetails():
 
         if len(password) < min_length or len(password) > max_length:
             # not compliant if too short or too long
+            print("Too short")
             return False
 
         for letter in password:
@@ -91,25 +93,29 @@ class UserPasswordDetails():
                 # return false if part of password is not in any allowed category
                 print("illegal character")
                 return False
-
+        #print(count_specials)
         # now have a count of all the lower, upper, special characters and numbers
         if count_upper >= num_uppercase and count_lower >= num_lowercase and count_specials >= num_specials and count_numbers >= num_numbers:
+            print("Returning True")
             return True
         else:
             return False
 
 
-    def check_user_details(self, password, user_firstname, user_lastname, user_birthyear):
+    def check_user_details(self, user_firstname, user_lastname, user_birthyear, password):
         # checks if the password contains the user name or year of birth. Outputs True if no user details in the password. Written by KW
         if user_firstname in password:
+            #print("First")
             return False
         elif user_lastname in password:
+            #print("last")
             return False
         elif user_birthyear in password:
+            #print("birth")
             return False
         else:
+            #print("USer OK")
             return True
-
     def read_password_policy(self):
         # reads in password policy, returns variables as a list. Written by KW
         # password_policy = open('password_policy.txt', 'r')
@@ -125,3 +131,12 @@ class UserPasswordDetails():
 
         return [int(num_specials), int(num_lowercase), int(num_uppercase), int(num_numbers), int(min_length),
                 int(max_length), allowed_specials]
+
+# Testing functions
+
+
+#print(UserPasswordDetails().generate_password()) #Works, no errors
+#UserPasswordDetails().check_list("password") # Works, but sql errors due to server
+#print(UserPasswordDetails().check_policy("5432ytsKHF++y4")) # no errors check password according to policy.txt file
+#print(UserPasswordDetails().check_user_details("1997","FirstName","LastName", "1997")) # Works, prints False if it is a bad password
+#print(UserPasswordDetails().read_password_policy())# Works, no errors and can be called in other internal functions
