@@ -42,8 +42,8 @@ pipeline {
     			}
     	}
     	steps {
-          sh '. venv/bin/activate && pip -V && pip install --upgrade pip && pip install -r requirements.txt '
-          sh 'pip install -r requirements.txt && ./test_access_rights.sh'
+          sh '. venv/bin/activate && pip -V && pip install --upgrade pip && pip install -r requirements.txt && ./test_access_rights.sh'
+  
     	}
     	post {
     			always {
@@ -59,8 +59,7 @@ pipeline {
     			}
     	}
     	steps {
-          sh '. venv/bin/activate && pip install -r requirements.txt'
-    			sh 'virtualenv venv --distribute && pip install --upgrade pip && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
+              			sh 'virtualenv venv --distribute && pip install --upgrade pip && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
     	}
     	post {
     			always {
