@@ -63,7 +63,7 @@ resource "aws_instance" "Eng88_web_server_instance_tf" {
     type = "ssh"
     host = self.public_ip
     user = "ec2-user"
-    private_key = file(var.aws_private_key)
+    private_key = file("/home/kali/.ssh/cyber-jenkins-key.pem")
   }
 
 
@@ -73,7 +73,7 @@ resource "aws_instance" "Eng88_web_server_instance_tf" {
   }
   provisioner "file" {
     source = "../.mysql_password"
-    destination = "tmp/.mysql_password"
+    destination = "/tmp/.mysql_password"
   }
   provisioner "remote-exec" {
     inline = [
