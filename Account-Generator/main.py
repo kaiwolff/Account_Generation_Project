@@ -7,31 +7,30 @@ from user_account_details import UserAccountDetails
 def welcome():
     return 'Welcome to the Login page'
 
-@app.route('/change_to_user/<str:user_name>/') #/change/
-def perform_change_to_user(target_user_name, manager_name, manager_password):
+@app.route('/change_to_user/<user_name>/<manager_name>/<manager_password>') #/change/
+def perform_change_to_user(user_name, manager_name, manager_password):
     user_details = UserAccountDetails()
+    return (user_details.change_to_user(user_name, manager_name, manager_password))
 
-    return (user_details.change_to_user(user_name)))
-
-@app.route('/change_to_manager/<str:user_name>') #/change/
-def perform_change_to_user(user_name):
+@app.route('/change_to_manager/<user_name>/<manager_name>/<manager_password>') #/change/
+def perform_change_to_manager(user_name, manager_name, manager_password):
     user_details = UserAccountDetails()
-    return (user_details.change_to_manager(user_name))
+    return (user_details.change_to_manager(user_name, manager_name, manager_password))
 
-@app.route('change_name/<str:old_user_name>/<str:new_user_name>')
-def perform_change_name(old_user_name, new_user_name):
+@app.route('/change_name/<old_user_name>/<new_user_name>/<manager_name>/<manager_password>')
+def perform_change_name(old_user_name, new_user_name, manager_name, manager_password):
     user_details = UserAccountDetails()
-    return (user_details.perform_change_username(old_user_name, new_user_name))
+    return (user_details.change_username(old_user_name, new_user_name, manager_name, manager_password))
 
-@app.route('/create/<str:username>/<str:fname>/<str:lname>/int<dobyear>')
-def perform_create_user(user_name, first_name, last_name, birth_year):
+@app.route('/create/<user_name>/<first_name>/<last_name>/<int:birth_year>/<password>')
+def perform_create_user(user_name, first_name, last_name, birth_year, password):
     new_user = UserAccountDetails()
-    return (new_user.create_new_user(user_name, first_name, last_name, birth_year))
+    return (new_user.create_new_user(user_name, first_name, last_name, birth_year, password))
 
-@app.route('/delete/<str:username>')
-def perform_delete_user(user_name):
+@app.route('/delete/<user_name>/<manager_name>/<manager_password>')
+def perform_delete_user(user_name, manager_name, manager_password):
     del_user = UserAccountDetails()
-    return (del_user.delete_new_user(user_name))
+    return (del_user.delete_user(user_name, manager_name, manager_password))
 
 
 if __name__ == "__main__":

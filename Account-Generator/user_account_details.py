@@ -22,6 +22,7 @@ class UserAccountDetails():
                     user_name, user_password)
 
                 cursor.execute(command)
+                #connection.commit()
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
                 # print("num_occurences assigned")
@@ -40,6 +41,7 @@ class UserAccountDetails():
             with connection.cursor()as cursor:
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
                 cursor.execute(command)
+                # connection.commit()
                 cursor.fetchall()
                 num_occurences = cursor.rowcount
                 # print("num_occurences assigned")
@@ -64,22 +66,23 @@ class UserAccountDetails():
                                                                               password):
                 password = UserPasswordDetails().generate_password()
                 with connection.cursor()as cursor:
-                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`) VALUES ('[{}]', '[{}]', '[{}]', '{}', '[{}]', NULL);".format(
+                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL);".format(
                         user_name, first_name, last_name, birth_year, password)
                     cursor.execute(command)
+                    connection.commit()
                     cursor.close()
                     return "Your password is weak."
 
             else:
                 with connection.cursor()as cursor:
-                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`) VALUES ('[{}]', '[{}]', '[{}]', '{}', '[{}]', NULL);".format(
+                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL);".format(
                         user_name, first_name, last_name, birth_year, password)
                     cursor.execute(command)
+                    connection.commit()
                     cursor.close()
                     return "You have been successfully added to the database system."
 
-    def change_to_manager(self, user_name, manager_name,
-                          manager_password):  # changes the value of user role back to manager role
+    def change_to_manager(self, user_name, manager_name, manager_password):  # changes the value of user role back to manager role
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword,
                      database="pw_user_db") as connection:
 
@@ -88,6 +91,7 @@ class UserAccountDetails():
                     with connection.cursor()as cursor:
                         command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
                         cursor.execute(command)
+                        connection.commit()
                         cursor.close()
                         return "The account has been changed to admin status."
                 else:
@@ -95,8 +99,7 @@ class UserAccountDetails():
             else:
                 return "You require an admin level account to change from user to admin status."
 
-    def change_to_user(self, user_name, manager_name,
-                       manager_password):  # changes the value of manager role back to user role
+    def change_to_user(self, user_name, manager_name, manager_password):  # changes the value of manager role back to user role
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword,
                      database="pw_user_db") as connection:
 
@@ -105,6 +108,7 @@ class UserAccountDetails():
                     with connection.cursor()as cursor:
                         command = "UPDATE `user_info` SET `Manager`=NULL WHERE `username` = '{}';".format(user_name)
                         cursor.execute(command)
+                        connection.commit()
                         cursor.close()
                         return "The account has been changed to user"
 
@@ -123,6 +127,7 @@ class UserAccountDetails():
                             command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(
                                 new_user_name, old_user_name)
                             cursor.execute(command)
+                            connection.commit()
                             cursor.close()
                             return "{} has been changed to {}".format(old_user_name, new_user_name)
                     else:
@@ -141,6 +146,7 @@ class UserAccountDetails():
                     with connection.cursor()as cursor:
                         command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
                         cursor.execute(command)
+                        connection.commit()
                         cursor.close()
                         return "The account {} has been deleted from the database".format(user_name)
                 else:
