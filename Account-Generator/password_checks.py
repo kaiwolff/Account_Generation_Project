@@ -32,7 +32,7 @@ class UserPasswordDetails():
 
 
     def check_list(self, password):
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
         # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
         # sql_password = getpass("Please input your SQL database password: ")
             with connection.cursor()as cursor:
