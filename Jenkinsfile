@@ -3,8 +3,8 @@ pipeline {
     PROJECT_DIR = "/Account-Generator"
     CONTAINER_NAME = "account-generation1"
     DOCKER_ACCOUNT = "jamesdidit72"
-    REGISTRY = "$DOCKER_ACCOUNT" + "$CONTAINER_NAME"
-    IMAGE_NAME = "$REGISTRY" + "$BUILD_NUMBER"
+    REGISTRY = "$DOCKER_ACCOUNT" + "/" + "$CONTAINER_NAME"
+    IMAGE_NAME = "$REGISTRY" + ":" +"$BUILD_NUMBER"
     REGISTRY_CREDENTIALS = "docker_auth"
     DOCKER_IMAGE = ''
   }
@@ -35,13 +35,9 @@ pipeline {
     	steps {
         script {
 
-            withCredentials([string(credentialsId: 'sql_auth', variable: 'TOKEN')]) {
-    sh '''
-      echo $TOKEN > .my_sql_password
-    '''
-      }
+
       sh '''
-            docker run --rm --tty -v $PWD/.my_sql_password:/Account-Generator/.my_sql_password -v $PWD/test-results:/reports --workdir $PROJECT_DIR --name $CONTAINER_NAME $IMAGE_NAME pytest --cov=. --cov-report=html:/reports/html_dir --cov-report=xml:/reports/coverage.xml
+            docker run --rm --tty -v $PWD/test-results:/reports --workdir $PROJECT_DIR --name $CONTAINER_NAME $IMAGE_NAME pytest --cov=. --cov-report=html:/reports/html_dir --cov-report=xml:/reports/coverage.xml
           '''
         }
       }
