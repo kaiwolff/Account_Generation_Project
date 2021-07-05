@@ -18,3 +18,4 @@ pytest-cov==2.12.1
 six==1.16.0
 toml==0.10.2
 Werkzeug==2.0.1
+configparser==5.0.2
