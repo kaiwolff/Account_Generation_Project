@@ -15,7 +15,9 @@ def welcome():
         us_name = request.form['username']
         p_word = request.form['pwd']
         return redirect(url_for('success',name = fname))
-
+    # else:
+    #     user = request.args.get('')
+    #     return redirect(url_for('success',name = user))
 
 @app.route('/change_to_user/<str:user_name>/') #/change/
 def perform_change_to_user(target_user_name, manager_name, manager_password):
