@@ -35,7 +35,7 @@ pipeline {
     	steps {
         script {
           sh '''
-            withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
+            withCredentials([string(credentialsId: 'sql_auth', variable: 'TOKEN')]) {
     sh '''
       echo $TOKEN > .my_sql_password
     '''
