@@ -42,8 +42,7 @@ pipeline {
     			}
     	}
     	steps {
-          sh 'apt remove python-pip'
-          sh '. venv/bin/activate && pip -V && pip install --upgrade pip && pip install -r requirements.txt && ./test_access_rights.sh'
+          sh '. venv/bin/activate && pip -V && pip install -r requirements.txt && ./test_access_rights.sh'
 
     	}
     	post {
