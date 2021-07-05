@@ -34,12 +34,13 @@ pipeline {
     stage('Test') {
     	steps {
         script {
-          sh '''
+
             withCredentials([string(credentialsId: 'sql_auth', variable: 'TOKEN')]) {
     sh '''
-      echo "$TOKEN" > .my_sql_password
+      echo $TOKEN > .my_sql_password
     '''
       }
+      sh '''
             docker run --rm --tty -v $PWD/test-results:/reports --workdir $PROJECT_DIR --name $CONTAINER_NAME $IMAGE_NAME pytest --cov=. --cov-report=html:/reports/html_dir --cov-report=xml:/reports/coverage.xml
           '''
         }
