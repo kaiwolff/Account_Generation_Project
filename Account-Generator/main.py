@@ -3,26 +3,75 @@ app = Flask(__name__)
 
 from user_account_details import UserAccountDetails
 
-@app.route('/success/<name>')
+@app.route('/',methods = ['POST', 'GET'])
+def welcome(choice):
+    render_template(index.html)
+
+    choice = request.form.get('choice')
+    if choice == "Log in":
+        return render_template("login.html")
+
+    elif choice = "Register":
+        return render_template("register.html")
+@app.route('/register',methods = ['POST', 'GET'])
+def register(user_name, first_name, last_name, birth_year):
+    # if request.method == 'POST':
+    first = request.form.get('fname')
+    last = request.form.get('lname')
+    byear = request.form.get('year')
+    us_name = request.form.get('username')
+    p_word = request.form.get('pwd')
+    choice = request.form.get()
+
+    return render_template
+
+@app.route('/login', methods = ['POST', 'GET'])
+def login(user_name, password):]
+    user_name = request.form.get('username')
+    password = request.form.get(pwd)
+
+# @app.route('/login/success/<name>')
+# def success(name):
+#    return 'welcome %s' % name
+
+@app.route('/login/fail/<name>')
 def success(name):
    return 'welcome %s' % name
 
-@app.route('/login',methods = ['POST', 'GET'])
-def welcome(user_name, first_name, last_name, birth_year):
-    if request.method == 'POST':
-        first = request.form['fname']
-        last = request.form['lname']
-        byear = request.form['year']
-        us_name = request.form['username']
-        p_word = request.form['pwd']
+@app.route('/register/success/<name>')
+def success(name):
+   return 'welcome %s' % name
 
-        list=[]
-        list.extend(first, last, byear, us_name, p_word)
+@app.route('/register/fail/<name>')
+def success(name):
+   return 'welcome %s' % name
+''
+@app.route(/login/manager/<name>)
+def success(name):
+   return 'welcome %s' % name
 
-        return return redirect(url_for('success',name = first)) # return a confimation success page
-    else:
-        first = request.args.get('fname')
-        return redirect(url_for('success',name = first))
+@app.route(/login/user/<name>)
+
+@app.route(/action/<action>)
+def action(action)
+
+    if
+        return()
+
+    if action == ""
+
+_name_nameirth_erass
+
+
+
+
+
+
+
+          # return a confimation success page
+    # else:
+    #     first = request.args.get('fname')
+    #     return redirect(url_for('success',name = first))
 
     # new_user = UserAccountDetails()
     # return (new_user.create_new_user(user_name, first_name, last_name, birth_year))
