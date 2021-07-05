@@ -30,7 +30,6 @@ pipeline {
           sh 'echo $sqlCredential > .mysql_password'
           }
           sh 'python3 -m venv venv'
-          sh '. venv/bin/activate && pip install -r requirements.txt'
           sh './build.sh'
           stash(name: 'compiled-results', includes: 'Account-Generator/*.py*')
       }
@@ -43,6 +42,7 @@ pipeline {
     			}
     	}
     	steps {
+          sh '. venv/bin/activate && pip install -r requirements.txt'
           sh 'pip install -r requirements.txt && ./test_access_rights.sh'
     	}
     	post {
@@ -54,11 +54,12 @@ pipeline {
     stage('Test account deletion') {
     	agent {
     			docker {
+
     					image 'qnib/pytest'
     			}
     	}
     	steps {
-
+          sh '. venv/bin/activate && pip install -r requirements.txt'
     			sh 'virtualenv venv --distribute && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
     	}
     	post {
