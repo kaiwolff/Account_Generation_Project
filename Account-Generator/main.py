@@ -1,11 +1,21 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, redirect, url_for
 app = Flask(__name__)
 
 from user_account_details import UserAccountDetails
 
-@app.route('/')
+@app.route('/success/<name>')
+def success(name):
+    return 'welcome %s' % name
+
+@app.route('/',methods = ['POST', 'GET'])
 def welcome():
-    return 'Welcome to the Login page'
+    if request.method == 'POST':
+        first = request.form['fname']
+        last = request.form['lname']
+        us_name = request.form['username']
+        p_word = request.form['pwd']
+        return redirect(url_for('success',name = fname))
+
 
 @app.route('/change_to_user/<str:user_name>/') #/change/
 def perform_change_to_user(target_user_name, manager_name, manager_password):
