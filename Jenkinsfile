@@ -42,7 +42,7 @@ pipeline {
     			}
     	}
     	steps {
-          sh '. venv/bin/activate && pip -V && pip install -r requirements.txt && ./test_access_rights.sh'
+          sh '. venv/bin/activate && pip install --upgrade pip && pip -V  && pip install -r requirements.txt && ./test_access_rights.sh'
 
     	}
     	post {
