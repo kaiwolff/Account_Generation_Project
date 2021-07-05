@@ -7,7 +7,7 @@ class UserAccountDetails():
     # host=52.214.153.42
     def check_admin(self, user_name, user_password):  # check if the admin value is true
 
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor() as cursor:
 
@@ -27,7 +27,7 @@ class UserAccountDetails():
 
     def check_existence(self, user_name):  # checks if a user exists in a database
 
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             with connection.cursor()as cursor:
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
@@ -45,7 +45,7 @@ class UserAccountDetails():
     def create_new_user(self, user_name, first_name, last_name, birth_year, password):  # creates user details
         # check_admin()
         # birth_year = int(birth_year)
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if self.check_existence(user_name):
                 return "{} already exists.".format(user_name)
@@ -70,7 +70,7 @@ class UserAccountDetails():
 
     def change_to_manager(self, user_name, manager_name,
                           manager_password):  # changes the value of user role back to manager role
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if self.check_admin(manager_name, manager_password):
                 if self.check_existence(user_name):
@@ -86,7 +86,7 @@ class UserAccountDetails():
 
     def change_to_user(self, user_name, manager_name,
                        manager_password):  # changes the value of manager role back to user role
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if self.check_admin(manager_name, manager_password):
                 if self.check_existence(user_name):
@@ -101,7 +101,7 @@ class UserAccountDetails():
 
     def change_username(self, old_user_name, new_user_name, manager_name,
                         manager_password):  # only if the user is an admin, allows to change the user name
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
             if self.check_admin(manager_name, manager_password):
                 if self.check_existence(old_user_name):
                     if not self.check_existence(new_user_name):
@@ -120,7 +120,7 @@ class UserAccountDetails():
                 return "You require an admin level account to update a username."
 
     def delete_user(self, user_name, manager_name, manager_password):  # deletes user details
-        with connect(host="localhost", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
 
             if self.check_admin(manager_name, manager_password):
                 if self.check_existence(user_name):
