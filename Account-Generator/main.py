@@ -5,23 +5,29 @@ from user_account_details import UserAccountDetails
 
 
 @app.route('/',methods = ['POST', 'GET'])
-def welcome():
+def welcome(user_name, first_name, last_name, birth_year):
     if request.method == 'POST':
         first = request.form['fname']
         last = request.form['lname']
         byear = request.form['year']
         us_name = request.form['username']
         p_word = request.form['pwd']
+
+        list=[]
+        list.extend(first, last, byear, us_name, p_word)
+
         return render_template('login.html')
     else:
         name = request.args.get('fname')
         return render_template('login.html')
 
+    # new_user = UserAccountDetails()
+    # return (new_user.create_new_user(user_name, first_name, last_name, birth_year))
+
 @app.route('/change_to_user/<str:user_name>/') #/change/
 def perform_change_to_user(target_user_name, manager_name, manager_password):
-    user_details = UserAccountDetails()
-
-    return (user_details.change_to_user(user_name)))
+    user_details = UserAccountDetails
+    return (user_details.change_to_user(user_name),)
 
 @app.route('/change_to_manager/<str:user_name>') #/change/
 def perform_change_to_user(user_name):
@@ -33,10 +39,10 @@ def perform_change_name(old_user_name, new_user_name):
     user_details = UserAccountDetails()
     return (user_details.perform_change_username(old_user_name, new_user_name))
 
-@app.route('/create/<str:username>/<str:fname>/<str:lname>/int<dobyear>')
-def perform_create_user(user_name, first_name, last_name, birth_year):
-    new_user = UserAccountDetails()
-    return (new_user.create_new_user(user_name, first_name, last_name, birth_year))
+# @app.route('/create/<str:username>/<str:fname>/<str:lname>/int<dobyear>')
+# def perform_create_user(user_name, first_name, last_name, birth_year):
+#     new_user = UserAccountDetails()
+#     return (new_user.create_new_user(user_name, first_name, last_name, birth_year))
 
 @app.route('/delete/<str:username>')
 def perform_delete_user(user_name):
