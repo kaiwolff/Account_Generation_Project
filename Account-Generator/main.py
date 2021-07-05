@@ -14,10 +14,10 @@ def welcome():
         last = request.form['lname']
         us_name = request.form['username']
         p_word = request.form['pwd']
-        return redirect(url_for('success',name = user))
+        return redirect(url_for('success',name = first))
     else:
         user = request.args.get('fname')
-        return redirect(url_for('success',name = user))
+        return redirect(url_for('success',name = first))
 
 @app.route('/change_to_user/<str:user_name>/') #/change/
 def perform_change_to_user(target_user_name, manager_name, manager_password):
