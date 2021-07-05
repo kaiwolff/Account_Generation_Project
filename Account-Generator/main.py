@@ -12,6 +12,7 @@ def welcome():
     if request.method == 'POST':
         first = request.form['fname']
         last = request.form['lname']
+        byear = request.form['year']
         us_name = request.form['username']
         p_word = request.form['pwd']
         return redirect(url_for('success',name = first))
