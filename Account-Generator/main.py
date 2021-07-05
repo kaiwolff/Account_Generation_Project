@@ -1,11 +1,8 @@
-from flask import Flask, request, abort, redirect, url_for
+from flask import Flask, request, abort, redirect, url_for, render_template
 app = Flask(__name__)
 
 from user_account_details import UserAccountDetails
 
-@app.route('/success/<name>')
-def success(name):
-    return 'welcome %s' % name
 
 @app.route('/',methods = ['POST', 'GET'])
 def welcome():
@@ -15,10 +12,10 @@ def welcome():
         byear = request.form['year']
         us_name = request.form['username']
         p_word = request.form['pwd']
-        return redirect(url_for('success',name = first))
+        return render_template('login.html')
     else:
         name = request.args.get('fname')
-        return redirect(url_for('success',name = first))
+        return render_template('login.html')
 
 @app.route('/change_to_user/<str:user_name>/') #/change/
 def perform_change_to_user(target_user_name, manager_name, manager_password):
