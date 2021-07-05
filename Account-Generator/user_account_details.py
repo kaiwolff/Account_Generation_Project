@@ -71,7 +71,7 @@ class UserAccountDetails():
                     cursor.execute(command)
                     connection.commit()
                     cursor.close()
-                    return "Your password is weak."
+                    return "Your password is weak. Your new password is {}".format(password)
 
             else:
                 with connection.cursor()as cursor:
