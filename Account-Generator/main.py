@@ -3,8 +3,11 @@ app = Flask(__name__)
 
 from user_account_details import UserAccountDetails
 
+@app.route('/success/<name>')
+def success(name):
+   return 'welcome %s' % name
 
-@app.route('/',methods = ['POST', 'GET'])
+@app.route('/login',methods = ['POST', 'GET'])
 def welcome(user_name, first_name, last_name, birth_year):
     if request.method == 'POST':
         first = request.form['fname']
@@ -16,10 +19,10 @@ def welcome(user_name, first_name, last_name, birth_year):
         list=[]
         list.extend(first, last, byear, us_name, p_word)
 
-        return render_template('login.html')
+        return return redirect(url_for('success',name = first)) # return a confimation success page
     else:
-        name = request.args.get('fname')
-        return render_template('login.html')
+        first = request.args.get('fname')
+        return redirect(url_for('success',name = first))
 
     # new_user = UserAccountDetails()
     # return (new_user.create_new_user(user_name, first_name, last_name, birth_year))
