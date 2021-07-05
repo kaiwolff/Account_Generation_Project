@@ -41,7 +41,7 @@ pipeline {
     '''
       }
       sh '''
-            docker run --rm --tty -v $PWD/.my_sql_password:/Account-Generator/.my_sql_password $PWD/test-results:/reports --workdir $PROJECT_DIR --name $CONTAINER_NAME $IMAGE_NAME pytest --cov=. --cov-report=html:/reports/html_dir --cov-report=xml:/reports/coverage.xml
+            docker run --rm --tty -v $PWD/.my_sql_password:/Account-Generator/.my_sql_password -v $PWD/test-results:/reports --workdir $PROJECT_DIR --name $CONTAINER_NAME $IMAGE_NAME pytest --cov=. --cov-report=html:/reports/html_dir --cov-report=xml:/reports/coverage.xml
           '''
         }
       }
