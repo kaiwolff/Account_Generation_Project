@@ -3,9 +3,9 @@ app = Flask(__name__)
 
 from user_account_details import UserAccountDetails
 
-@app.route('/success/<name>')
+@app.route('/success/<fname>')
 def success(name):
-    return 'welcome %s' % name
+    return 'welcome %s' % fname
 
 @app.route('/',methods = ['POST', 'GET'])
 def welcome():
@@ -14,7 +14,7 @@ def welcome():
         last = request.form['lname']
         us_name = request.form['username']
         p_word = request.form['pwd']
-        return redirect(url_for('success',name = fname))
+        return redirect(url_for('success',fname = user))
     # else:
     #     user = request.args.get('')
     #     return redirect(url_for('success',name = user))
