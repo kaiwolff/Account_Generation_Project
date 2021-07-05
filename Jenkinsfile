@@ -42,7 +42,7 @@ pipeline {
     			}
     	}
     	steps {
-          sh '. venv/bin/activate && pip install -r requirements.txt'
+          sh '. venv/bin/activate && pip install --user --upgrade pip && pip install -r requirements.txt '
           sh 'pip install -r requirements.txt && ./test_access_rights.sh'
     	}
     	post {
@@ -60,7 +60,7 @@ pipeline {
     	}
     	steps {
           sh '. venv/bin/activate && pip install -r requirements.txt'
-    			sh 'virtualenv venv --distribute && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
+    			sh 'virtualenv venv --distribute && pip install --user --upgrade pip && . venv/bin/activate && pip install -r requirements.txt && ./test_account_deletion.sh'
     	}
     	post {
     			always {
@@ -76,7 +76,7 @@ pipeline {
     	}
     	steps {
           sh 'python3 -m venv venv'
-          sh '. venv/bin/activate && pip install -r requirements.txt'
+          sh '. venv/bin/activate && pip install --user --upgrade pip && pip install -r requirements.txt'
     			sh './test_account_management.sh'
     	}
     	post {
@@ -94,7 +94,7 @@ pipeline {
     	}
     	steps {
           sh 'python3 -m venv venv'
-          sh '. venv/bin/activate && pip install -r requirements.txt'
+          sh '. venv/bin/activate && pip install --user --upgrade pip && pip install -r requirements.txt'
     			sh './test_password_control.sh'
     	}
     	post {
@@ -111,7 +111,7 @@ pipeline {
     	}
     	steps {
           sh 'python3 -m venv venv'
-          sh '. venv/bin/activate && pip install -r requirements.txt'
+          sh '. venv/bin/activate && pip install --user --upgrade pip && pip install -r requirements.txt'
     			sh './test_password_response.sh'
     	}
     	post {
