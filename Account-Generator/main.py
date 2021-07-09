@@ -41,31 +41,26 @@ def register():
         birth_year = request.form.get('year')
         user_name = request.form.get('username')
         password = request.form.get('pwd')
+
     # here: try to register the user with the given details
     #Call create_new_user from the backend
         message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
 
         if message == "You have been successfully added to the database system.":
-            return register_success(first_name)
+            return render_template("result_register_success.html")
             # take them to the success perform_change_name
-        elif message == "Your password is weak.":
-            # take user to page with generated password
-            return render_template("register.html")
+        # elif message == "Your password is weak.":
+        #     # take user to page with generated password
+        #     return render_template("register.html")
         else:
             #take them to a failure page
-            return register_fail(first_name)
+            return render_template("result_login_fail.html")
 
     # take them to success or failure screen depending on message
 
 
 
-@app.route('/add')
-def perform_add_query():
-    number1 = request.args.get('num1', type=int)
-    number2 = request.args.get('num2', type=int)
 
-    if number1 is None or number2 is None:
-        abort(401)
 
 @app.route('/login', methods = ['POST', 'GET'])
 def login(user_name, password):
