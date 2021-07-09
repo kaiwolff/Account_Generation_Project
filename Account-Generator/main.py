@@ -15,22 +15,22 @@ def welcome():
     #     return render_template("register.html")
 
 @app.route('/register/success')
-def register_success(first_name):
+def register_success():
    return 'Welcome, you have successfully registered.'
 
 @app.route('/register/fail')
-def register_fail(first_name):
+def register_fail():
    return render_template("result_register_fail.html")
 @app.route('/login/success')
-def login_success(name):
+def login_success():
     return 'Login successful.'
 
 @app.route('/login/fail')
-def login_fail(name):
+def login_fail():
     return render_template("result_login_fail.html")
 
 @app.route('/register',methods = ['POST', 'GET'])
-def register(user_name, first_name, last_name, birth_year, password):
+def register():
     choice = request.form.get('choice', type=str)
 
     new_user = UserAccountDetails()
