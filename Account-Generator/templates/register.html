@@ -1,6 +1,12 @@
 <html>
   <body>
-    <form action = 127.0.0.1:5000/register method = "post">
+    <style type="text/css">
+      label{
+        width:100px;
+        display:inline-block;
+      }
+    </style>
+    <form action = 34.245.170.112/register?namefname=value1&namelname=value2&nameyear=value3&nameyear=value4&namepwd=value5 method = "post">
       <label for="fname">First name:</label><br>
       <input type="text" id="fname" name="fname" value={{request.form.fname}}><br>
       <label for="lname">Last name:</label><br>

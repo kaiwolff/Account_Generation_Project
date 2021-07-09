@@ -30,13 +30,17 @@ def login_success():
 def login_fail():
     return render_template("result_login_fail.html")
 
+@app.route('/change_to_manager/success')
+def change_to_manager_success():
+   return render_template("result_change_to_manager_success.html")
+
 @app.route('/register',methods = ['POST', 'GET'])
 def register():
     return render_template("register.html")
     # choice = request.form.get('choice', type=str)
 
     new_user = UserAccountDetails()
-
+    message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
 
     first_name = request.form.get('fname')
     last_name = request.form.get('lname')
@@ -46,7 +50,7 @@ def register():
 
     # here: try to register the user with the given details
     # Call create_new_user from the backend
-    message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
+
 
     if message == "You have been successfully added to the database system.":
         return render_template("result_register_success.html")
@@ -65,25 +69,69 @@ def register():
 
 
 @app.route('/login', methods = ['POST', 'GET'])
-def login(user_name, password):
+def login():
+    return render_template("login.html")
     user_name = request.form.get('username')
-    password = request.form.get(pwd)
-    return render_template("index.html")
-
-@app.route('/login/success/<name>')
-def success(name):
-   return 'welcome %s' % name
+    password = request.form.get('pwd')
 
 
 
+@app.route('/change_to_manager') #/change/
+def user_to_manager():
+    return render_template('change_to_manager.html')
+
+    user_details = UserAccountDetails()
+    message = new_user.change_to_manager(user_name, manager_name, manager_password)
+
+    user_name = request.form.get('username')
+    manager_name = request.form.get('manger_name')
+    manager_password = request.form.get('manager_password')
+
+    if message == "The account has been changed to admin status.":
+        return render_template('result_change_to_manager_success.html')
+
+    else:
+        return render_template('result_change_to_manager_fail.html')
 
 
+@app.route('/change_to_user') #/change/
+def manager_to_user():
+    return render_template('change_to_user.html')
 
+    user_details = UserAccountDetails()
+    message = new_user.change_to_user(user_name, manager_name, manager_password)
+
+    user_name = request.form.get('username')
+    manager_name = request.form.get('manger_name')
+    manager_password = request.form.get('manager_password')
+
+    if message == "The account has been changed to user status.":
+        return render_template('result_change_to_user_success.html')
+
+    else:
+        return render_template('result_change_to_user_fail.html')
+
+# @app.route('/delete_user') #/change/
+# def user_delete():
+#     return render_template('delete_user.html')
+#
+#     user_details = UserAccountDetails()
+#     message = new_user.delete_user(user_name, manager_name, manager_password)
+#
+#     user_name = request.form.get('username')
+#     manager_name = request.form.get('manger_name')
+#     manager_password = request.form.get('manager_password')
+#
+#     if message == "The account {} has been deleted from the database".format(user_name)
+#         return render_template('delete_user_success.html')
+#
+#     else:
+#         return render_template('result_change_to_user_fail.html')
 
 # @app.route(/login/manager/<name>)
 # def success(name):
 #    return 'welcome %s' % name
-#
+#s
 # @app.route(/login/user/<name>)
 #
 # @app.route(/action/<action>)
@@ -115,10 +163,7 @@ def success(name):
 #     user_details = UserAccountDetails()
 #     return (user_details.change_to_user(user_name),)
 
-# @app.route('/change_to_manager/<str:user_name>') #/change/
-# def perform_change_to_user(user_name):
-#     user_details = UserAccountDetails()
-#     return (user_details.change_to_manager(user_name))
+
 #
 # @app.route('change_name/<str:old_user_name>/<str:new_user_name>')
 # def perform_change_name(old_user_name, new_user_name):

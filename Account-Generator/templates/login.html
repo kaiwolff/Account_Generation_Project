@@ -1,5 +1,11 @@
 <html>
   <body>
+    <style type="text/css">
+      label{
+        width:100px;
+        display:inline-block;
+      }
+    </style>
     <form action = 127.0.0.1:5000/login method = "post">
       <label for="username">Username:</label><br>
       <input type="text" id="username" name="username" value={{request.form.username}}><br>
