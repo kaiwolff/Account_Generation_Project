@@ -3,8 +3,41 @@ import string
 from password_checks import UserPasswordDetails
 import random
 import base64
+from mysql.connector import connect, Error
+
+with open("config_sql", "r") as file:
+    configs = file.readlines()
+    file.close()
+with open(".my_sql_password", "r") as file:
+    sqlpassword = file.read()
+    file.close()
 
 class HashFunctions():
+
+    def get_user_salt(self, username):
+
+        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
+            with connection.cursor() as cursor:
+                command = "SELECT 'Salt' FROM `user_info` WHERE `username`= '{}';".format(username)
+                cursor.execute(command)
+                num_occurences = cursor.rowcount
+                print(num_occurences)
+                # for salt in cursor:
+                #     print(salt)
+                # salt = cursor.fetchone()
+                #
+                # return salt
+#try the for loop
+#still prints none
+# functions
+    # def validate_user(username, password):
+    #     with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
+    #         with connection.cursor() as cursor:
+    #             command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}';".format(
+    #                 user_name,  user_password)
+    #
+    #             cursor.execute(command)
+
 
     def hashpass(self, password):
         # encode it to bytes using UTF-8 encoding
@@ -35,10 +68,7 @@ class HashFunctions():
                 salt += random.choice(string.ascii_uppercase)
             else:
                 salt += random.choice(string.digits)
-        #print(password) testing
-        # print(f"this is the salt:{salt}")
-        # salt_64 = base64.b64encode(salt.encode())
-        # salt = salt_64.decode('ascii')
+
         return salt
 
     def generate_base64_salt(self, salt):
@@ -51,4 +81,6 @@ class HashFunctions():
     # b_message = b_salt.decode('ascii')
     # print(b_message)
 
-print(HashFunctions().hashpass("helloworld"))
+# print(HashFunctions().hashpass("helloworld")[0])
+# print(HashFunctions().hashpass("helloworld")[1])
+print(HashFunctions().get_user_salt("test_firstname"))

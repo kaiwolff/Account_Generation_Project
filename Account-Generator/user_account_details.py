@@ -17,7 +17,6 @@ class UserAccountDetails():
     def check_admin(self, user_name, user_password):  # check if the admin value is true
 
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
-
             with connection.cursor() as cursor:
                 # NEED TO RETRIEVE SALT, THEN HASH AND CHECK FOR CORRECT PASSWORDS
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}' AND `Manager` = 1;".format(
@@ -39,7 +38,6 @@ class UserAccountDetails():
 
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword,
                      database="pw_user_db") as connection:
-
             with connection.cursor()as cursor:
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
                 cursor.execute(command)
@@ -57,6 +55,7 @@ class UserAccountDetails():
     def create_new_user(self, user_name, first_name, last_name, birth_year, password):  # creates user details
         # check_admin()
         # birth_year = int(birth_year)
+
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword,
                      database="pw_user_db") as connection:
 
@@ -71,12 +70,15 @@ class UserAccountDetails():
                     return "Your password is weak. How about {}".format(password)
 
             else:
+                list = HashFunctions().hashpass(password)
                 with connection.cursor()as cursor:
-                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL);".format(
-                        user_name, first_name, last_name, birth_year, password)
+                    #INSERT INTO `user_info`(`Key`, `username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
+                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL, '{}');".format(
+                        user_name, first_name, last_name, birth_year, list[0], list[1])
                     cursor.execute(command)
                     connection.commit()
                     cursor.close()
+                    list = []
                     return "You have been successfully added to the database system."
 
     def change_to_manager(self, user_name, manager_name, manager_password):  # changes the value of user role back to manager role
@@ -156,7 +158,7 @@ class UserAccountDetails():
 
 # print(UserAccountDetails().delete_user("user", "admin", "admin")) #Works, Used a test DB to delete an entry
 # print(UserAccountDetails().change_to_user("tyree", "admin", "admin")) #Works, returns the right strings depends on the input
-# print(UserAccountDetails().create_new_user("test_username","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
+print(UserAccountDetails().create_new_user("test_username","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
 # print(UserAccountDetails().check_admin("gvuut", "admin"))#Works, returns True if admin details are correct
 # print(UserAccountDetails().change_username("test_user", "New_user", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
 # print(UserAccountDetails().change_to_manager("hfsah", "admin", "admin"))#Works, Only works if you have admin details and the username is in the database
