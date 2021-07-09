@@ -1,7 +1,7 @@
 from mysql.connector import connect, Error
 from password_checks import UserPasswordDetails
 import hashlib
-
+from hashfunctions import HashFunctions
 
 with open("config_sql", "r") as file:
     configs = file.readlines()
@@ -14,15 +14,14 @@ class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
     # host=configs[0]52.214.153.42
 
-
     def check_admin(self, user_name, user_password):  # check if the admin value is true
 
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
 
             with connection.cursor() as cursor:
-
+                # NEED TO RETRIEVE SALT, THEN HASH AND CHECK FOR CORRECT PASSWORDS
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}' AND `Manager` = 1;".format(
-                    user_name, user_password)
+                    user_name,  user_password)
 
                 cursor.execute(command)
                 #connection.commit()
@@ -69,12 +68,7 @@ class UserAccountDetails():
                                                                               password):
                 password = UserPasswordDetails().generate_password()
                 with connection.cursor()as cursor:
-                    command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL);".format(
-                        user_name, first_name, last_name, birth_year, password)
-                    cursor.execute(command)
-                    connection.commit()
-                    cursor.close()
-                    return "Your password is weak. Your new password is {}".format(password)
+                    return "Your password is weak. How about {}".format(password)
 
             else:
                 with connection.cursor()as cursor:
@@ -114,7 +108,8 @@ class UserAccountDetails():
                         connection.commit()
                         cursor.close()
                         return "The account has been changed to user"
-
+                else:
+                    return "The user doesn't exist"
             else:
                 return "You require an admin level account to update user status."
 

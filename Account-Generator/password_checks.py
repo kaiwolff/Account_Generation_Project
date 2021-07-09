@@ -15,14 +15,6 @@ with open(".my_sql_password", "r") as file:
 
 class UserPasswordDetails():
 
-    def hashpass(password, username):
-        # encode it to bytes using UTF-8 encoding
-        return(hashlib.sha256(saltpass(username, password)).hexdigest())
-
-    def saltpass(username, password):
-        salted_pass = username.encode() + password.encode()
-        return salted_pass
-
 
     def generate_password(self):
 
@@ -149,6 +141,17 @@ class UserPasswordDetails():
 
         return [int(num_specials), int(num_lowercase), int(num_uppercase), int(num_numbers), int(min_length),
                 int(max_length), allowed_specials]
+
+    def read_salt_policy(self):
+        # reads in password policy, returns variables as a list. Written by KW
+        # password_policy = open('password_policy.txt', 'r')
+        policy = configparser.ConfigParser()
+        policy.read('password_policy.txt')
+        salt_lowercase = policy.getint('Policy', 'salt_lowercase')
+        salt_uppercase = policy.getint('Policy', 'salt_uppercase')
+        salt_numbers = policy.getint('Policy', 'salt_numbers')
+
+        return [int(salt_lowercase), int(salt_uppercase), int(salt_numbers)]
 
 # Testing functions
 
