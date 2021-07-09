@@ -16,11 +16,12 @@ def welcome():
 
 @app.route('/register/success')
 def register_success():
-   return 'Welcome, you have successfully registered.'
+   return render_template("result_register_success.html")
 
 @app.route('/register/fail')
 def register_fail():
    return render_template("result_register_fail.html")
+
 @app.route('/login/success')
 def login_success():
     return 'Login successful.'
@@ -31,30 +32,31 @@ def login_fail():
 
 @app.route('/register',methods = ['POST', 'GET'])
 def register():
-    choice = request.form.get('choice', type=str)
+    return render_template("register.html")
+    # choice = request.form.get('choice', type=str)
 
     new_user = UserAccountDetails()
 
-    if choice == "Register":
-        first_name = request.form.get('fname')
-        last_name = request.form.get('lname')
-        birth_year = request.form.get('year')
-        user_name = request.form.get('username')
-        password = request.form.get('pwd')
+
+    first_name = request.form.get('fname')
+    last_name = request.form.get('lname')
+    birth_year = request.form.get('year')
+    user_name = request.form.get('username')
+    password = request.form.get('pwd')
 
     # here: try to register the user with the given details
-    #Call create_new_user from the backend
-        message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
+    # Call create_new_user from the backend
+    message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
 
-        if message == "You have been successfully added to the database system.":
-            return render_template("result_register_success.html")
-            # take them to the success perform_change_name
-        # elif message == "Your password is weak.":
-        #     # take user to page with generated password
-        #     return render_template("register.html")
-        else:
-            #take them to a failure page
-            return render_template("result_login_fail.html")
+    if message == "You have been successfully added to the database system.":
+        return render_template("result_register_success.html")
+        # take them to the success perform_change_name
+    # elif message == "Your password is weak.":
+    #     # take user to page with generated password
+    #     return render_template("register.html")
+    else:
+        #take them to a failure page
+        return render_template("result_register_fail.html")
 
     # take them to success or failure screen depending on message
 
