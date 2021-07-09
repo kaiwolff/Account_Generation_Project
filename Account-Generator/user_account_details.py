@@ -1,5 +1,7 @@
 from mysql.connector import connect, Error
 from password_checks import UserPasswordDetails
+import hashlib
+
 
 with open("config_sql", "r") as file:
     configs = file.readlines()
@@ -11,6 +13,7 @@ with open(".my_sql_password", "r") as file:
 class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
     # host=configs[0]52.214.153.42
+
 
     def check_admin(self, user_name, user_password):  # check if the admin value is true
 

@@ -2,6 +2,8 @@ import configparser
 from mysql.connector import connect, Error
 import string
 import random
+import hashlib
+
 #from password_policy import policy
 
 with open("config_sql", "r") as file:
@@ -12,6 +14,15 @@ with open(".my_sql_password", "r") as file:
     file.close()
 
 class UserPasswordDetails():
+
+    def hashpass(password, username):
+        # encode it to bytes using UTF-8 encoding
+        return(hashlib.sha256(saltpass(username, password)).hexdigest())
+
+    def saltpass(username, password):
+        salted_pass = username.encode() + password.encode()
+        return salted_pass
+
 
     def generate_password(self):
 
