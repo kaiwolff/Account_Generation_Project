@@ -1,11 +1,7 @@
-<html>
+<html lang="en" dir="ltr">
+{{message}}
+  <h1>Login</h1>
   <body>
-    <style type="text/css">
-      label{
-        width:100px;
-        display:inline-block;
-      }
-    </style>
     <form action = /login/attempt method = "post">
       <label for="username">Username:</label><br>
       <input type="text" id="username" name="username" value={{request.form.username}}><br>

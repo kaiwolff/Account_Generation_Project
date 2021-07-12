@@ -1,5 +1,5 @@
 <html>
-  <h1>Change to Manager Status</h1>
+  <h1>Delete a user</h1>
   <body>
     <style type="text/css">
       label{
@@ -7,13 +7,13 @@
         display:inline-block;
       }
     </style>
-    <form action = "manage/options/change_to_manager method" = "post">
+    <form action = "manage/options/delete_user" method = "post">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
     <label for ="manager_name">Manager username:</label<br>
     <input type="text" id="manager_name" name="manager_name"><br>
     <label for ="manager_password">Manager password:</label<br>
-    <input type="text" id="manager_password" name="manager_password"><br><br>
+    <input type="password" id="manager_password" name="manager_password"><br><br>
     <input type="submit" value="Submit">
 
     </form>
