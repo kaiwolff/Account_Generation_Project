@@ -10,6 +10,9 @@ from user_account_details import UserAccountDetails
 class PassTest(unittest.TestCase):
 
     checker = UserAccountDetails()
+    def test_login(self):
+        self.assertTrue(self.checker.user_login("test_user", "7$!5I6c2-F1r7m1S"))
+
     def test_existence(self):
         self.assertTrue(self.checker.check_existence("admin"))
 

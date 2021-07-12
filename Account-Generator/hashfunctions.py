@@ -12,31 +12,41 @@ with open(".my_sql_password", "r") as file:
     sqlpassword = file.read()
     file.close()
 
+
 class HashFunctions():
+
+    def check_pass(self, username, plain_password):
+        salt = self.get_user_salt(username)
+        check_pass = self.hash_no_salt(plain_password, salt)
+        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
+            with connection.cursor() as cursor:
+                command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
+                cursor.execute(command)
+                hashed_pass = cursor.fetchone()
+                connection.close()
+        if check_pass == hashed_pass[0]:
+            return True
+        else:
+            return False
+        # print(check_pass)
+        # print(hashed_pass)
+        # print(salt)
+
+
 
     def get_user_salt(self, username):
 
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
             with connection.cursor() as cursor:
-                command = "SELECT 'Salt' FROM `user_info` WHERE `username`= '{}';".format(username)
+                command = "SELECT `Salt` FROM `user_info` WHERE `username` = '{}';".format(username)
                 cursor.execute(command)
-                num_occurences = cursor.rowcount
-                print(num_occurences)
-                # for salt in cursor:
-                #     print(salt)
-                # salt = cursor.fetchone()
-                #
-                # return salt
-#try the for loop
-#still prints none
-# functions
-    # def validate_user(username, password):
-    #     with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
-    #         with connection.cursor() as cursor:
-    #             command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}';".format(
-    #                 user_name,  user_password)
-    #
-    #             cursor.execute(command)
+                salt = cursor.fetchone()
+                connection.close()
+                return salt[0]
+
+    def hash_no_salt(self, password, salt):
+        saltedpass = salt + password
+        return hashlib.sha256(saltedpass.encode()).hexdigest()
 
 
     def hashpass(self, password):
@@ -44,6 +54,7 @@ class HashFunctions():
         salt = self.generate_salt()
         salt_64 = self.generate_base64_salt(salt)
         saltedpass = salt_64 + password
+        #print(self.hash_no_salt("7$!5I6c2-F1r7m1S", salt_64))
         return (hashlib.sha256(saltedpass.encode()).hexdigest()), salt_64
 
     # def saltpass(self, password):
@@ -73,7 +84,8 @@ class HashFunctions():
 
     def generate_base64_salt(self, salt):
         salt_64 = base64.b64encode(salt.encode())
-        salt_final = salt_64.decode('ascii')
+        salt_final = salt_64.decode()
+        #print("This is the final salt" + salt_final)
         return salt_final
 
     # salted_pass = username.encode() + password.encode()
@@ -81,6 +93,7 @@ class HashFunctions():
     # b_message = b_salt.decode('ascii')
     # print(b_message)
 
-# print(HashFunctions().hashpass("helloworld")[0])
-# print(HashFunctions().hashpass("helloworld")[1])
-print(HashFunctions().get_user_salt("test_firstname"))
+# print(HashFunctions().hashpass("7$!5I6c2-F1r7m1S")[0]) # Will return the hashed_value
+# print(HashFunctions().hashpass("helloworld")[1]) # Will return the salt
+# print(HashFunctions().get_user_salt("User"))
+# print(HashFunctions().check_pass("test_username1", "7$!5I6c2-F1r7m1S"))

@@ -14,6 +14,17 @@ class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
     # host=configs[0]52.214.153.42
 
+    def user_login(self, username, password):
+        if self.check_existence(username):
+            if HashFunctions().check_pass(username, password):
+                return True
+            else:
+                return False # Wrong password
+        else:
+            return False # Wrong username
+
+
+
     def check_admin(self, user_name, user_password):  # check if the admin value is true
 
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
@@ -115,6 +126,7 @@ class UserAccountDetails():
             else:
                 return "You require an admin level account to update user status."
 
+
     def change_username(self, old_user_name, new_user_name, manager_name,
                         manager_password):  # only if the user is an admin, allows to change the user name
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword,
@@ -137,6 +149,7 @@ class UserAccountDetails():
             else:
                 return "You require an admin level account to update a username."
 
+
     def delete_user(self, user_name, manager_name, manager_password):  # deletes user details
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword,
                      database="pw_user_db") as connection:
@@ -158,8 +171,9 @@ class UserAccountDetails():
 
 # print(UserAccountDetails().delete_user("user", "admin", "admin")) #Works, Used a test DB to delete an entry
 # print(UserAccountDetails().change_to_user("tyree", "admin", "admin")) #Works, returns the right strings depends on the input
-print(UserAccountDetails().create_new_user("test_username","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
+# print(UserAccountDetails().create_new_user("test_username1","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
 # print(UserAccountDetails().check_admin("gvuut", "admin"))#Works, returns True if admin details are correct
 # print(UserAccountDetails().change_username("test_user", "New_user", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
 # print(UserAccountDetails().change_to_manager("hfsah", "admin", "admin"))#Works, Only works if you have admin details and the username is in the database
 # print(UserAccountDetails().check_existence("tgvwhd"))#Works, Check is a username is in teh database
+# print(UserAccountDetails().user_login("test_username1","7$!5I6c2-F1r7m1S"))
