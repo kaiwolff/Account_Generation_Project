@@ -17,7 +17,7 @@ class UserAccountDetails():
     def user_login(self, username, password):
         if self.check_existence(username):
             if HashFunctions().check_pass(username, password):
-                return True
+                return True # change it to return a JSON token
             else:
                 return False # Wrong password
         else:
@@ -31,7 +31,7 @@ class UserAccountDetails():
             with connection.cursor() as cursor:
                 # NEED TO RETRIEVE SALT, THEN HASH AND CHECK FOR CORRECT PASSWORDS
                 command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}' AND `Manager` = 1;".format(
-                    user_name,  user_password)
+                    user_name,  HashFunctions().get_user_pass(user_name))
 
                 cursor.execute(command)
                 #connection.commit()
@@ -39,7 +39,7 @@ class UserAccountDetails():
                 num_occurences = cursor.rowcount
                 # print("num_occurences assigned")
                 cursor.close()
-
+                # print(HashFunctions().get_user_pass(user_name))
                 if num_occurences > 0:
                     return True
                 elif num_occurences == 0:
@@ -169,11 +169,11 @@ class UserAccountDetails():
 
 # File Test
 
-# print(UserAccountDetails().delete_user("user", "admin", "admin")) #Works, Used a test DB to delete an entry
-# print(UserAccountDetails().change_to_user("tyree", "admin", "admin")) #Works, returns the right strings depends on the input
-# print(UserAccountDetails().create_new_user("test_username1","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
-# print(UserAccountDetails().check_admin("gvuut", "admin"))#Works, returns True if admin details are correct
+# print(UserAccountDetails().delete_user("Afshana_username", "admin", "Lm(6QXlaYsk8")) #Works, Used a test DB to delete an entry
+# print(UserAccountDetails().change_to_user("admin", "admin", "Lm(6QXlaYsk8")) #Works, returns the right strings depends on the input
+# print(UserAccountDetails().create_new_user("admin","admin_firstname","admin_lastname", "1997", "Lm(6QXlaYsk8")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
+# print(UserAccountDetails().check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
 # print(UserAccountDetails().change_username("test_user", "New_user", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
-# print(UserAccountDetails().change_to_manager("hfsah", "admin", "admin"))#Works, Only works if you have admin details and the username is in the database
-# print(UserAccountDetails().check_existence("tgvwhd"))#Works, Check is a username is in teh database
+# print(UserAccountDetails().change_to_manager("admin", "admin", "Lm(6QXlaYsk8"))#Works, Only works if you have admin details and the username is in the database
+# print(UserAccountDetails().check_existence("admin"))#Works, Check is a username is in teh database
 # print(UserAccountDetails().user_login("test_username1","7$!5I6c2-F1r7m1S"))

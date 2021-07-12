@@ -15,6 +15,16 @@ with open(".my_sql_password", "r") as file:
 
 class HashFunctions():
 
+    def get_user_pass(self,username):
+        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
+            with connection.cursor() as cursor:
+                command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
+                cursor.execute(command)
+                password = cursor.fetchone()
+                connection.close()
+        #print(password[0])
+        return password[0]
+
     def check_pass(self, username, plain_password):
         salt = self.get_user_salt(username)
         check_pass = self.hash_no_salt(plain_password, salt)
@@ -96,4 +106,5 @@ class HashFunctions():
 # print(HashFunctions().hashpass("7$!5I6c2-F1r7m1S")[0]) # Will return the hashed_value
 # print(HashFunctions().hashpass("helloworld")[1]) # Will return the salt
 # print(HashFunctions().get_user_salt("User"))
-# print(HashFunctions().check_pass("test_username1", "7$!5I6c2-F1r7m1S"))
+# print(HashFunctions().check_pass("test_username1", "s$Y9h70OXO)nXb7Y"))
+# print(HashFunctions().get_user_pass("admin"))
