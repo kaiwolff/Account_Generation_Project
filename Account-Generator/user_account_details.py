@@ -171,9 +171,9 @@ class UserAccountDetails():
 
 # print(UserAccountDetails().delete_user("Afshana_username", "admin", "Lm(6QXlaYsk8")) #Works, Used a test DB to delete an entry
 # print(UserAccountDetails().change_to_user("admin", "admin", "Lm(6QXlaYsk8")) #Works, returns the right strings depends on the input
-# print(UserAccountDetails().create_new_user("admin","admin_firstname","admin_lastname", "1997", "Lm(6QXlaYsk8")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
+# print(UserAccountDetails().create_new_user("TestUser", "test_first", "test_last", "1990", "SPKNEZGM+hC9kS")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
 # print(UserAccountDetails().check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
 # print(UserAccountDetails().change_username("test_user", "New_user", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
 # print(UserAccountDetails().change_to_manager("admin", "admin", "Lm(6QXlaYsk8"))#Works, Only works if you have admin details and the username is in the database
 # print(UserAccountDetails().check_existence("admin"))#Works, Check is a username is in teh database
-# print(UserAccountDetails().user_login("test_username1","7$!5I6c2-F1r7m1S"))
+# print(UserAccountDetails().user_login("TestUser","SPKNEZGM+hC9kS"))

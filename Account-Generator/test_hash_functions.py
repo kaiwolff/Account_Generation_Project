@@ -1,8 +1,5 @@
 import pytest
 import unittest
-import configparser
-import string
-import random
 
 from hashfunctions import HashFunctions
 
