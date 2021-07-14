@@ -1,8 +1,15 @@
-from flask import Flask, request, abort, redirect, url_for, render_template
+from flask import Flask, request, abort, redirect, url_for, render_template, jsonify, make_response
+
+# Token imports
 import jwt
-app = Flask(__name__)
+
+# System imports
+from datetime import datetime, timedelta
 
 from user_account_details import UserAccountDetails
+import decorators
+
+app = Flask(__name__)
 
 @app.route('/',methods = ['POST', 'GET'])
 def welcome():
@@ -36,14 +43,31 @@ def login():
     password = request.form.get('pwd')
 
     if user_login(user_name,password) == True:
+
         message = "Login successful"
 
         if check_admin(user_name, password)== True:
-            return render_template("management_options.html")
+            NowTime = datetime.now() + timedelta(minutes = 72)
+            token = jwt.encode({
+                'Username': username,
+                'Expiry': NowTime,
+                'Manager': 'yes',
+            }) # needs secret key
+            return render_template("management_options.html", message = message, token = token)
+
+        else:
+            NowTime = datetime.now() + timedelta(minutes = 72)
+            token = jwt.encode({
+                'Username': username,
+                'Expiry': NowTime,
+                'Manager': 'no',
+            }) # needs secret key
+                return render_template("user_dashboard.html", message = message, token = token)
 
     else:
         abort(403)
-    return render_template("login_attempt.html",message = message )
+
+# remember to add log out button that deletes token
 
 @app.route('/manage/option', methods = ['POST'])
 def select_management_option():
@@ -73,7 +97,7 @@ def user_to_manager():
         return render_template('change_to_manager.html')
 
     user_name = request.form.get('username')
-    manager_name = request.form.get('manger_name')
+    manager_name = request.form.get('manager_name')
     manager_password = request.form.get('manager_password')
 
     user_details = UserAccountDetails()
@@ -101,7 +125,7 @@ def user_delete():
         return render_template('delete_user.html')
 
     user_name = request.form.get('username')
-    manager_name = request.form.get('manger_name')
+    manager_name = request.form.get('manager_name')
     manager_password = request.form.get('manager_password')
 
     user_details = UserAccountDetails()
@@ -127,9 +151,3 @@ def username_change():
 
 if __name__ == "__main__":
     app.run(debug= True, host = '0.0.0.0', ssl_context = 'certs/pub_certs.pem', 'certs/priv_key.pem')
-    NowTime = datetime.now() + timedelta(minutes = 72)
-    NowTime = NowTime.isformat()
-    Token = jwt.encode({
-    'Username': username,
-    'Expiry': NowTime,
-    })  # needs secret key
