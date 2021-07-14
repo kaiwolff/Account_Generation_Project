@@ -1,40 +1,48 @@
 <html>
-<h1>Welcome to Account Management</h1>
+  <h1>Welcome to Account Management</h1>
+  <script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+  <script type="text/javascript">
 
-<h2>Log in</h2>
-<form class="" action="/login" method="post">
-  <label for="username">Username</label>
-  <input type="text" id="username" name="username" value="{{username}}">
-  <label for="password">Password</label>
-  <input type="text" id="password" name="password" value="{{password}}">
+    var myToken = localStorage.getItem("myToken")
+    if ((myToken != null) && (myToken != "")) {
+      document.location.href = "/login"
+    }
 
-  <input type="submit" value="Submit">
-  <input type="reset">
-</form>
+  </script>
+  <h2>Log in</h2>
+  <form class="" action="/login" method="post">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" value="{{username}}">
+    <label for="password">Password</label>
+    <input type="text" id="password" name="password" value="{{password}}">
+
+    <input type="submit" value="Submit">
+    <input type="reset">
+  </form>
 
 
-<h2>Register</h2>
+  <h2>Register</h2>
 
-<label for=""></label>
-<form class="" action="/register" method="post">
-  <label for="firstname">First Name</label>
-  <input type="text" id="firstname" name="First Name" value="{{firstname}}">
+  <label for=""></label>
+  <form class="" action="/register" method="post">
+    <label for="firstname">First Name</label>
+    <input type="text" id="firstname" name="First Name" value="{{firstname}}">
 
-  <label for="lastname">Last Name</label>
-  <input type="text" id="lastname" name="Last Name" value="{{lastname}}">
+    <label for="lastname">Last Name</label>
+    <input type="text" id="lastname" name="Last Name" value="{{lastname}}">
 
-  <label for="birthyear">Birthyear</label>
-  <input type="text" id="birthyear" name="Birthyear" value="{{birthyear}}">
+    <label for="birthyear">Birthyear</label>
+    <input type="text" id="birthyear" name="Birthyear" value="{{birthyear}}">
 
-  <label for="username">Username</label>
-  <input type="text" id="username" name="Username" value="{{username}}">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="Username" value="{{username}}">
 
-  <label for="password">Password</label>
-  <input type="text" id="password" name="Password" value="{{password}}">
+    <label for="password">Password</label>
+    <input type="text" id="password" name="Password" value="{{password}}">
 
-  <input type="submit" value="Submit">
-  <input type="reset">
+    <input type="submit" value="Submit">
+    <input type="reset">
 
-</form>
+  </form>
 
-<html/>
+</html>

@@ -6,7 +6,7 @@
   var myUsername = localStorage.getItem("myUsername")
 
   if ((myToken == null) || (myToken == "")) {
-    document.location.href = "/"
+    document.location.href = "/manage/options?token=" + myToken
   }
 
   function logout(){
@@ -34,6 +34,7 @@
       <input type="reset">
     </form>
 
+  <body>
     <input id= "btnLogout" type="button" value="Log Out" onclick="logout()">
   </body>
 </html>

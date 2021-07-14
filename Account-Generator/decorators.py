@@ -32,6 +32,8 @@ def token_check(f):
             #put decoded token into data
             token_data = jwt.decode(token, 'SECRET_KEY_123456789', 'HS256')
 
+            # secret key needs to be a stored variable, obviously.
+
             #should now have data stored in token_data. Add print statement which shoudl output token to Flask
             print(token_data)
 

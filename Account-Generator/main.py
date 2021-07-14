@@ -11,6 +11,14 @@ import decorators
 
 app = Flask(__name__)
 
+def manager_token(token):
+    #decode token, read manager field, return True or False depending on outcome.
+    decoded_token = jwt.decode(token)
+    if decoded_token['Management'] == 'yes':
+        return True
+
+    return False
+
 @app.route('/',methods = ['POST', 'GET'])
 def welcome():
     return render_template("index.html")
@@ -37,6 +45,7 @@ def register():
 def login():
 
     if request.method == 'GET':
+        #check token
         return render_template("login.html")
 
     user_name = request.form.get('username')
@@ -68,9 +77,18 @@ def login():
         abort(403)
 
 # remember to add log out button that deletes token
+@app.route('/dashboard', methods=['GET'])
+#@decorators.token_required
+def dashboard(username):
+	headers = {'Content-Type': 'text/html'}
+	return make_response(render_template('user_dashboard.html'), 200, headers)
+
 
 @app.route('/manage/option', methods = ['POST'])
 def select_management_option():
+
+    if not manager_token(token):
+        abort(403)
 
     #need to check for valid token
 
@@ -91,8 +109,11 @@ def select_management_option():
         return render_template("change_username.html")
 
 
-@app.route('manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
+@app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
 def user_to_manager():
+
+    if not manager_token(token):
+        abort(403)
     if request.method == 'GET':
         return render_template('change_to_manager.html')
 
@@ -105,8 +126,10 @@ def user_to_manager():
     return render_template("management_result.html", message=message)
 
 
-@app.route('manage/option/change_to_user', methods = ['POST', 'GET']) #/change/
+@app.route('/manage/option/change_to_user', methods = ['POST', 'GET']) #/change/
 def manager_to_user():
+    if not manager_token(token):
+        abort(403)
     if request.method == 'GET':
         return render_template('change_to_user.html')
 
@@ -119,8 +142,10 @@ def manager_to_user():
     return render_template("management_result.html", message=message)
 
 
-@app.route('manage/option/delete_user', methods = ['POST', 'GET']) #/change/
+@app.route('/manage/option/delete_user', methods = ['POST', 'GET']) #/change/
 def user_delete():
+    if not manager_token(token):
+        abort(403)
     if request.method == 'GET':
         return render_template('delete_user.html')
 
@@ -133,8 +158,10 @@ def user_delete():
     return render_template("management_result.html", message=message)
 
 
-@app.route('manage/option/change_username', methods = ['POST', 'GET']) #/change/
+@app.route('/manage/option/change_username', methods = ['POST', 'GET']) #/change/
 def username_change():
+    if not manager_token(token):
+        abort(403)
     if request.method == 'GET':
         return render_template('change_username.html')
 
@@ -146,7 +173,6 @@ def username_change():
     user_details = UserAccountDetails()
     message = new_user.change_username(old_user_name, new_user_name, manager_name, manager_password)
     return render_template("management_result.html", message=message)
-
 
 
 if __name__ == "__main__":
