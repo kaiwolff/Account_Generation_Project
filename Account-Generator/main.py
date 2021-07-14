@@ -30,7 +30,7 @@ def register():
     new_user = UserAccountDetails()
     message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
 
-    return render_template("register_result.html",message=message)
+    return make_response("register_result.html",message=message)
 
 
 @app.route('/login', methods = ['POST', 'GET'])

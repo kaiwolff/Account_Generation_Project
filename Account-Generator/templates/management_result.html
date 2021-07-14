@@ -1,9 +1,20 @@
 <html>
+<script type="text/javascript">
+  var myToken = localStorage.getItem("myToken")
+  var myUsername = localStorage.getItem("myUsername")
+
+  if ((myToken == null) || (myToken == "")) {
+    document.location.href = "/"
+  }
+
+</script>
+
 {{message}}
 <br>
   <h1>Management Options</h1>
   <body>
     <form action = "/manage/option" method = "post">
+
 
 
       <select class="form-control" name="operation" id="operation">

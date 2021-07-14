@@ -1,6 +1,24 @@
 <html>
+  <script type="text/javascript">
+    var myToken = localStorage.getItem("myToken")
+    var myUsername = localStorage.getItem("myUsername")
+
+    if ((myToken == null) || (myToken == "")) {
+      document.location.href = "/"
+    }
+
+  </script>
   <h1>Change Username</h1>
   <body>
+    <script type="text/javascript">
+      var myToken = localStorage.getItem("myToken")
+      var myUsername = localStorage.getItem("myUsername")
+
+      if ((myToken == null) || (myToken == "")) {
+        document.location.href = "/"
+      }
+
+    </script>
     <style type="text/css">
       label{
         width:100px;

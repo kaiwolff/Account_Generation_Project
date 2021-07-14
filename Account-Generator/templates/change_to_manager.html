@@ -1,6 +1,16 @@
 <html>
+  <script type="text/javascript">
+    var myToken = localStorage.getItem("myToken")
+    var myUsername = localStorage.getItem("myUsername")
+
+    if ((myToken == null) || (myToken == "")) {
+      document.location.href = "/"
+    }
+
+  </script>
   <h1>Change to Manager Status</h1>
   <body>
+
     <style type="text/css">
       label{
         width:100px;

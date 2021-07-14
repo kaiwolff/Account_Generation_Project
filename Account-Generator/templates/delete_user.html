@@ -1,4 +1,13 @@
 <html>
+<script type="text/javascript">
+  var myToken = localStorage.getItem("myToken")
+  var myUsername = localStorage.getItem("myUsername")
+
+  if ((myToken == null) || (myToken == "")) {
+    document.location.href = "/"
+  }
+
+</script>
   <h1>Delete a user</h1>
   <body>
     <style type="text/css">
