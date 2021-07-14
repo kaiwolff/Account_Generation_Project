@@ -5,7 +5,7 @@ import jwt
 
 from datetime import datetime, timedelta
 
-def token_check(f):
+def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         #start by emptying token
