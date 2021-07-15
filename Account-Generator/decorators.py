@@ -1,4 +1,4 @@
-from flask import request, jsonify, make_response, render_template Blueprint
+from flask import request, jsonify, make_response, render_template, Blueprint
 from functools import wraps
 
 import jwt

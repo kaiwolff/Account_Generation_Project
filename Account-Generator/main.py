@@ -71,7 +71,7 @@ def login():
                 'Expiry': NowTime,
                 'Manager': 'no',
             },'SECRET_KEY_123456798', algorithm= 'HS256') # needs secret key
-                return render_template("user_dashboard.html", message = message, token = token)
+            return render_template("user_dashboard.html", message = message, token = token)
 
     else:
         abort(403)
@@ -183,4 +183,4 @@ def username_change():
 
 
 if __name__ == "__main__":
-    app.run(debug= True, host = '0.0.0.0', ssl_context = 'certs/pub_certs.pem', 'certs/priv_key.pem')
+    app.run(debug= True, host = '0.0.0.0', ssl_context = ('certs/pub_certs.pem', 'certs/priv_key.pem'))
