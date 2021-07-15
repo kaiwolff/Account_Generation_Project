@@ -4,6 +4,13 @@ import string
 import random
 #from password_policy import policy
 
+with open("config_sql", "r") as file:
+    configs = file.readlines()
+    file.close()
+with open(".my_sql_password", "r") as file:
+    sqlpassword = file.read()
+    file.close()
+
 class UserPasswordDetails():
 
     def generate_password(self):
@@ -32,7 +39,7 @@ class UserPasswordDetails():
 
 
     def check_list(self, password):
-        with connect(host="63.35.225.165", user="root", password="my_secret_password", database="pw_user_db") as connection:
+        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
         # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
         # sql_password = getpass("Please input your SQL database password: ")
             with connection.cursor()as cursor:

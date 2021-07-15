@@ -123,6 +123,7 @@ def user_to_manager():
     manager_name = request.form.get('manager_name')
     manager_password = request.form.get('manager_password')
 
+
     user_details = UserAccountDetails()
     message = new_user.change_to_manager(user_name, manager_name, manager_password)
     return render_template("management_result.html", message=message)
@@ -178,6 +179,7 @@ def username_change():
     user_details = UserAccountDetails()
     message = new_user.change_username(old_user_name, new_user_name, manager_name, manager_password)
     return render_template("management_result.html", message=message)
+
 
 
 if __name__ == "__main__":

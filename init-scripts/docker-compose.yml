@@ -27,13 +27,6 @@ services:
     ports:
       - 8099:80
 
-  account-generation:
-    image: jamesdidit72/account-generation
-    container_name: account-generation
-    restart: always
-    ports:
-      - 80:5000
-
     networks:
       network_app:
         aliases:
