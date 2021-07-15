@@ -1,17 +1,9 @@
 import configparser
-from mysql.connector import connect, Error
 import string
 import random
 import hashlib
 
 #from password_policy import policy
-
-with open("config_sql", "r") as file:
-    configs = file.readlines()
-    file.close()
-with open(".my_sql_password", "r") as file:
-    sqlpassword = file.read()
-    file.close()
 
 class UserPasswordDetails():
 
@@ -58,27 +50,27 @@ class UserPasswordDetails():
 
 
     def check_list(self, password):
-        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
         # checks password against passwords in common_passwords.txt. Returns True if password is not in file, False if found.Written by KW
         # sql_password = getpass("Please input your SQL database password: ")
-            with connection.cursor()as cursor:
+        db = sql_DB()
+        cursor = db.cursor
 
-                command = "SELECT * FROM `common_passwords` WHERE `password` = '{}';".format(password)
+        command = "SELECT * FROM `common_passwords` WHERE `password` = '{}';".format(password)
 
-                cursor.execute(command)
-                cursor.fetchall()
-                #print(cursor.rowcount)
-                #print(password)
-                num_occurences = cursor.rowcount
-                # print("num_occurences assigned")
-                cursor.close()
-            #print(num_occurences) Tests
-            if num_occurences > 0:
-                #print("In DB")
-                return False
-            elif num_occurences == 0:
-                #print("Not in DB")
-                return True
+        cursor.execute(command)
+        cursor.fetchall()
+        #print(cursor.rowcount)
+        #print(password)
+        num_occurences = cursor.rowcount
+        # print("num_occurences assigned")
+        cursor.close()
+        #print(num_occurences) Tests
+        if num_occurences > 0:
+            #print("In DB")
+            return False
+        elif num_occurences == 0:
+            #print("Not in DB")
+            return True
 
 
 

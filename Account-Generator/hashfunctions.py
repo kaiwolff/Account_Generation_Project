@@ -3,37 +3,30 @@ import string
 from password_checks import UserPasswordDetails
 import random
 import base64
-from mysql.connector import connect, Error
-
-with open("config_sql", "r") as file:
-    configs = file.readlines()
-    file.close()
-with open(".my_sql_password", "r") as file:
-    sqlpassword = file.read()
-    file.close()
-
+from sql_init import sql_DB
 
 class HashFunctions():
 
     def get_user_pass(self,username):
-        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
-            with connection.cursor() as cursor:
-                command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
-                cursor.execute(command)
-                password = cursor.fetchone()
-                connection.close()
+        db = sql_DB()
+        cursor = db.cursor
+        command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
+        cursor.execute(command)
+        password = cursor.fetchone()
+        connection.close()
         #print(password[0])
         return password[0]
 
     def check_pass(self, username, plain_password):
+        
         salt = self.get_user_salt(username)
         check_pass = self.hash_no_salt(plain_password, salt)
-        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
-            with connection.cursor() as cursor:
-                command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
-                cursor.execute(command)
-                hashed_pass = cursor.fetchone()
-                connection.close()
+        db = sql_DB()
+        cursor = db.cursor
+        command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
+        cursor.execute(command)
+        hashed_pass = cursor.fetchone()
+        connection.close()
         if check_pass == hashed_pass[0]:
             return True
         else:
@@ -46,13 +39,13 @@ class HashFunctions():
 
     def get_user_salt(self, username):
 
-        with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
-            with connection.cursor() as cursor:
-                command = "SELECT `Salt` FROM `user_info` WHERE `username` = '{}';".format(username)
-                cursor.execute(command)
-                salt = cursor.fetchone()
-                connection.close()
-                return salt[0]
+        db = sql_DB()
+        cursor = db.cursor
+        command = "SELECT `Salt` FROM `user_info` WHERE `username` = '{}';".format(username)
+        cursor.execute(command)
+        salt = cursor.fetchone()
+        connection.close()
+        return salt[0]
 
     def hash_no_salt(self, password, salt):
         saltedpass = salt + password
