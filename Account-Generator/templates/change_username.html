@@ -1,0 +1,41 @@
+<html>
+  <script type="text/javascript">
+    var myToken = localStorage.getItem("myToken")
+    var myUsername = localStorage.getItem("myUsername")
+
+    if ((myToken == null) || (myToken == "")) {
+      document.location.href = "/"
+    }
+
+  </script>
+  <h1>Change Username</h1>
+  <body>
+    <script type="text/javascript">
+      var myToken = localStorage.getItem("myToken")
+      var myUsername = localStorage.getItem("myUsername")
+
+      if ((myToken == null) || (myToken == "")) {
+        document.location.href = "/"
+      }
+
+    </script>
+    <style type="text/css">
+      label{
+        width:100px;
+        display:inline-block;
+      }
+    </style>
+    <form action = "manage/options/change_username" method = "post">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="new_username">New Username:</label><br>
+    <input type="text" id="new_username" name="new_username"><br>
+    <label for ="manager_name">Manager username:</label<br>
+    <input type="text" id="manager_name" name="manager_name"><br>
+    <label for ="manager_password">Manager password:</label<br>
+    <input type="password" id="manager_password" name="manager_password"><br><br>
+    <input type="submit" value="Submit">
+
+    </form>
+  </body>
+</html>
