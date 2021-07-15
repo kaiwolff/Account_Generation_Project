@@ -61,7 +61,7 @@ def login():
                 'Username': username,
                 'Expiry': NowTime,
                 'Manager': 'yes',
-            }) # needs secret key
+            },'SECRET_KEY_123456798', algorithm= 'HS256') # needs secret key
             return render_template("management_options.html", message = message, token = token)
 
         else:
@@ -70,7 +70,7 @@ def login():
                 'Username': username,
                 'Expiry': NowTime,
                 'Manager': 'no',
-            }) # needs secret key
+            },'SECRET_KEY_123456798', algorithm= 'HS256') # needs secret key
                 return render_template("user_dashboard.html", message = message, token = token)
 
     else:
@@ -78,13 +78,14 @@ def login():
 
 # remember to add log out button that deletes token
 @app.route('/dashboard', methods=['GET'])
-#@decorators.token_required
+@decorators.token_required
 def dashboard(username):
 	headers = {'Content-Type': 'text/html'}
 	return make_response(render_template('user_dashboard.html'), 200, headers)
 
 
 @app.route('/manage/option', methods = ['POST'])
+@decorators.token_required
 def select_management_option():
 
     if not manager_token(token):
@@ -110,6 +111,7 @@ def select_management_option():
 
 
 @app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
+@decorators.token_required
 def user_to_manager():
 
     if not manager_token(token):
@@ -127,6 +129,7 @@ def user_to_manager():
 
 
 @app.route('/manage/option/change_to_user', methods = ['POST', 'GET']) #/change/
+@decorators.token_required
 def manager_to_user():
     if not manager_token(token):
         abort(403)
@@ -143,6 +146,7 @@ def manager_to_user():
 
 
 @app.route('/manage/option/delete_user', methods = ['POST', 'GET']) #/change/
+@decorators.token_required
 def user_delete():
     if not manager_token(token):
         abort(403)
@@ -159,6 +163,7 @@ def user_delete():
 
 
 @app.route('/manage/option/change_username', methods = ['POST', 'GET']) #/change/
+@decorators.token_required
 def username_change():
     if not manager_token(token):
         abort(403)
