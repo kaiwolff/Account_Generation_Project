@@ -77,7 +77,7 @@ def login():
         abort(403)
 
 # remember to add log out button that deletes token
-@app.route('/dashboard', methods=['GET'])
+@app.route('/dashboard', methods=['GET','POST'])
 @decorators.token_required
 def dashboard(username):
 	headers = {'Content-Type': 'text/html'}
@@ -183,4 +183,4 @@ def username_change():
 
 
 if __name__ == "__main__":
-    app.run(debug= True, host = '0.0.0.0', ssl_context = ('certs/pub_certs.pem', 'certs/priv_key.pem'))
+    app.run(debug= True, host = '0.0.0.0', ssl_context = ('certs/pub_cert.pem', 'certs/priv_key.pem'))
