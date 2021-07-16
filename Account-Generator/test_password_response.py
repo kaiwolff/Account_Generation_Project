@@ -11,7 +11,7 @@ class ResponseTest(unittest.TestCase,UserAccountDetails):
 	checker = UserAccountDetails()
 
 	def test_check(self):
-		self.assertEquals(self.checker.create_new_user("test_username","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S"), "You have been successfully added to the database system.") # testing for password
+		self.assertEqual(self.checker.create_new_user("test_username","test_firstname","test_lastname", "1997", "7$!5I6c2-F1r7m1S"), "You have been successfully added to the database system.") # testing for password
 	# def test_check1(self):
 	# 		self.assertEqual(self.checker.create_new_user("test_username","test_firstname","test_lastname", "1997", "password"), "Your password is weak.") # testing for password
 

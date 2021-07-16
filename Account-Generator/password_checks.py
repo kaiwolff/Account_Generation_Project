@@ -2,7 +2,7 @@ import configparser
 import string
 import random
 import hashlib
-
+from sql_init import sql_DB
 #from password_policy import policy
 
 class UserPasswordDetails():
@@ -57,13 +57,13 @@ class UserPasswordDetails():
 
         command = "SELECT * FROM `common_passwords` WHERE `password` = '{}';".format(password)
 
-        cursor.execute(command)
-        cursor.fetchall()
+        db.cursor.execute(command)
+        db.cursor.fetchall()
         #print(cursor.rowcount)
         #print(password)
-        num_occurences = cursor.rowcount
+        num_occurences = db.cursor.rowcount
         # print("num_occurences assigned")
-        cursor.close()
+        db.cursor.close()
         #print(num_occurences) Tests
         if num_occurences > 0:
             #print("In DB")
@@ -171,7 +171,7 @@ class UserPasswordDetails():
 # Testing functions
 
 
-# print(UserPasswordDetails().generate_password()) #Works, no errors
+print(UserPasswordDetails().generate_password()) #Works, no errors
 #UserPasswordDetails().check_list("password") # Works, but sql errors due to server
 #print(UserPasswordDetails().check_policy("5432ytsKHF++y4")) # no errors check password according to policy.txt file
 #print(UserPasswordDetails().check_user_details("1997","FirstName","LastName", "1997")) # Works, prints False if it is a bad password
