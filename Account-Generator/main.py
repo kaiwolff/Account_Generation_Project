@@ -43,7 +43,7 @@ def register():
 
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
-
+    user= UserAccountDetails()
     if request.method == 'GET':
         #check token
         return render_template("login.html")
@@ -51,7 +51,7 @@ def login():
     user_name = request.form.get('username')
     password = request.form.get('pwd')
 
-    if user_login(user_name,password) == True:
+    if user.user_login(user_name,password) == True:
 
         message = "Login successful"
 

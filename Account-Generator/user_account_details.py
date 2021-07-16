@@ -75,7 +75,7 @@ class UserAccountDetails():
             command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL, '{}');".format(
                 user_name, first_name, last_name, birth_year, list[0], list[1])
             cursor.execute(command)
-            sql_DB().connection.commit()
+            db.connection.commit()
             cursor.close()
             list = []
             return "You have been successfully added to the database system."
@@ -88,7 +88,7 @@ class UserAccountDetails():
             if self.check_existence(user_name):
                 command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
                 cursors.execute(command)
-                sql_DB().connection.commit()
+                db.connection.commit()
                 cursor.close()
                 return "The account has been changed to admin status."
             else:
@@ -103,7 +103,7 @@ class UserAccountDetails():
             if self.check_existence(user_name):
                 command = "UPDATE `user_info` SET `Manager`=NULL WHERE `username` = '{}';".format(user_name)
                 cursor.execute(command)
-                sql_DB().connection.commit()
+                db.connection.commit()
                 cursor.close()
                 return "The account has been changed to user"
             else:
@@ -122,7 +122,7 @@ class UserAccountDetails():
                     command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(
                         new_user_name, old_user_name)
                     cursor.execute(command)
-                    sql_DB().connection.commit()
+                    db.connection.commit()
                     cursor.close()
                     return "{} has been changed to {}".format(old_user_name, new_user_name)
                 else:
@@ -140,7 +140,7 @@ class UserAccountDetails():
             if self.check_existence(user_name):
                 command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
                 cursor.execute(command)
-                sql_DB().connection.commit()
+                db.connection.commit()
                 cursor.close()
                 return "The account {} has been deleted from the database".format(user_name)
             else:

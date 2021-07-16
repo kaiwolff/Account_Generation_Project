@@ -13,12 +13,12 @@ class HashFunctions():
         command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
         cursor.execute(command)
         password = cursor.fetchone()
-        connection.close()
+        sql_DB().connection.close()
         #print(password[0])
         return password[0]
 
     def check_pass(self, username, plain_password):
-        
+
         salt = self.get_user_salt(username)
         check_pass = self.hash_no_salt(plain_password, salt)
         db = sql_DB()
@@ -26,7 +26,7 @@ class HashFunctions():
         command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
         cursor.execute(command)
         hashed_pass = cursor.fetchone()
-        connection.close()
+        sql_DB().connection.close()
         if check_pass == hashed_pass[0]:
             return True
         else:
