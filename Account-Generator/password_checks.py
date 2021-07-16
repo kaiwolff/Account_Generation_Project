@@ -77,7 +77,7 @@ class UserPasswordDetails():
     def check_policy(self, password):
         # reads password policy, checks if password complies with requirements. Returns True if yes, False if not. Written by KW
         policy_list = self.read_password_policy()
-        print(policy_list)
+        # print(policy_list)
         # now have a list defining password policy
         num_specials = policy_list[0]
         num_lowercase = policy_list[1]
@@ -171,8 +171,8 @@ class UserPasswordDetails():
 # Testing functions
 
 
-print(UserPasswordDetails().generate_password()) #Works, no errors
+# print(UserPasswordDetails().generate_password()) #Works, no errors
 #UserPasswordDetails().check_list("password") # Works, but sql errors due to server
-#print(UserPasswordDetails().check_policy("5432ytsKHF++y4")) # no errors check password according to policy.txt file
+print(UserPasswordDetails().check_policy("5432ytsKHF++y4")) # no errors check password according to policy.txt file
 #print(UserPasswordDetails().check_user_details("1997","FirstName","LastName", "1997")) # Works, prints False if it is a bad password
 #print(UserPasswordDetails().read_password_policy())# Works, no errors and can be called in other internal functions

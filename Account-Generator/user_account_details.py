@@ -20,7 +20,7 @@ class UserAccountDetails():
 
 
     def check_admin(self, user_name, user_password):  # check if the admin value is true
-
+        # try:
         command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}' AND `Manager` = 1;".format(
             user_name,  HashFunctions().get_user_pass(user_name))
         db = sql_DB()
@@ -35,6 +35,8 @@ class UserAccountDetails():
             return True
         elif num_occurences == 0:
             return False
+        # except TypeError:
+        #     return False
 
     def check_existence(self, user_name):  # checks if a user exists in a database
 
@@ -72,7 +74,7 @@ class UserAccountDetails():
         else:
             list = HashFunctions().hashpass(password)
             #INSERT INTO `user_info`(`Key`, `username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
-            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL, '{}');".format(
+            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Salt`) VALUES ('{}', '{}', '{}', '{}', '{}','{}');".format(
                 user_name, first_name, last_name, birth_year, list[0], list[1])
             cursor.execute(command)
             db.connection.commit()
@@ -150,11 +152,11 @@ class UserAccountDetails():
 
 # File Test
 
-#print(UserAccountDetails().delete_user("TestUser97", "adin", "Lm(6QXlaYsk8")) #Works, Used a test DB to delete an entry
+# print(UserAccountDetails().delete_user("TestUser97", "adin", "Lm(6QXlaYsk8")) #Works, Used a test DB to delete an entry
 # print(UserAccountDetails().change_to_user("admin", "admin", "Lm(6QXlaYsk8")) #Works, returns the right strings depends on the input
 print(UserAccountDetails().create_new_user("TestUser", "test_first", "test_last", "1990", "YVW-5DMBUvTJfJ")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
-# print(UserAccountDetails().check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
-print(UserAccountDetails().change_username("TestUser", "admin", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
+# print(UserAccountDetails().check_admin("addfin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
+# print(UserAccountDetails().change_username("TestUser", "admin", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
 # print(UserAccountDetails().change_to_manager("admin", "admin", "Lm(6QXlaYsk8"))#Works, Only works if you have admin details and the username is in the database
 # print(UserAccountDetails().check_existence("admin"))#Works, Check is a username is in teh database
-# print(UserAccountDetails().user_login("TestUser","SPKNEZGM+hC9kS"))
+print(UserAccountDetails().user_login("TestUser","YVW-5DMBUvTJfJ"))

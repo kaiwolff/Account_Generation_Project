@@ -7,14 +7,14 @@ from sql_init import sql_DB
 
 class HashFunctions():
 
-    def get_user_pass(self,username):
+    def get_user_pass(self, username):
         db = sql_DB()
         cursor = db.cursor
         command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
         cursor.execute(command)
         password = cursor.fetchone()
         db.connection.close()
-        #print(password[0])
+        # print(password[0])
         return password[0]
 
     def check_pass(self, username, plain_password):
