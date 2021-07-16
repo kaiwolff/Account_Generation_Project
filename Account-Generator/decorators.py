@@ -9,7 +9,7 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         #start by emptying token
-        token = change_to_manager
+        token = None
 
         #check headers for "Authorization in the header"
         if 'Authorization' in request.headers:
