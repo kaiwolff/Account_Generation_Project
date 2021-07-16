@@ -6,7 +6,7 @@ lass HashFunctions():
     def getusersalt(self, username):
         with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
             with connection.cursor() as cursor:
-                command = "SELECT 'Salt' FROM `user_info` WHERE `username`= '{}';".format(
+                command = "SELECT 'salt' FROM `user_info` WHERE `username`= '{}';".format(
                     user_name)
 
                 cursor.execute(command)
@@ -53,7 +53,7 @@ hashpass("Tyree", "Thisisastrongpass")
     with connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db") as connection:
     list = hashpass(password)
         with connection.cursor()as cursor:
-            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, 'Salt') VALUES ('{}', '{}', '{}', '{}', '{}', 0, {});".format(user_name, first_name, last_name, birth_year, str(list[0]), str(list[1]))
+            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, 'salt') VALUES ('{}', '{}', '{}', '{}', '{}', 0, {});".format(user_name, first_name, last_name, birth_year, str(list[0]), str(list[1]))
             cursor.execute(command)
             connection.commit()
             cursor.close()

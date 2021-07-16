@@ -1,6 +1,7 @@
 from mysql.connector import connect, Error
 from password_checks import UserPasswordDetails
 import hashlib
+from hashfunctions import HashFunctions
 from sql_init import sql_DB
 
 class UserAccountDetails():
@@ -71,8 +72,8 @@ class UserAccountDetails():
 
         else:
             list = HashFunctions().hashpass(password)
-            #INSERT INTO `user_info`(`Key`, `username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
-            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `Salt`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL, '{}');".format(
+            #INSERT INTO `user_info`(`Key`, `username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `salt`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
+            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `salt`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL, '{}');".format(
                 user_name, first_name, last_name, birth_year, list[0], list[1])
             cursor.execute(command)
             db.connection.commit()

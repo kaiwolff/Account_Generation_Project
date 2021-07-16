@@ -2,6 +2,8 @@ import configparser
 import string
 import random
 import hashlib
+from sql_init import sql_DB
+
 
 #from password_policy import policy
 

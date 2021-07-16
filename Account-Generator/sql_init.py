@@ -7,10 +7,10 @@ class sql_DB:
             configs = file.readlines()
             file.close()
         with open(".my_sql_password", "r") as file:
-            sqlpassword = file.read()
+            sqlpassword = file.read().strip()
             file.close()
 
-        self.connection = connect(host=str(configs[0]), user=str(configs[1]), password=sqlpassword, database="pw_user_db")
+        self.connection = connect(host=str(configs[0]), user=str(configs[1]).strip(), password=sqlpassword, database="pw_user_db")
         self.cursor = self.connection.cursor()
 
 # print(check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
