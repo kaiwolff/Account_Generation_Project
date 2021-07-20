@@ -1,12 +1,14 @@
 <html>
 <script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
 
+The token is:
+{{myToken}}
 <script type="text/javascript">
   var myToken = localStorage.getItem("myToken")
   var myUsername = localStorage.getItem("myUsername")
 
   if ((myToken == null) || (myToken == "")) {
-    document.location.href = "/manage/options?token=" + myToken
+    document.location.href = "/"
   }
 
   function logout(){

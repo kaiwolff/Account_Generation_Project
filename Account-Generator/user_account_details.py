@@ -9,12 +9,19 @@ class UserAccountDetails():
     # host=configs[0]52.214.153.42
 
     def user_login(self, username, password):
+        print(password)
+        print(username)
         if self.check_existence(username):
+            print("ok, you're real")
             if HashFunctions().check_pass(username, password):
+                print("even your password is real")
                 return True # change it to return a JSON token
+
             else:
+                print("password is wrong")
                 return False # Wrong password
         else:
+            print("password is wrong")
             return False # Wrong username
 
 
@@ -38,13 +45,18 @@ class UserAccountDetails():
             return False
 
     def check_existence(self, user_name):  # checks if a user exists in a database
-
+        print("check_existence says hi to {}".format(user_name))
         db = sql_DB()
+        print("db established")
         cursor = db.cursor
+        print("cursor made")
         command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
+        print("command created")
         cursor.execute(command)
+        print("command executed")
         # connection.commit()
         cursor.fetchall()
+        print("cursor fetched")
         num_occurences = cursor.rowcount
         # print("num_occurences assigned")
         cursor.close()
@@ -59,12 +71,12 @@ class UserAccountDetails():
         # birth_year = int(birth_year)
         db = sql_DB()
         cursor = db.cursor
+        print(password)
 
         if self.check_existence(user_name):
             return "{} already exists.".format(user_name)
 
-        elif not UserPasswordDetails().check_list(password) or not UserPasswordDetails().check_policy(
-                password) or not UserPasswordDetails().check_user_details(first_name, last_name, birth_year,
+        elif not UserPasswordDetails().check_list(password) or not UserPasswordDetails().check_policy(password) or not UserPasswordDetails().check_user_details(first_name, last_name, birth_year,
                                                                           password):
             password = UserPasswordDetails().generate_password()
 
@@ -73,7 +85,7 @@ class UserAccountDetails():
         else:
             list = HashFunctions().hashpass(password)
             #INSERT INTO `user_info`(`Key`, `username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `salt`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')
-            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `Manager`, `salt`) VALUES ('{}', '{}', '{}', '{}', '{}', NULL, '{}');".format(
+            command = "INSERT INTO `user_info`(`username`, `FirstName`, `LastName`, `BirthYear`, `password`, `salt`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}');".format(
                 user_name, first_name, last_name, birth_year, list[0], list[1])
             cursor.execute(command)
             db.connection.commit()

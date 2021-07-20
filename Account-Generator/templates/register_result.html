@@ -2,11 +2,11 @@
 {{message}}
   <h1>Login</h1>
   <body>
-    <form action = /login/attempt method = "post">
+    <form class="" action = /login method = "post">
       <label for="username">Username:</label><br>
-      <input type="text" id="username" name="username" value={{request.form.username}}><br>
+      <input type="text" id="username" name="username" value={{username}}><br>
       <label for="pwd">Password:</label><br>
-      <input type="password" id="pwd" name="pwd" value={{request.form.password}}><br><br>
+      <input type="text" id="pwd" name="pwd" value={{password}}><br><br>
       <input type="submit" value="Submit">
       <input type="reset">
     </form>

@@ -15,9 +15,11 @@ def manager_token(token):
     #decode token, read manager field, return True or False depending on outcome.
     decoded_token = jwt.decode(token)
     if decoded_token['Management'] == 'yes':
+        print("you are a manager")
         return True
-
-    return False
+    else:
+        print("you are not a manager")
+        return False
 
 @app.route('/',methods = ['POST', 'GET'])
 def welcome():
@@ -35,10 +37,12 @@ def register():
     user_name = request.form.get('username')
     password = request.form.get('pwd')
 
+    print(user_name, first_name, last_name, birth_year, password)
+
     new_user = UserAccountDetails()
     message = new_user.create_new_user(user_name, first_name, last_name, birth_year, password)
 
-    return make_response("register_result.html",message=message)
+    return render_template("register_result.html",message=message)
 
 
 @app.route('/login', methods = ['POST', 'GET'])
@@ -55,23 +59,27 @@ def login():
 
         message = "Login successful"
 
-        if check_admin(user_name, password)== True:
-            NowTime = datetime.now() + timedelta(minutes = 72)
+        if user.check_admin(user_name, password)== True:
+            print("survived admin check")
+            NowTime = str(datetime.now() + timedelta(minutes = 72))
+            print(NowTime)
             token = jwt.encode({
-                'Username': username,
+                'Username': user_name,
                 'Expiry': NowTime,
                 'Manager': 'yes',
-            },'SECRET_KEY_123456798', algorithm= 'HS256') # needs secret key
-            return render_template("management_options.html", message = message, token = token)
+            },'SECRET_KEY_123456798', algorithm= 'HS256')
+            print(token)
+            return render_template("login.html",myToken=token)
 
         else:
-            NowTime = datetime.now() + timedelta(minutes = 72)
+            NowTime = str(datetime.now() + timedelta(minutes = 72))
             token = jwt.encode({
-                'Username': username,
+                'Username': user_name,
                 'Expiry': NowTime,
                 'Manager': 'no',
-            },'SECRET_KEY_123456798', algorithm= 'HS256') # needs secret key
-            return render_template("user_dashboard.html", message = message, token = token)
+            },'SECRET_KEY_123456798', algorithm= 'HS256')
+            print(token) # needs secret key
+            return render_template("login.html",myToken = token)
 
     else:
         abort(403)
@@ -84,9 +92,14 @@ def dashboard(username):
 	return make_response(render_template('user_dashboard.html'), 200, headers)
 
 
-@app.route('/manage/option', methods = ['POST'])
+@app.route('/manage/option', methods = ['GET','POST'])
 @decorators.token_required
-def select_management_option():
+def select_management_option(*args):
+
+    if request.method == "GET":
+        token = request.form.get('myToken')
+        print("The token is {}".format(token))
+        return render_template("management_options.html", myToken = token)
 
     if not manager_token(token):
         abort(403)
@@ -98,13 +111,13 @@ def select_management_option():
 
     if operation == "delete":
         #render for to take in delete
-        return render_template("delete_user.html")
+        return render_template("delete_user.html", myToken=token)
     elif operation == "change_to_user":
         #render template for changing to user
-        return render_template('change_to_user.html')
+        return render_template('change_to_user.html', myToken=token)
     elif operation == "change_to_manager":
         #render template for elevating to manager
-        return render_template('change_to_manager.html')
+        return render_template('change_to_manager.html', myToken=token)
     elif operation == "change_username":
         #render template for changing username
         return render_template("change_username.html")
@@ -114,10 +127,11 @@ def select_management_option():
 @decorators.token_required
 def user_to_manager():
 
+
     if not manager_token(token):
         abort(403)
     if request.method == 'GET':
-        return render_template('change_to_manager.html')
+        return render_template('change_to_manager.html', myToken = token)
 
     user_name = request.form.get('username')
     manager_name = request.form.get('manager_name')
@@ -148,7 +162,7 @@ def manager_to_user():
 
 @app.route('/manage/option/delete_user', methods = ['POST', 'GET']) #/change/
 @decorators.token_required
-def user_delete():
+def user_delete(*args):
     if not manager_token(token):
         abort(403)
     if request.method == 'GET':
@@ -180,7 +194,7 @@ def username_change():
     message = new_user.change_username(old_user_name, new_user_name, manager_name, manager_password)
     return render_template("management_result.html", message=message)
 
-
+\
 
 if __name__ == "__main__":
     app.run(debug= True, host = '0.0.0.0', ssl_context = ('certs/pub_cert.pem', 'certs/priv_key.pem'))
