@@ -15,4 +15,9 @@ class sql_DB:
         self.connection = connect(host=str(configs[0]).strip(), user=str(configs[1]).strip(), password=sqlpassword, database="pw_user_db")
         self.cursor = self.connection.cursor()
 
+    def close_down(self):
+        self.cursor.close()
+        self.connection.close()
+        pass
+
 # print(check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct

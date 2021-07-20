@@ -37,7 +37,7 @@ class UserAccountDetails():
         cursor.fetchall()
         num_occurences = cursor.rowcount
         # print("num_occurences assigned")
-        cursor.close()
+        db.close_down()
         # print(HashFunctions().get_user_pass(user_name))
         if num_occurences > 0:
             return True
@@ -51,6 +51,7 @@ class UserAccountDetails():
         cursor = db.cursor
         print("cursor made")
         command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
+        print(command)
         print("command created")
         cursor.execute(command)
         print("command executed")
@@ -59,7 +60,7 @@ class UserAccountDetails():
         print("cursor fetched")
         num_occurences = cursor.rowcount
         # print("num_occurences assigned")
-        cursor.close()
+        db.close_down()
 
         if num_occurences > 0:
             return True  # if it exists it will return True
@@ -89,7 +90,7 @@ class UserAccountDetails():
                 user_name, first_name, last_name, birth_year, list[0], list[1])
             cursor.execute(command)
             db.connection.commit()
-            cursor.close()
+            db.close_down()
             list = []
             return "You have been successfully added to the database system."
 
@@ -102,7 +103,7 @@ class UserAccountDetails():
                 command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
                 cursors.execute(command)
                 db.connection.commit()
-                cursor.close()
+                db.close_down()
                 return "The account has been changed to admin status."
             else:
                 return "The user doesn't exist"
@@ -117,7 +118,7 @@ class UserAccountDetails():
                 command = "UPDATE `user_info` SET `Manager`=NULL WHERE `username` = '{}';".format(user_name)
                 cursor.execute(command)
                 db.connection.commit()
-                cursor.close()
+                db.close_down()
                 return "The account has been changed to user"
             else:
                 return "The user doesn't exist"
@@ -136,7 +137,7 @@ class UserAccountDetails():
                         new_user_name, old_user_name)
                     cursor.execute(command)
                     db.connection.commit()
-                    cursor.close()
+                    db.close_down()
                     return "{} has been changed to {}".format(old_user_name, new_user_name)
                 else:
                     return "The new user already exists in the database"
@@ -154,7 +155,7 @@ class UserAccountDetails():
                 command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
                 cursor.execute(command)
                 db.connection.commit()
-                cursor.close()
+                db.close_down()
                 return "The account {} has been deleted from the database".format(user_name)
             else:
                 return "The user you are trying to delete isn't on the database"
