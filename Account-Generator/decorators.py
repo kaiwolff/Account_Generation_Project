@@ -9,7 +9,10 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         #start by emptying token
-        
+        print("args request***************************")
+        print(request.args)
+        print("form requests**************************")
+        print(request.form)
         token = None
 
         #check headers for "Authorization in the header"
@@ -18,8 +21,10 @@ def token_required(f):
             print("Found Authorization in header")
 
         #check that token is not empty
-        elif request.args.get('token', type=str) != "":
-            token = request.args.get('token', type=str)
+        elif request.args.get('myToken', type=str) != "":
+            print("got myToken in decorators")
+            token = request.args.get('myToken', type=str)
+
         else:
             #not in header or under "Authorization", so no token
             token = None

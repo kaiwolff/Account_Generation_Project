@@ -4,9 +4,8 @@
   <script type="text/javascript">
 
     var myToken = localStorage.getItem("myToken")
-    alert(myToken)
     if ((myToken != null) && (myToken != "")) {
-      document.location.href = "/login?token="+myToken
+      document.location.href = "/login?myToken="+myToken
     }
 
   </script>

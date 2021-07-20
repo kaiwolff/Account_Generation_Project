@@ -13,8 +13,8 @@ app = Flask(__name__)
 
 def manager_token(token):
     #decode token, read manager field, return True or False depending on outcome.
-    decoded_token = jwt.decode(token)
-    if decoded_token['Management'] == 'yes':
+    decoded_token = jwt.decode(token, 'SECRET_KEY_123456798', 'HS256')
+    if decoded_token['Manager'] == 'yes':
         print("you are a manager")
         return True
     else:
@@ -87,9 +87,16 @@ def login():
 # remember to add log out button that deletes token
 @app.route('/dashboard', methods=['GET','POST'])
 @decorators.token_required
+
 def dashboard(username):
-	headers = {'Content-Type': 'text/html'}
-	return make_response(render_template('user_dashboard.html'), 200, headers)
+    headers = {'Content-Type': 'text/html'}
+    token=request.args.get('myToken')
+
+    if manager_token(token):
+        return render_template('management_options.html', myToken=token)
+
+    else:
+        return make_response(render_template('user_dashboard.html'), 200, headers)
 
 
 @app.route('/manage/option', methods = ['GET','POST'])
@@ -97,8 +104,8 @@ def dashboard(username):
 def select_management_option(*args):
 
     if request.method == "GET":
-        token = request.form.get('myToken')
-        print("The token is {}".format(token))
+        token = request.args.get('myToken',type=str)
+        print("The token in GET form is {}".format(token))
         return render_template("management_options.html", myToken = token)
 
     if not manager_token(token):
@@ -108,6 +115,8 @@ def select_management_option(*args):
 
     #read in the format
     operation = request.form.get('operation')
+    token = request.args.get('myToken',type=str)
+    print("passing option to form. Token is {}".format(token))
 
     if operation == "delete":
         #render for to take in delete
@@ -120,7 +129,7 @@ def select_management_option(*args):
         return render_template('change_to_manager.html', myToken=token)
     elif operation == "change_username":
         #render template for changing username
-        return render_template("change_username.html")
+        return render_template("change_username.html", myToken=token)
 
 
 @app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
@@ -194,7 +203,7 @@ def username_change():
     message = new_user.change_username(old_user_name, new_user_name, manager_name, manager_password)
     return render_template("management_result.html", message=message)
 
-\
+
 
 if __name__ == "__main__":
     app.run(debug= True, host = '0.0.0.0', ssl_context = ('certs/pub_cert.pem', 'certs/priv_key.pem'))
