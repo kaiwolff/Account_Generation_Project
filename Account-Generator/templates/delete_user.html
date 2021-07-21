@@ -1,4 +1,7 @@
 <html>
+<script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+
+
 <script type="text/javascript">
   var myToken = localStorage.getItem("myToken")
   var myUsername = localStorage.getItem("myUsername")
@@ -46,8 +49,8 @@
 
           success: function (response) {
             result = response.result
-            $("#lblResult").html('')
-            $("#lblResult").append(response.result);
+            // $("#lblResult").html('')
+            // $("#lblResult").append(response.result);
           },
           error: function (error) {
             alert(JSON.stringify(error))

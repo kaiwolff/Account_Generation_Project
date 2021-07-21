@@ -1,4 +1,6 @@
 <html>
+<script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+
   <script type="text/javascript">
     var myToken = localStorage.getItem("myToken")
     var myUsername = localStorage.getItem("myUsername")
@@ -10,22 +12,13 @@
   </script>
   <h1>Change Username</h1>
   <body>
-    <script type="text/javascript">
-      var myToken = localStorage.getItem("myToken")
-      var myUsername = localStorage.getItem("myUsername")
-
-      if ((myToken == null) || (myToken == "")) {
-        document.location.href = "/"
-      }
-
-    </script>
     <style type="text/css">
       label{
         width:100px;
         display:inline-block;
       }
     </style>
-    <form action = "manage/options/change_username" method = "post">
+    <form id = "change_username_form">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
     <label for="new_username">New Username:</label><br>
@@ -37,5 +30,38 @@
     <input type="submit" value="Submit">
 
     </form>
+    <script type="application/javascript">
+
+      $("#change_username_form").submit(function (e){
+
+        var action = "/manage/option/change_username"
+
+        $.ajax({
+          type: "POST",
+          url: action,
+          processData: false,
+          dataType: 'json',
+          async: false,
+          headers: {
+            "Authorization": "Bearer " + myToken
+          },
+          data: $("#change_username_form").serialize(),
+
+          success: function (response) {
+            result = response.result
+            // $("#lblResult").html('')
+            // $("#lblResult").append(response.result);
+          },
+          error: function (error) {
+            alert(JSON.stringify(error))
+          },
+          complete: function () {
+            // Handle the complete event
+          }
+        });
+        e.preventDefault() ;
+      }) ;
+
+    </script>
   </body>
 </html>
