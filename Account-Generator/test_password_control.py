@@ -26,7 +26,7 @@ class PassTest(unittest.TestCase):
         self.assertTrue(self.checker.check_user_details("Kai", "Wolff", "1992", "s$Y9h70OXO)nXb7Y"))
 
     def test_read_policy(self):
-        self.assertEqual(self.checker.read_password_policy(),[0, 3, 3, 2, 5, 12, "~!$^*()_-+="])
+        self.assertEqual(self.checker.read_password_policy(),[1, 1, 1, 1, 8, 16, '~!$^*()_-+='])
         self.assertEqual(self.checker.read_salt_policy(),[5,5,5])
 
         # Has to match the numbers that are in the password_policy.txt file

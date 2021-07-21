@@ -101,7 +101,7 @@ class UserAccountDetails():
         if self.check_admin(manager_name, manager_password):
             if self.check_existence(user_name):
                 command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
-                cursors.execute(command)
+                cursor.execute(command)
                 db.connection.commit()
                 db.close_down()
                 return "The account has been changed to admin status."
