@@ -16,7 +16,7 @@
         display:inline-block;
       }
     </style>
-    <form action = "manage/options/delete_user" method = "post">
+    <form id = "delete_form">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
     <label for ="manager_name">Manager username:</label<br>
@@ -25,6 +25,40 @@
     <input type="password" id="manager_password" name="manager_password"><br><br>
     <input type="submit" value="Submit">
 
+
     </form>
+    <script type="application/javascript">
+
+      $("#delete_form").submit(function (e){
+
+        var action = "/manage/option/delete_user"
+
+        $.ajax({
+          type: "POST",
+          url: action,
+          processData: false,
+          dataType: 'json',
+          async: false,
+          headers: {
+            "Authorization": "Bearer " + myToken
+          },
+          data: $("#delete_form").serialize(),
+
+          success: function (response) {
+            result = response.result
+            $("#lblResult").html('')
+            $("#lblResult").append(response.result);
+          },
+          error: function (error) {
+            alert(JSON.stringify(error))
+          },
+          complete: function () {
+            // Handle the complete event
+          }
+        });
+        e.preventDefault() ;
+      }) ;
+
+    </script>
   </body>
 </html>

@@ -65,7 +65,9 @@ class UserPasswordDetails():
         #print(password)
         num_occurences = cursor.rowcount
         # print("num_occurences assigned")
-        cursor.close()
+        db.close_down()
+
+
         #print(num_occurences) Tests
         if num_occurences > 0:
             #print("In DB")
