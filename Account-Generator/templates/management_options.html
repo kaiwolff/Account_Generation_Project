@@ -20,6 +20,8 @@
 </script>
   <h1>Management Options</h1>
   <body>
+    {{message}}
+
     The token is {{myToken}}
     <form id="opForm">
 
@@ -28,9 +30,16 @@
 
       <select class="form-control" name="operation" id="operation">
         <option value="delete">Delete User</option>
-        <option value="change_to_user">Change User to Manager</option>
-        <option value="change_to_manager">Change Manager to User</option>
-        <option value="change_username">Change Username</option>
+        <option value="change_to_user">Change Manager to User</option>
+        <option value="change_to_manager">Change User to Manager</option>
+
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <!-- <label for ="manager_name">Manager username:</label<br>
+        <input type="text" id="manager_name" name="manager_name"><br>
+        <label for ="manager_password">Manager password:</label<br>
+        <input type="password" id="manager_password" name="manager_password"><br><br> -->
+
       </select>
       <br>
 
@@ -59,8 +68,8 @@
 
           success: function (response) {
             result = response.result
-            $("#lblResult").html('')
-            $("#lblResult").append(response.result);
+            // $("#lblResult").html('')
+            // $("#lblResult").append(response.result);
           },
           error: function (error) {
             alert(JSON.stringify(error))
