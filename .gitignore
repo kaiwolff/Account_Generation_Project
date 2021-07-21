@@ -10,3 +10,5 @@ terraform_sql
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+certs
+

@@ -79,8 +79,8 @@ resource "aws_instance" "Eng88_sql_server_instance_tf" {
     destination = "/tmp/init-scripts"
   }
   provisioner "file" {
-    source = "../.mysql_password"
-    destination = "/tmp/.mysql_password"
+    source = "../.my_sql_password"
+    destination = "/tmp/.my_sql_password"
   }
   provisioner "remote-exec" {
     inline = [
@@ -90,8 +90,8 @@ resource "aws_instance" "Eng88_sql_server_instance_tf" {
   }
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/init-scripts/mysql_install.sh",
-      "/tmp/init-scripts/mysql_install.sh",
+      "chmod +x /tmp/init-scripts/my_sql_install.sh",
+      "/tmp/init-scripts/my_sql_install.sh",
     ]
   }
   provisioner "file" {

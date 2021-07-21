@@ -26,10 +26,11 @@ class UserAccountDetails():
 
 
 
-    def check_admin(self, user_name, user_password):  # check if the admin value is true
+    def check_admin(self, user_name: str, user_password: str) -> bool:  # check if the admin value is true
 
         command = "SELECT * FROM `user_info` WHERE `username`= '{}' AND `password`='{}' AND `Manager` = 1;".format(
             user_name,  HashFunctions().get_user_pass(user_name))
+        command = "SELECT * FROM `user_info` WHERE username = %(username)s AND password = %(password)s AND Manager = %(Manager)s, {`username`: user_name, `password`:user_password, `Manager`:1}"
         db = sql_DB()
         cursor = db.cursor
         cursor.execute(command)
@@ -44,13 +45,14 @@ class UserAccountDetails():
         elif num_occurences == 0:
             return False
 
-    def check_existence(self, user_name):  # checks if a user exists in a database
+    def check_existence(self, user_name: str) -> bool:  # checks if a user exists in a database
         print("check_existence says hi to {}".format(user_name))
         db = sql_DB()
         print("db established")
         cursor = db.cursor
         print("cursor made")
-        command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
+        #command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
+        command = "SELECT * FROM `user_info` WHERE `username` = %(username)s, {username: user_name}"
         print(command)
         print("command created")
         cursor.execute(command)
@@ -113,7 +115,8 @@ class UserAccountDetails():
     def change_to_user(self, user_name, manager_name, manager_password):  # changes the value of manager role back to user role
         db = sql_DB()
         cursor = db.cursor
-        if self.check_admin(manager_name, manager_password):
+        sql_safe = db.check_input_char(user_name)
+        if sql_safe:
             if self.check_existence(user_name):
                 command = "UPDATE `user_info` SET `Manager`=NULL WHERE `username` = '{}';".format(user_name)
                 cursor.execute(command)
@@ -123,8 +126,7 @@ class UserAccountDetails():
             else:
                 return "The user doesn't exist"
         else:
-            return "You require an admin level account to update user status."
-
+            return "Potential SQL Injection - Query not carried out"
 
     def change_username(self, old_user_name, new_user_name, manager_name,
                         manager_password):  # only if the user is an admin, allows to change the user name
@@ -147,12 +149,13 @@ class UserAccountDetails():
             return "You require an admin level account to update a username."
 
 
-    def delete_user(self, user_name, manager_name, manager_password):  # deletes user details
+    def delete_user(self, usernameArg : str, manager_name, manager_password) > bool:  # deletes user details
         db = sql_DB()
         cursor = db.cursor
         if self.check_admin(manager_name, manager_password):
             if self.check_existence(user_name):
-                command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
+                # command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
+                command = "DELETE FROM `user_info` WHERE username = %(usernameVar)s, ('usernameVar': usernameArg)
                 cursor.execute(command)
                 db.connection.commit()
                 db.close_down()

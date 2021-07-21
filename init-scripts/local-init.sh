@@ -1,2 +1,2 @@
 sudo mkdir -p /data/mysql
-sudo chown kali -R /data/mysq
+sudo chown kali -R /data/mysql

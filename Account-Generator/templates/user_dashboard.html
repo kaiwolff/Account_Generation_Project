@@ -1,0 +1,26 @@
+<html>
+
+  <script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    var myToken = localStorage.getItem("myToken")
+    var myUsername = localStorage.getItem("myUsername")
+
+    if ((myToken == null) || (myToken == "")) {
+      document.location.href = "/"
+    }
+
+    function logout(){
+      localStorage.removeItem("myToken")
+      localStorage.removeItem("myUsername")
+      document.location.href = "/"
+    }
+
+  </script>
+  {{message}}
+  <body>
+
+    <h1>HELLO USER</h1>
+    <input id= "btnLogout" type="button" value="Log Out" onclick="logout()">
+  </body>
+</html>

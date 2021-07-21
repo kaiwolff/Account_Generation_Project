@@ -1,0 +1,80 @@
+<html>
+<script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+  var myToken = localStorage.getItem("myToken")
+  var myUsername = localStorage.getItem("myUsername")
+
+  if ((myToken == null) || (myToken == "")) {
+    document.location.href = "/"
+  }
+
+
+  function logout(){
+  localStorage.removeItem("myToken")
+    localStorage.removeItem("myUsername")
+    document.location.href = "/"
+  }
+
+</script>
+  <h1>Management Options</h1>
+  <body>
+    The token is {{myToken}}
+    <form id="opForm">
+
+
+
+
+      <select class="form-control" name="operation" id="operation">
+        <option value="delete">Delete User</option>
+        <option value="change_to_user">Change User to Manager</option>
+        <option value="change_to_manager">Change Manager to User</option>
+        <option value="change_username">Change Username</option>
+      </select>
+      <br>
+
+
+
+      <input id = "btnSubmit" type="submit" value="Submit">
+      <input type="reset">
+    </form>
+
+    <script type="application/javascript">
+
+      $("#opForm").submit(function (e){
+
+        var action = "/manage/options"
+
+        $.ajax({
+          type: "POST",
+          url: action,
+          processData: false,
+          dataType: 'json',
+          async: false,
+          headers: {
+            "Authorization": "Bearer " + myToken
+          },
+          data: $("#opForm").serialize(),
+
+          success: function (response) {
+            result = response.result
+            $("#lblResult").html('')
+            $("#lblResult").append(response.result);
+          },
+          error: function (error) {
+            alert(JSON.stringify(error))
+          },
+          complete: function () {
+            // Handle the complete event
+          }
+        });
+        e.preventDefault() ;
+      }) ;
+
+    </script>
+
+  <body>
+    <input id= "btnLogout" type="button" value="Log Out" onclick="logout()">
+  </body>
+</html>
