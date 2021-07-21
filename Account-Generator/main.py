@@ -106,98 +106,85 @@ def select_management_option(token, username):
     if request.method == "GET":
 
         print("The token in GET form is {}".format(token))
-        return render_template("management_options.html", myToken = token)
+        message = "Welcome to Management options"
+        return render_template("management_options.html", myToken = token,message = message)
 
     operation = request.form.get('operation')
-
-    #need to check for valid token
-
-    #read in the format
+    user_name = request.form.get('username')
 
     if operation == "delete":
+        user = UserAccountDetails()
         #render for to take in delete
-        return render_template("delete_user.html", myToken=token)
+        message = user.delete_user(user_name)
+        print(message)
+        return make_response(message)
     elif operation == "change_to_user":
-        #render template for changing to user
-        return render_template('change_to_user.html', myToken=token)
+        user = UserAccountDetails()
+        message = user.change_to_user(user_name)
+        print(message)
+        return make_response(message)
     elif operation == "change_to_manager":
-        #render template for elevating to manager
-        return render_template('change_to_manager.html', myToken=token)
-    elif operation == "change_username":
-        #render template for changing username
-        return render_template("change_username.html", myToken=token)
+        user = UserAccountDetails()
+        message = user.change_to_manager(user_name)
+        print(message)
+        return make_response(message)
+#
+#
+# @app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
+# @decorators.token_required
+# def user_to_manager():
+#
+#
+#     if not manager_token(token):
+#         abort(403)
+#     if request.method == 'GET':
+#         return render_template('change_to_manager.html', myToken = token)
+#
+#     user_name = request.form.get('username')
+#     manager_name = request.form.get('manager_name')
+#     manager_password = request.form.get('manager_password')
+#
+#
+#     user_details = UserAccountDetails()
+#     message = new_user.change_to_manager(user_name, manager_name, manager_password)
+#     return render_template("management_result.html", message=message)
+#
+#
+# @app.route('/manage/option/change_to_user', methods = ['POST', 'GET']) #/change/
+# @decorators.token_required
+# def manager_to_user():
+#     if not manager_token(token):
+#         abort(403)
+#     if request.method == 'GET':
+#         return render_template('change_to_user.html')
+#
+#     user_name = request.form.get('username')
+#     manager_name = request.form.get('manager_name')
+#     manager_password = request.form.get('manager_password')
+#
+#     user_details = UserAccountDetails()
+#     message = new_user.change_to_user(user_name, manager_name, manager_password)
+#     return render_template("management_result.html", message=message)
+#
 
 
-@app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
-@decorators.token_required
-def user_to_manager():
 
-
-    if not manager_token(token):
-        abort(403)
-    if request.method == 'GET':
-        return render_template('change_to_manager.html', myToken = token)
-
-    user_name = request.form.get('username')
-    manager_name = request.form.get('manager_name')
-    manager_password = request.form.get('manager_password')
-
-
-    user_details = UserAccountDetails()
-    message = new_user.change_to_manager(user_name, manager_name, manager_password)
-    return render_template("management_result.html", message=message)
-
-
-@app.route('/manage/option/change_to_user', methods = ['POST', 'GET']) #/change/
-@decorators.token_required
-def manager_to_user():
-    if not manager_token(token):
-        abort(403)
-    if request.method == 'GET':
-        return render_template('change_to_user.html')
-
-    user_name = request.form.get('username')
-    manager_name = request.form.get('manager_name')
-    manager_password = request.form.get('manager_password')
-
-    user_details = UserAccountDetails()
-    message = new_user.change_to_user(user_name, manager_name, manager_password)
-    return render_template("management_result.html", message=message)
-
-
-@app.route('/manage/option/delete_user', methods = ['POST', 'GET']) #/change/
-@decorators.manager_token_required
-def user_delete(*args):
-    if not manager_token(token):
-        abort(403)
-    if request.method == 'GET':
-        return render_template('delete_user.html')
-
-    user_name = request.form.get('username')
-    manager_name = request.form.get('manager_name')
-    manager_password = request.form.get('manager_password')
-
-    user_details = UserAccountDetails()
-    message = new_user.delete_user(user_name, manager_name, manager_password)
-    return render_template("management_result.html", message=message)
-
-
-@app.route('/manage/option/change_username', methods = ['POST', 'GET']) #/change/
-@decorators.token_required
-def username_change():
-    if not manager_token(token):
-        abort(403)
-    if request.method == 'GET':
-        return render_template('change_username.html')
-
-    old_user_name = request.form.get('username')
-    new_user_name = request.form.get('new_username')
-    manager_name = request.form.get('manager_name')
-    manager_password = request.form.get('manager_password')
-
-    user_details = UserAccountDetails()
-    message = new_user.change_username(old_user_name, new_user_name, manager_name, manager_password)
-    return render_template("management_result.html", message=message)
+# @app.route('/manage/option/change_username', methods = ['POST', 'GET']) #/change/
+# @decorators.token_required
+# def username_change():
+#     if not manager_token(token):
+#         abort(403)
+#     if request.method == 'GET':
+#         return render_template('change_username.html')
+#
+#     old_user_name = request.form.get('username')
+#     new_user_name = request.form.get('new_username')
+#     manager_name = request.form.get('manager_name')
+#     manager_password = request.form.get('manager_password')
+#
+#     user_details = UserAccountDetails()
+#     message = new_user.change_username(old_user_name, new_user_name, manager_name, manager_password)
+#     return render_template("management_result.html", message=message)
 
 
 

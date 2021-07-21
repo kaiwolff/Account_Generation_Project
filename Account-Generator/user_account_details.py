@@ -50,22 +50,24 @@ class UserAccountDetails():
         print("db established")
         cursor = db.cursor
         print("cursor made")
-        command = "SELECT * FROM `user_info` WHERE `username`= '{}';".format(user_name)
+        command = "SELECT `user_id` FROM `user_info` WHERE `username`= '{}';".format(user_name)
         print(command)
         print("command created")
         cursor.execute(command)
         print("command executed")
         # connection.commit()
-        cursor.fetchall()
+        cursor.fetchone()#["user_id"]
         print("cursor fetched")
         num_occurences = cursor.rowcount
+        # if num_occurences > 0:
+        #     user_id = cursor.getColumnIndex("user_id")
         # print("num_occurences assigned")
         db.close_down()
 
         if num_occurences > 0:
             return True  # if it exists it will return True
         else:
-            return False  # if doesnt exists will return False
+            return None # if doesnt exists will return False
 
     def create_new_user(self, user_name, first_name, last_name, birth_year, password):  # creates user details
         # check_admin()
@@ -94,73 +96,68 @@ class UserAccountDetails():
             list = []
             return "You have been successfully added to the database system."
 
-    def change_to_manager(self, user_name, manager_name, manager_password):  # changes the value of user role back to manager role
+    def change_to_manager(self, user_name):  # changes the value of user role back to manager role
+        db = sql_DB()
+        cursor = db.cursor
+        if self.check_existence(user_name):
+            command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
+            cursor.execute(command)
+            db.connection.commit()
+            db.close_down()
+            return "The account has been changed to admin status."
+        else:
+            return "The user doesn't exist"
+
+
+    def change_to_user(self, user_name):  # changes the value of manager role back to user role
         db = sql_DB()
         cursor = db.cursor
 
-        if self.check_admin(manager_name, manager_password):
-            if self.check_existence(user_name):
-                command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
-                cursors.execute(command)
-                db.connection.commit()
-                db.close_down()
-                return "The account has been changed to admin status."
-            else:
-                return "The user doesn't exist"
+        if self.check_existence(user_name):
+            command = "UPDATE `user_info` SET `Manager`= '0' WHERE `username` = '{}';".format(user_name)
+            cursor.execute(command)
+            db.connection.commit()
+            db.close_down()
+            return "The account has been changed to user"
         else:
-            return "You require an admin level account to change from user to admin status."
+            return "The user doesn't exist"
 
-    def change_to_user(self, user_name, manager_name, manager_password):  # changes the value of manager role back to user role
+
+    #
+    # def change_username(self, old_user_name, new_user_name, manager_name,
+    #                     manager_password):  # only if the user is an admin, allows to change the user name
+    #     db = sql_DB()
+    #     cursor = db.cursor
+    #     if self.check_admin(manager_name, manager_password):
+    #         if self.check_existence(old_user_name):
+    #             if not self.check_existence(new_user_name):
+    #                 command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(
+    #                     new_user_name, old_user_name)
+    #                 cursor.execute(command)
+    #                 db.connection.commit()
+    #                 db.close_down()
+    #                 return "{} has been changed to {}".format(old_user_name, new_user_name)
+    #             else:
+    #                 return "The new user already exists in the database"
+    #         else:
+    #             return "The user doesn't exist"
+    #     else:
+    #         return "You require an admin level account to update a username."
+
+
+    def delete_user(self, user_name):  # deletes user details
         db = sql_DB()
         cursor = db.cursor
-        if self.check_admin(manager_name, manager_password):
-            if self.check_existence(user_name):
-                command = "UPDATE `user_info` SET `Manager`=NULL WHERE `username` = '{}';".format(user_name)
-                cursor.execute(command)
-                db.connection.commit()
-                db.close_down()
-                return "The account has been changed to user"
-            else:
-                return "The user doesn't exist"
+        #need to sanitise user_name input to prevent sql injection
+        if self.check_existence(user_name):
+            command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
+            cursor.execute(command)
+            db.connection.commit()
+            db.close_down()
+            return "The account {} has been deleted from the database".format(user_name)
         else:
-            return "You require an admin level account to update user status."
+            return "The user you are trying to delete isn't on the database"
 
-
-    def change_username(self, old_user_name, new_user_name, manager_name,
-                        manager_password):  # only if the user is an admin, allows to change the user name
-        db = sql_DB()
-        cursor = db.cursor
-        if self.check_admin(manager_name, manager_password):
-            if self.check_existence(old_user_name):
-                if not self.check_existence(new_user_name):
-                    command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(
-                        new_user_name, old_user_name)
-                    cursor.execute(command)
-                    db.connection.commit()
-                    db.close_down()
-                    return "{} has been changed to {}".format(old_user_name, new_user_name)
-                else:
-                    return "The new user already exists in the database"
-            else:
-                return "The user doesn't exist"
-        else:
-            return "You require an admin level account to update a username."
-
-
-    def delete_user(self, user_name, manager_name, manager_password):  # deletes user details
-        db = sql_DB()
-        cursor = db.cursor
-        if self.check_admin(manager_name, manager_password):
-            if self.check_existence(user_name):
-                command = "DELETE FROM `user_info` WHERE `username`= '{}';".format(user_name)
-                cursor.execute(command)
-                db.connection.commit()
-                db.close_down()
-                return "The account {} has been deleted from the database".format(user_name)
-            else:
-                return "The user you are trying to delete isn't on the database"
-        else:
-            return "You require an admin level account to delete user details."
 
 # File Test
 
