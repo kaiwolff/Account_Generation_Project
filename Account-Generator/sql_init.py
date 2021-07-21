@@ -20,4 +20,16 @@ class sql_DB:
         self.connection.close()
         pass
 
+    def check_input_char(self, search_term):
+        sql_input_check = self.read_sql_characters()
+        disallowed_characters= list(sql_input_check[0])
+
+        if self.read_sql_characters(user_firstname, user_lastname, user_birthyear, user_password):
+            return False
+        else:
+            return True
+
+
+
+
 # print(check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
