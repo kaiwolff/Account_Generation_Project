@@ -67,7 +67,8 @@
           data: $("#opForm").serialize(),
 
           success: function (response) {
-            result = response.result
+            result = response
+            alert(result)
             // $("#lblResult").html('')
             // $("#lblResult").append(response.result);
           },

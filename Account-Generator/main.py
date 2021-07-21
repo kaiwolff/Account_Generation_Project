@@ -117,17 +117,17 @@ def select_management_option(token, username):
         #render for to take in delete
         message = user.delete_user(user_name)
         print(message)
-        return make_response(message)
+        return make_response(jsonify(message),200)
     elif operation == "change_to_user":
         user = UserAccountDetails()
         message = user.change_to_user(user_name)
         print(message)
-        return make_response(message)
+        return make_response(jsonify(message),200)
     elif operation == "change_to_manager":
         user = UserAccountDetails()
         message = user.change_to_manager(user_name)
         print(message)
-        return make_response(message)
+        return make_response(jsonify(message),200)
 #
 #
 # @app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/
