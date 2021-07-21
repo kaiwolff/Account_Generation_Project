@@ -100,23 +100,19 @@ def dashboard(username):
 
 
 @app.route('/manage/option', methods = ['GET','POST'])
-@decorators.token_required
-def select_management_option(*args):
+@decorators.manager_token_required
+def select_management_option(token, username):
 
     if request.method == "GET":
-        token = request.args.get('myToken',type=str)
+
         print("The token in GET form is {}".format(token))
         return render_template("management_options.html", myToken = token)
 
-    if not manager_token(token):
-        abort(403)
+    operation = request.form.get('operation')
 
     #need to check for valid token
 
     #read in the format
-    operation = request.form.get('operation')
-    token = request.args.get('myToken',type=str)
-    print("passing option to form. Token is {}".format(token))
 
     if operation == "delete":
         #render for to take in delete
@@ -170,7 +166,7 @@ def manager_to_user():
 
 
 @app.route('/manage/option/delete_user', methods = ['POST', 'GET']) #/change/
-@decorators.token_required
+@decorators.manager_token_required
 def user_delete(*args):
     if not manager_token(token):
         abort(403)
