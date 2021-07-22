@@ -1,4 +1,5 @@
 from flask import Flask, request, abort, redirect, url_for, render_template, jsonify, make_response
+from token_manager import TokenManager
 
 # Token imports
 import jwt
@@ -69,6 +70,12 @@ def login():
                 'Manager': 'yes',
             },'SECRET_KEY_123456798', algorithm= 'HS256')
             print(token)
+
+            #get stuff from the header here: username and user-agent
+
+            token_manager = TokenManager()
+            token_manager.store_token(token)
+
             return render_template("login.html",myToken=token)
 
         else:
