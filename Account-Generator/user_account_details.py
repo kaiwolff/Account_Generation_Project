@@ -96,7 +96,27 @@ class UserAccountDetails():
             list = []
             return "You have been successfully added to the database system."
 
+          
+    def change_to_manager(self, user_name, manager_name, manager_password):  # changes the value of user role back to manager role
+        db = sql_DB()
+        cursor = db.cursor
+
+        if self.check_admin(manager_name, manager_password):
+            if self.check_existence(user_name):
+                command = "UPDATE `user_info` SET `Manager`= '1' WHERE `username` = '{}';".format(user_name)
+                cursor.execute(command)
+                db.connection.commit()
+                db.close_down()
+                return "The account has been changed to admin status."
+            else:
+                return "The user doesn't exist"
+        else:
+            return "You require an admin level account to change from user to admin status."
+
+    def change_to_user(self, user_name, manager_name, manager_password):  # changes the value of manager role back to user role
+      
     def change_to_manager(self, user_name):  # changes the value of user role back to manager role
+
         db = sql_DB()
         cursor = db.cursor
         if self.check_existence(user_name):

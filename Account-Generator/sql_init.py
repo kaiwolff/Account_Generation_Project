@@ -20,4 +20,5 @@ class sql_DB:
         self.connection.close()
         pass
 
+
 # print(check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct

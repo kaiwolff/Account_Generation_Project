@@ -8,29 +8,35 @@ from sql_init import sql_DB
 class HashFunctions():
 
     def get_user_pass(self,username):
-        db = sql_DB()
-        cursor = db.cursor
-        command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
-        cursor.execute(command)
-        password = cursor.fetchone()
-        db.connection.close()
-        #print(password[0])
-        return password[0]
+        try:
+            db = sql_DB()
+            cursor = db.cursor
+            command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
+            cursor.execute(command)
+            password = cursor.fetchone()
+            db.connection.close()
+            #print(password[0])
+            return password[0]
+        except TypeError:
+            return None
+
 
     def check_pass(self, username, plain_password):
-
-        salt = self.get_user_salt(username)
-        check_pass = self.hash_no_salt(plain_password, salt)
-        db = sql_DB()
-        cursor = db.cursor
-        command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
-        cursor.execute(command)
-        hashed_pass = cursor.fetchone()
-        db.connection.close()
-        if check_pass == hashed_pass[0]:
-            return True
-        else:
-            return False
+        try:
+            salt = self.get_user_salt(username)
+            check_pass = self.hash_no_salt(plain_password, salt)
+            db = sql_DB()
+            cursor = db.cursor
+            command = "SELECT `password` FROM `user_info` WHERE `username` = '{}';".format(username)
+            cursor.execute(command)
+            hashed_pass = cursor.fetchone()
+            db.connection.close()
+            if check_pass == hashed_pass[0]:
+                return True
+            else:
+                return False
+        except TypeError:
+            return None
         # print(check_pass)
         # print(hashed_pass)
         # print(salt)
@@ -38,19 +44,24 @@ class HashFunctions():
 
 
     def get_user_salt(self, username):
+        try:
+            db = sql_DB()
+            cursor = db.cursor
+            command = "SELECT `salt` FROM `user_info` WHERE `username` = '{}';".format(username)
+            cursor.execute(command)
+            salt = cursor.fetchone()
+            db.connection.close()
+            return salt[0]
+        except TypeError:
+            return None
 
-        db = sql_DB()
-        cursor = db.cursor
-        command = "SELECT `salt` FROM `user_info` WHERE `username` = '{}';".format(username)
-        cursor.execute(command)
-        salt = cursor.fetchone()
-        db.connection.close()
-        return salt[0]
 
     def hash_no_salt(self, password, salt):
-        saltedpass = salt + password
-        return hashlib.sha256(saltedpass.encode()).hexdigest()
-
+        try:
+            saltedpass = salt + password
+            return hashlib.sha256(saltedpass.encode()).hexdigest()
+        except TypeError:
+            return None
 
     def hashpass(self, password):
         # encode it to bytes using UTF-8 encoding
