@@ -124,8 +124,8 @@ class HashFunctions():
     # b_message = b_salt.decode('ascii')
     # print(b_message)
 
-print("Hased password = " + HashFunctions().hashpass(" GreatPass")[0]) # Will return the hashed_value
-print("Salt = " + HashFunctions().hashpass(" GreatPass")[1]) # Will return the salt
+# print("Hased password = " + HashFunctions().hashpass(" GreatPass")[0]) # Will return the hashed_value
+# print("Salt = " + HashFunctions().hashpass(" GreatPass")[1]) # Will return the salt
 # print(HashFunctions().get_user_salt("User"))
 # print(HashFunctions().check_pass("test_username1", "s$Y9h70OXO)nXb7Y"))
 # print(HashFunctions().get_user_pass("admin"))
