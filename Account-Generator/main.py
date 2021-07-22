@@ -72,9 +72,11 @@ def login():
             print(token)
 
             #get stuff from the header here: username and user-agent
+            user_agent = request.headers['User-Agent']
+            # print("user_agent is: " + user_agent)
 
             token_manager = TokenManager()
-            token_manager.store_token(token)
+            token_manager.store_token(token, user_name, user_agent)
 
             return render_template("login.html",myToken=token)
 
