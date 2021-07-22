@@ -14,6 +14,7 @@ def token_required(f):
         print("form requests**************************")
         print(request.form)
         token = None
+        #TODO: TOKEN CHECK
 
         #check headers for "Authorization in the header"
         if 'Authorization' in request.headers:
