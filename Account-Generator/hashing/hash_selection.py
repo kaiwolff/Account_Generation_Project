@@ -2,11 +2,7 @@ import hashlib
 import bcrypt
 import base64
 import configparser
-from salting import Salting
-
-# from typing import TYPE_CHECKING
-# if TYPE_CHECKING:
-#     from Salt import Salt
+from hashing.salting import Salting
 
 class HashSelection():
 
@@ -29,41 +25,51 @@ class HashSelection():
 
         return password_hash
 
-    def sha1_hash(self, plaintext):
-        HF = Salting()
-        salt = HF.generate_salt()
-        salt_64 = HF.generate_base64_salt(salt)
-        saltedpass = salt_64 + plaintext
-        return(hashlib.sha1(saltedpass.encode()).hexdigest()), salt_64
+    def sha1_hash(self, plaintext, salt):
+        # HF = Salting()
+        # salt = HF.generate_salt()
+        # salt_64 = HF.generate_base64_salt(salt)
+        saltedpass = salt + plaintext
+        return(hashlib.sha1(saltedpass.encode()).hexdigest()), salt
 
-    def sha256_hash(self, plaintext):
-        HF = Salting()
-        salt = HF.generate_salt()
-        salt_64 = HF.generate_base64_salt(salt)
-        saltedpass = salt_64 + plaintext
-        return(hashlib.sha256(saltedpass.encode()).hexdigest()), salt_64
+    def sha256_hash(self, plaintext, salt):
+        # HF = Salting()
+        # salt = HF.generate_salt()
+        # salt_64 = HF.generate_base64_salt(salt)
+        saltedpass = salt + plaintext
+        return(hashlib.sha256(saltedpass.encode()).hexdigest()), salt
 
-    def sha3_256_hash(self, plaintext):
-        HF = Salting()
-        salt = HF.generate_salt()
-        salt_64 = HF.generate_base64_salt(salt)
-        saltedpass = salt_64 + plaintext
-        return(hashlib.sha3_256(saltedpass.encode()).hexdigest()), salt_64
+    def sha3_256_hash(self, plaintext, salt):
+        # HF = Salting()
+        # salt = HF.generate_salt()
+        # salt_64 = HF.generate_base64_salt(salt)
+        saltedpass = salt + plaintext
+        return(hashlib.sha3_256(saltedpass.encode()).hexdigest()), salt
 
-    def sha3_512_hash(self, plaintext):
-        HF = Salting()
-        salt = HF.generate_salt()
-        salt_64 = HF.generate_base64_salt(salt)
-        saltedpass = salt_64 + plaintext
-        return(hashlib.sha3_512(saltedpass.encode()).hexdigest()), salt_64
+    def sha3_512_hash(self, plaintext, salt):
+        # HF = Salting()
+        # salt = HF.generate_salt()
+        # salt_64 = HF.generate_base64_salt(salt)
+        saltedpass = salt + plaintext
+        return(hashlib.sha3_512(saltedpass.encode()).hexdigest()), salt
 
     def bcrypt_hash(self, plaintext):
         salt = bcrypt.gensalt()
         plainencode = plaintext.encode()
+        # print(type(salt))
+        # print(type(plainencode))
         return(bcrypt.hashpw(plainencode, salt).decode()), salt.decode()
         #return(hashlib.sha3_512(saltedpass.encode()).hexdigest()), salt_64
 
+    def bcrypt_check(self, plaintext, salt):
+        plainencode = plaintext.encode()
+        salt = salt.encode()
+        return(bcrypt.hashpw(plainencode, salt).decode()), salt.decode()
 
+        # if bcrypt.checkpw(plaintext.encode(), hashed.encode()):
+        #     print("It Matches!")
+        # else:
+        #     ("It Does not Match :(")
     # def hash_password(self, password):
     #     HF = Salt()
     #     salt = HF.generate_salt()
@@ -79,3 +85,4 @@ class HashSelection():
 # print(HashSelection().sha1_hash("greatpass"))
 # print(HashSelection().sha512_256_hash("greatpass"))
 # print(HashSelection().bcrypt_hash("greatpass"))
+# print(HashSelection().bcrypt_check("i4dzJzj~", "$2b$12$MUrhtHRC8CMfG.ui4HeyeuD.EQEELqhIDmp9XsTm4ckvM4GxHOMsW"))
