@@ -1,6 +1,6 @@
-from flask import request, jsonify, make_response, render_template, Blueprint
+from flask import request, jsonify, make_response, render_template, Blueprint,redirect
 from functools import wraps
-
+from token_manager import TokenManager
 import jwt
 
 from datetime import datetime, timedelta
@@ -15,6 +15,7 @@ def token_required(f):
         print(request.form)
         token = None
 
+        token_manager = TokenManager()
         #check headers for "Authorization in the header"
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
@@ -30,7 +31,8 @@ def token_required(f):
             token = None
 
         if not token:
-            return jsonify({'message' : 'Token is missing'}), 401
+            print("token is missing")
+            return redirect("/")
 
         #next: attempt to decode the token. Will return nonsense if not encoded with correct priv_key
         try:
@@ -52,11 +54,18 @@ def token_required(f):
                 print("Expired token")
                 raise
 
+            #check sql database for token associated with user_nam
+            username = token_data['Username']
+            user_agent = request.headers['User-Agent']
+            if not token_manager.check_token(token, username, user_agent):
+                print("token not in database")
+                raise
+
+            print("token check successful")
+
         except Exception as e:
             print(e)
-            return jsonify({
-                    'message' : 'Invalid Token'
-            })
+            return redirect(url_for("/"))
 
         #assuming previous functions were all passed, should now have confirmed that token is valid, and isn't expired. Can then return the username and everythign else needed for the requesting function
         return f(token_data['Username'], *args, **kwargs)
@@ -75,10 +84,11 @@ def manager_token_required(f):
         print(request.form)
         token = None
 
+        token_manager = TokenManager()
         #check headers for "Authorization in the header"
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
-            print("Found Authorization in header")
+            print("Found Authorization in/ header")
 
         #check that token is not empty
         elif request.args.get('myToken', type=str) != "":
@@ -90,7 +100,7 @@ def manager_token_required(f):
             token = None
 
         if not token:
-            return jsonify({'message' : 'Token is missing'}), 401
+            return redirect("/")
 
         #next: attempt to decode the token. Will return nonsense if not encoded with correct priv_key
         try:
@@ -115,12 +125,19 @@ def manager_token_required(f):
                 print("not a manager")
                 raise
 
+            #check sql database for token associated with user_nam
+            username = token_data['Username']
+            user_agent = request.headers['User-Agent']
+            if not token_manager.check_token(token, username, user_agent):
+                print("token not in database")
+                raise
+
+            print("token check successful")
+
 
         except Exception as e:
             print(e)
-            return jsonify({
-                    'message' : 'Invalid Token'
-            })
+            return redirect("/")
 
 
         #assuming previous functions were all passed, should now have confirmed that token is valid, and isn't expired. Can then return the username and everythign else needed for the requesting function
