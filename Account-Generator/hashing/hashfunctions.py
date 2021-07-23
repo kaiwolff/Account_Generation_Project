@@ -25,12 +25,12 @@ class HashFunctions():
 # Create new if statment that links to the policy and checks the hash type needed bcrypt will return true or false
 # Figure out the best way to do the other hashing functions
     def check_pass(self, username, plain_password):
-        print(username)
+        # print(username)
         try:
             salt = self.get_user_salt(username)
             # print("User salt = " + salt)
             check_pass = self.hash_no_salt(plain_password, salt)
-            print("Check pass line 33")
+            # print("Check pass line 33")
             # print(check_pass)
             db = sql_DB()
             cursor = db.cursor
@@ -40,15 +40,15 @@ class HashFunctions():
             db.connection.close()
             # print("Hashed pass line 40")
             # print(hashed_pass)
-            print("Compare check and hased line 42")
-            print (check_pass[0])
-            print(hashed_pass[0])
+            # print("Compare check and hased line 42")
+            # print (check_pass[0])
+            # print(hashed_pass[0])
             if check_pass[0] == hashed_pass[0]:
                 return True
             else:
                 return False
         except TypeError:
-            print("Returning error")
+            # print("Returning error")
             return None
         # print(check_pass)
         # print(hashed_pass)
@@ -64,7 +64,7 @@ class HashFunctions():
             cursor.execute(command)
             salt = cursor.fetchone()
             db.connection.close()
-            print(salt[0])
+            # print(salt[0])
             return salt[0]
         except TypeError:
             return None
@@ -117,7 +117,7 @@ class HashFunctions():
 
         else:
             error_message="Incorrect hash policy. Check hash_policy.txt file. Using Sha256 as default "
-            print(error_message)
+            # print(error_message)
             salt = HF.generate_salt()
             salt = HF.generate_base64_salt(salt)
             return HS.sha256_hash(password, salt)
