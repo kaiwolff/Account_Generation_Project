@@ -1,27 +1,25 @@
-from mysql.connector import connect, Error
-from password_checks import UserPasswordDetails
-import hashlib
-from hashfunctions import HashFunctions
+from hashing.hashfunctions import HashFunctions
 from sql_init import sql_DB
+from password_checks import UserPasswordDetails
 
 class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
     # host=configs[0]52.214.153.42
 
     def user_login(self, username, password):
-        print(password)
-        print(username)
+        # print(password)
+        # print(username)
         if self.check_existence(username):
-            print("ok, you're real")
+            # print("ok, you're real")
             if HashFunctions().check_pass(username, password):
-                print("even your password is real")
+                # print("even your password is real")
                 return True # change it to return a JSON token
 
             else:
-                print("password is wrong")
+                # print("password is wrong")
                 return False # Wrong password
         else:
-            print("password is wrong")
+            #print("Username is wrong")
             return False # Wrong username
 
 
@@ -45,19 +43,19 @@ class UserAccountDetails():
             return False
 
     def check_existence(self, user_name):  # checks if a user exists in a database
-        print("check_existence says hi to {}".format(user_name))
+        # print("check_existence says hi to {}".format(user_name))
         db = sql_DB()
-        print("db established")
+        # print("db established")
         cursor = db.cursor
-        print("cursor made")
+        # print("cursor made")
         command = "SELECT `user_id` FROM `user_info` WHERE `username`= '{}';".format(user_name)
-        print(command)
-        print("command created")
+        # print(command)
+        # print("command created")
         cursor.execute(command)
-        print("command executed")
+        # print("command executed")
         # connection.commit()
         cursor.fetchone()#["user_id"]
-        print("cursor fetched")
+        # print("cursor fetched")
         num_occurences = cursor.rowcount
         # if num_occurences > 0:
         #     user_id = cursor.getColumnIndex("user_id")
@@ -74,7 +72,7 @@ class UserAccountDetails():
         # birth_year = int(birth_year)
         db = sql_DB()
         cursor = db.cursor
-        print(password)
+        # print(password)
 
         if self.check_existence(user_name):
             return "{} already exists.".format(user_name)
@@ -96,7 +94,7 @@ class UserAccountDetails():
             list = []
             return "You have been successfully added to the database system."
 
-            
+
     def change_to_manager(self, user_name):  # changes the value of user role back to manager role
 
         db = sql_DB()
@@ -125,26 +123,23 @@ class UserAccountDetails():
             return "The user doesn't exist"
 
 
-    #
-    # def change_username(self, old_user_name, new_user_name, manager_name,
-    #                     manager_password):  # only if the user is an admin, allows to change the user name
-    #     db = sql_DB()
-    #     cursor = db.cursor
-    #     if self.check_admin(manager_name, manager_password):
-    #         if self.check_existence(old_user_name):
-    #             if not self.check_existence(new_user_name):
-    #                 command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(
-    #                     new_user_name, old_user_name)
-    #                 cursor.execute(command)
-    #                 db.connection.commit()
-    #                 db.close_down()
-    #                 return "{} has been changed to {}".format(old_user_name, new_user_name)
-    #             else:
-    #                 return "The new user already exists in the database"
-    #         else:
-    #             return "The user doesn't exist"
-    #     else:
-    #         return "You require an admin level account to update a username."
+
+    def change_username(self, old_user_name, new_user_name):  # only if the user is an admin, allows to change the user name
+        db = sql_DB()
+        cursor = db.cursor
+        if self.check_existence(old_user_name):
+            if not self.check_existence(new_user_name):
+                command = "UPDATE `user_info` SET `username` = '{}' WHERE `username` = '{}';".format(
+                    new_user_name, old_user_name)
+                cursor.execute(command)
+                db.connection.commit()
+                db.close_down()
+                return "{} has been changed to {}".format(old_user_name, new_user_name)
+            else:
+                return "The new user already exists in the database"
+        else:
+            return "The user doesn't exist"
+
 
 
     def delete_user(self, user_name):  # deletes user details
@@ -165,9 +160,9 @@ class UserAccountDetails():
 
 #print(UserAccountDetails().delete_user("TestUser97", "adin", "Lm(6QXlaYsk8")) #Works, Used a test DB to delete an entry
 # print(UserAccountDetails().change_to_user("admin", "admin", "Lm(6QXlaYsk8")) #Works, returns the right strings depends on the input
-# print(UserAccountDetails().create_new_user("TestUser97", "test_first", "test_last", "1990", "SPKNEZGM+hC9kS")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
+# print(UserAccountDetails().create_new_user("test_username1", "test_first", "test_last", "1990", "h_sux9jY")) #Works, if accort already exists will infom user, if password is weak will generate new pass inserts to DB
 # print(UserAccountDetails().check_admin("admin", "Lm(6QXlaYsk8"))#Works, returns True if admin details are correct
 # print(UserAccountDetails().change_username("test_user", "New_user", "admin", "admin"))#Works, doesnt let the new username change if it's already in uses, only lets you change name if you have admin details
 # print(UserAccountDetails().change_to_manager("admin", "admin", "Lm(6QXlaYsk8"))#Works, Only works if you have admin details and the username is in the database
 # print(UserAccountDetails().check_existence("admin"))#Works, Check is a username is in teh database
-# print(UserAccountDetails().user_login("TestUser","SPKNEZGM+hC9kS"))
+# print(UserAccountDetails().user_login("test_user", "i4dzJzj~"))

@@ -175,7 +175,7 @@ class UserPasswordDetails():
 # Testing functions
 
 
-# print(UserPasswordDetails().generate_password()) #Works, no errors
+print(UserPasswordDetails().generate_password()) #Works, no errors
 #UserPasswordDetails().check_list("password") # Works, but sql errors due to server
 #print(UserPasswordDetails().check_policy("5432ytsKHF++y4")) # no errors check password according to policy.txt file
 #print(UserPasswordDetails().check_user_details("1997","FirstName","LastName", "1997")) # Works, prints False if it is a bad password

@@ -22,4 +22,5 @@ class PassTest(unittest.TestCase):
     #check if the account no longer exists
     def test_extra_check_deletion(self):
         self.assertEqual(self.checker.delete_user("Random_user"), "The user you are trying to delete isn't on the database")
+        self.checker.delete_user("test_user")
 # 100% pass rate no issues
