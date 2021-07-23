@@ -1,9 +1,10 @@
 import hashlib
 import string
-from password_checks import UserPasswordDetails
+# from password_checks import UserPasswordDetails
 import random
 import base64
 from sql_init import sql_DB
+from hash_selection import HashSelection
 
 class HashFunctions():
 
@@ -64,12 +65,28 @@ class HashFunctions():
             return None
 
     def hashpass(self, password):
-        # encode it to bytes using UTF-8 encoding
-        salt = self.generate_salt()
-        salt_64 = self.generate_base64_salt(salt)
-        saltedpass = salt_64 + password
-        #print(self.hash_no_salt("7$!5I6c2-F1r7m1S", salt_64))
-        return (hashlib.sha256(saltedpass.encode()).hexdigest()), salt_64
+        # # encode it to bytes using UTF-8 encoding
+        HS = HashSelection()
+        policy = HS.read_password_hash_policy()
+        # print(policy)
+        if policy == "sha1":
+            return HS.sha1_hash(password)
+        if policy == "sha256":
+            return HS.sha256_hash(password)
+        if policy == "sha3_256":
+            return HS.sha3_256_hash(password)
+        if policy == "bcrypt":
+            return HS.bcrypt_hash(password)
+
+        else:
+            error_message="Incorrect hash policy. Check hash_policy.txt file "
+            raise TypeError(error_message)
+
+        # salt = self.generate_salt()
+        # salt_64 = self.generate_base64_salt(salt)
+        # saltedpass = salt_64 + password
+        # #print(self.hash_no_salt("7$!5I6c2-F1r7m1S", salt_64))
+        # return (hashlib.sha256(saltedpass.encode()).hexdigest()), salt_64
 
     # def saltpass(self, password):
     #     salted_pass = self.generate_salt().encode() + password.encode()
@@ -107,8 +124,8 @@ class HashFunctions():
     # b_message = b_salt.decode('ascii')
     # print(b_message)
 
-# print(HashFunctions().hashpass("7$!5I6c2-F1r7m1S")[0]) # Will return the hashed_value
-# print(HashFunctions().hashpass("helloworld")[1]) # Will return the salt
+# print("Hased password = " + HashFunctions().hashpass(" GreatPass")[0]) # Will return the hashed_value
+# print("Salt = " + HashFunctions().hashpass(" GreatPass")[1]) # Will return the salt
 # print(HashFunctions().get_user_salt("User"))
 # print(HashFunctions().check_pass("test_username1", "s$Y9h70OXO)nXb7Y"))
 # print(HashFunctions().get_user_pass("admin"))

@@ -17,4 +17,4 @@ class PassTest(unittest.TestCase):
 
     def test_salt(self):
         self.assertTrue(self.checker.get_user_salt("test_username1"))
-        self.UserDetails.delete_user("test_username1", "admin", "admin")
+        self.UserDetails.delete_user("test_username1")
