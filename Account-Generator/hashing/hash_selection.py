@@ -47,7 +47,7 @@ class HashSelection():
         return(hashlib.sha3_256(saltedpass.encode()).hexdigest()), salt
 
     def sha3_512_hash(self, plaintext, salt):
-        HF = Salting()
+        # HF = Salting()
         # salt = HF.generate_salt()
         # salt_64 = HF.generate_base64_salt(salt)
         saltedpass = salt + plaintext
