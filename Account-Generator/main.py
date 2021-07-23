@@ -1,5 +1,7 @@
 from flask import Flask, request, abort, redirect, url_for, render_template, jsonify, make_response
-
+from mysql.connector import connect, Error
+from pprint import pprint
+from sql_init import sql_DB
 # Token imports
 import jwt
 
@@ -98,36 +100,57 @@ def dashboard(username):
     else:
         return make_response(render_template('user_dashboard.html'), 200, headers)
 
-
-@app.route('/manage/option', methods = ['GET','POST'])
+@app.route('/manage/option', methods = ['GET','POST'], defaults={'page':1})
+@app.route('/manage/option/page<int:page>')
 @decorators.manager_token_required
-def select_management_option(token, username):
-
+def select_users(token, username, page):
     if request.method == "GET":
-
         print("The token in GET form is {}".format(token))
         message = "Welcome to Management options"
-        return render_template("management_options.html", myToken = token,message = message)
+        perpage = 20
+        startat = (page * perpage) - 20
+        db = sql_DB()
+        cursor = db.cursor
+        command_page = "SELECT `username`, `Manager` FROM `user_info` ORDER BY `username` ASC LIMIT '{}', '{}';".format(startat, perpage)
+        cursor.execute(command_page)
+        db.connection.commit()
+        data = list(cursor.fetchall())
+        db.close_down()
+        #pprint(data)
+        return render_template("management_options.html", myToken = token,message = message, data=data)
 
-    operation = request.form.get('operation')
-    user_name = request.form.get('username')
+    #user_name = request.form.get('username')
 
-    if operation == "delete":
-        user = UserAccountDetails()
-        #render for to take in delete
-        message = user.delete_user(user_name)
-        print(message)
-        return make_response(jsonify(message),200)
-    elif operation == "change_to_user":
-        user = UserAccountDetails()
-        message = user.change_to_user(user_name)
-        print(message)
-        return make_response(jsonify(message),200)
-    elif operation == "change_to_manager":
-        user = UserAccountDetails()
-        message = user.change_to_manager(user_name)
-        print(message)
-        return make_response(jsonify(message),200)
+
+# @app.route('/manage/option', methods = ['GET','POST'])
+# @decorators.manager_token_required
+# def select_management_option(token, username):
+#
+#     if request.method == "GET":
+#
+#         print("The token in GET form is {}".format(token))
+#         message = "Welcome to Management options"
+#         return render_template("management_options.html", myToken = token,message = message)
+#
+#     operation = request.form.get('operation')
+#     user_name = request.form.get('username')
+#
+#     if operation == "delete":
+#         user = UserAccountDetails()
+#         #render for to take in delete
+#         message = user.delete_user(user_name)
+#         print(message)
+#         return make_response(jsonify(message),200)
+#     elif operation == "change_to_user":
+#         user = UserAccountDetails()
+#         message = user.change_to_user(user_name)
+#         print(message)
+#         return make_response(jsonify(message),200)
+#     elif operation == "change_to_manager":
+#         user = UserAccountDetails()
+#         message = user.change_to_manager(user_name)
+#         print(message)
+#         return make_response(jsonify(message),200)
 #
 #
 # @app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/

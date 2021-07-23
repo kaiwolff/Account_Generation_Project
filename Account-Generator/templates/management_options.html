@@ -1,4 +1,24 @@
+<!DOCTYPE html>
 <html>
+
+<head>
+  <title>JQuery Exercise</title>
+      <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head >
+
 <script  src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
 
 
@@ -18,10 +38,9 @@
   }
 
 </script>
+
   <h1>Management Options</h1>
   <body>
-    {{message}}
-
     The token is {{myToken}}
     <form id="opForm">
 
@@ -30,16 +49,9 @@
 
       <select class="form-control" name="operation" id="operation">
         <option value="delete">Delete User</option>
-        <option value="change_to_user">Change Manager to User</option>
-        <option value="change_to_manager">Change User to Manager</option>
-
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <!-- <label for ="manager_name">Manager username:</label<br>
-        <input type="text" id="manager_name" name="manager_name"><br>
-        <label for ="manager_password">Manager password:</label<br>
-        <input type="password" id="manager_password" name="manager_password"><br><br> -->
-
+        <option value="change_to_user">Change User to Manager</option>
+        <option value="change_to_manager">Change Manager to User</option>
+        <option value="change_username">Change Username</option>
       </select>
       <br>
 
@@ -49,11 +61,125 @@
       <input type="reset">
     </form>
 
+    <style>
+
+     td {
+            width: 150px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+          }
+    </style>
+
+    <table>
+      <thead>
+        <tr>
+            <th>vehicle ID</th>
+            <th>current timestamp</th>
+            <th>expiry timestamp</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for row in data %}
+                <tr>
+                    <td>{{row[0]}}</td>
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <style type="text/css">
+
+      h1{
+        text-align: center;
+        margin: 50px;
+        color:white;
+        background: blue;
+        width: 55%;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      form{
+        width: 30%;
+      }
+
+    </style>
+    <div class="container">
+    <h1>Add, Edit, Delete, Update Table Row Using JQuery</h1>
+    <form>
+    <div class="form-group">
+      <label>Name:</label>
+      <input type="text" name="name" class="form-control" value="najmul" required="">
+    </div>
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" name="email" class="form-control" value="najmul@gmail.com" required="">
+    </div>
+    <button type="submit" class="btn btn-success btn-save">Save</button>
+    </form><br>
+    <table class="table table-bordered data-table">
+    <thead>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Action</th>
+    </thead>
+    <tbody>
+
+    </tbody>
+    </table>
+
+    </div>
+    <script type="text/javascript">
+    $("form").submit(function(e) {
+      e.preventDefault();
+      var name=$("input[name='name']").val();
+      var email=$("input[name='email']").val();
+
+       $(".data-table tbody").append("<tr data-name='"+name+"' data-email='"+email+"'><td>"+name+"</td><td>"+email+"</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+
+       $("input[name='']").val("");
+    });
+
+    $('body').on('click','.btn-delete',function() {
+      $(this).parents('tr').remove();
+    });
+
+    $('body').on('click','.btn-edit',function() {
+      var name=$(this).parents('tr').attr('data-name');
+      var email=$(this).parents('tr').attr('data-email');
+
+      $(this).parents('tr').find('td:eq(0)').html("<input name='edit_text' value='"+name+"'>");
+      $(this).parents('tr').find('td:eq(1)').html("<input name='edit_email' value='"+email+"'>");
+
+      $(this).parents('tr').find('td:eq(2)').prepend("<button type='button' class='btn btn-info btn-lg btn-update mr-3'>Update</button>");
+      $(this).hide()
+    });
+
+    $('body').on('click','.btn-update',function() {
+      var name=$(this).parents('tr').find("input[name='edit_text']").val();
+      var email=$(this).parents('tr').find("input[name='edit_email']").val();
+
+      $(this).parents('tr').find('td:eq(0)').text(name);
+      $(this).parents('tr').find('td:eq(1)').text(email);
+
+      $(this).parents('tr').attr('data-name',name);
+      $(this).parents('tr').attr('data-email',email);
+
+      $(this).parents('tr').find('.btn-edit').show();
+      $(this).parents('tr').find('.btn-update').remove();
+
+
+    })
+
+    </script>
+
     <script type="application/javascript">
 
       $("#opForm").submit(function (e){
 
-        var action = "/manage/option"
+        var action = "/manage/options"
 
         $.ajax({
           type: "POST",
@@ -67,10 +193,9 @@
           data: $("#opForm").serialize(),
 
           success: function (response) {
-            result = response
-            alert(result)
-            // $("#lblResult").html('')
-            // $("#lblResult").append(response.result);
+            result = response.result
+            $("#lblResult").html('')
+            $("#lblResult").append(response.result);
           },
           error: function (error) {
             alert(JSON.stringify(error))
