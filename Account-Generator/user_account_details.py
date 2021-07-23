@@ -4,6 +4,7 @@ import hashlib
 from hashfunctions import HashFunctions
 from sql_init import sql_DB
 
+
 class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
     # host=configs[0]52.214.153.42
@@ -96,7 +97,7 @@ class UserAccountDetails():
             list = []
             return "You have been successfully added to the database system."
 
-            
+
     def change_to_manager(self, user_name):  # changes the value of user role back to manager role
 
         db = sql_DB()
@@ -160,6 +161,19 @@ class UserAccountDetails():
         else:
             return "The user you are trying to delete isn't on the database"
 
+    def fetch_userlist_page(self, page, pagesize):
+
+        #start by opening sql database
+        db = sql_DB()
+        cursor = db.cursor
+        print(page, pagesize)
+        gather_command = "SELECT * FROM `user_info` ORDER BY `username` LIMIT {} OFFSET {}".format(pagesize, (int(page) - 1)*pagesize)
+        cursor.execute(gather_command)
+        readable_page = cursor.fetchall()
+        print(readable_page)
+        db.close_down()
+
+        return readable_page
 
 # File Test
 
