@@ -1,5 +1,6 @@
 from hashing.hashfunctions import HashFunctions
 from sql_init import sql_DB
+import json
 from password_checks import UserPasswordDetails
 
 class UserAccountDetails():
@@ -155,7 +156,26 @@ class UserAccountDetails():
         else:
             return "The user you are trying to delete isn't on the database"
 
+    def fetch_userlist_page(self, page, pagesize):
 
+        #start by opening sql database
+        db = sql_DB()
+        cursor = db.cursor
+        print(page, pagesize)
+        gather_command = "SELECT `user_id`, `username`, `FirstName`, `LastName` FROM `user_info` ORDER BY `username` LIMIT {} OFFSET {}".format(pagesize, (int(page) - 1)*pagesize)
+        cursor.execute(gather_command)
+        row_headers=[x[0] for x in cursor.description] #this will extract row headers
+        page = cursor.fetchall()
+
+        json_page = []
+
+        #readable_page.insert(0,(row_headers[0],row_headers[1],row_headers[2]))
+        #db.close_down()
+        for result in page:
+            json_page.append(dict(zip(row_headers,result)))
+        print("HEADERS", row_headers)
+        print(json_page)
+        return json_page
 # File Test
 
 #print(UserAccountDetails().delete_user("TestUser97", "adin", "Lm(6QXlaYsk8")) #Works, Used a test DB to delete an entry

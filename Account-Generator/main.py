@@ -3,7 +3,7 @@ from token_manager import TokenManager
 
 # Token imports
 import jwt
-
+from pprint import pprint
 # System imports
 from datetime import datetime, timedelta
 
@@ -108,7 +108,7 @@ def dashboard(username):
         return make_response(render_template('user_dashboard.html'), 200, headers)
 
 
-@app.route('/manage/option', methods = ['GET','POST'])
+@app.route('/manage/option', methods = ['POST'])
 @decorators.manager_token_required
 def select_management_option(token, username):
 
@@ -137,6 +137,26 @@ def select_management_option(token, username):
         message = user.change_to_manager(user_name)
         print(message)
         return make_response(jsonify(message),200)
+
+
+@app.route('/user_list', methods = ['GET'])
+@decorators.manager_token_required
+def show_userlist(*args):
+	return render_template('user_list.html')
+
+@app.route('/user_list/show', methods = ['GET'])
+@decorators.manager_token_required
+def get_db_page(*args):
+
+    user_acc = UserAccountDetails()
+    page = request.args.get('page')
+    pagesize = 10
+
+    readable_page = user_acc.fetch_userlist_page(page, pagesize)
+    pprint(readable_page)
+
+    return make_response(jsonify(readable_page),200)
+    #user_name = request.form.get('username')
 #
 #
 # @app.route('/manage/option/change_to_manager', methods = ['POST', 'GET']) #/change/

@@ -1,4 +1,5 @@
-from flask import request, jsonify, make_response, render_template, Blueprint,redirect
+from flask import request, jsonify, make_response, render_template, Blueprint, redirect
+
 from functools import wraps
 from token_manager import TokenManager
 import jwt
@@ -65,7 +66,7 @@ def token_required(f):
 
         except Exception as e:
             print(e)
-            return redirect(url_for("/"))
+            return redirect("/")
 
         #assuming previous functions were all passed, should now have confirmed that token is valid, and isn't expired. Can then return the username and everythign else needed for the requesting function
         return f(token_data['Username'], *args, **kwargs)
