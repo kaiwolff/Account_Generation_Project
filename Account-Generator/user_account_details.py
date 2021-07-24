@@ -3,7 +3,7 @@ from password_checks import UserPasswordDetails
 import hashlib
 from hashfunctions import HashFunctions
 from sql_init import sql_DB
-
+import json
 
 class UserAccountDetails():
     # pw_user_db, user_info, username, FirstName, LastName, BirthYear, password, Manager
@@ -167,11 +167,14 @@ class UserAccountDetails():
         db = sql_DB()
         cursor = db.cursor
         print(page, pagesize)
-        gather_command = "SELECT * FROM `user_info` ORDER BY `username` LIMIT {} OFFSET {}".format(pagesize, (int(page) - 1)*pagesize)
+        gather_command = "SELECT `user_id`, `username`, `FirstName` FROM `user_info` ORDER BY `username` LIMIT {} OFFSET {}".format(pagesize, (int(page) - 1)*pagesize)
         cursor.execute(gather_command)
+        row_headers=[x[0] for x in cursor.description] #this will extract row headers
         readable_page = cursor.fetchall()
-        print(readable_page)
+        readable_page += ((row_headers[0],row_headers[1],row_headers[2],),)
         db.close_down()
+        print("headers", row_headers)
+        print(readable_page)
 
         return readable_page
 
