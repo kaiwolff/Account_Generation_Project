@@ -1,6 +1,6 @@
 #Hash Policy - The type of hash you would like to use for each service,
 [Policy]
-password_hash = sha3_256
+password_hash = sha_256
 file_hash = sha1
 
 #Select from the following:

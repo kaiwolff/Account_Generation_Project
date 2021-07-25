@@ -15,7 +15,7 @@ class HashSelection():
         policy = configparser.ConfigParser()
         policy.read('hash_policy.txt')
         password_hash = policy.get('Policy', 'password_hash').lower()
-
+        print(password_hash)
         return password_hash
 
     def read_file_hash_policy(self):
@@ -36,7 +36,10 @@ class HashSelection():
         # HF = Salting()
         # salt = HF.generate_salt()
         # salt_64 = HF.generate_base64_salt(salt)
+        #print("plaintext is: ", plaintext)
+        #print("Salt in hasfunction is: " + salt)
         saltedpass = salt + plaintext
+        #print("*****************************************************************" + saltedpass)
         return(hashlib.sha256(saltedpass.encode()).hexdigest()), salt
 
     def sha3_256_hash(self, plaintext, salt):

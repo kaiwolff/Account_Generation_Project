@@ -21,7 +21,9 @@
 	    localStorage.removeItem("myUsername")
 	    document.location.href = "/"
 	  }
-
+		function show_users(){
+	 	 document.location.href = "/user_list?myToken="+ myToken
+	  }
 	</script>
 	<script>
 	//james' javascript
@@ -143,8 +145,10 @@
 			</div>
 			<div class="manager_container">
 				  <div class="form-group">
+
 						<input type="text"  class="form-control" id = username placeholder="Enter Username" name="username" required>
 				  </div>
+
 			</div>
 			<div class="manager_container">
 				<div class="form-group">
@@ -190,6 +194,38 @@
 		<div class="manager_container">
 			<div class="form-group">
 				<button id= "btnLogout" type="button" value="Log Out" onclick="logout()">Log out</button>
+				<button id = "user_listForm" type="submit" onclick="show_users()">List of Users</button>
+				<script>
+				$("#user_listForm").submit(function (e){
+
+					var action = "/user_list"
+
+					$.ajax({
+						type: "GET",
+						url: action,
+						processData: false,
+						dataType: 'json',
+						async: false,
+						headers: {
+							"Authorization": "Bearer " + myToken
+						},
+						data: $("#opForm").serialize(),
+
+						success: function (response) {
+							result = response
+							alert(result)
+						},
+						error: function (error) {
+							alert(JSON.stringify(error))
+						},
+						complete: function () {
+							// Handle the complete event
+						}
+					});
+					e.preventDefault() ;
+				}) ;
+
+				</script>
 			</div>
 		</div>
 	</div>

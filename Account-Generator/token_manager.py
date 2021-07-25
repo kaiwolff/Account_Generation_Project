@@ -29,7 +29,7 @@ class TokenManager():
         # print("username from header is " + username+"+")
         # print("user-agent from db is " + result[0][2]+"+")
         # print("user_agent from header is " + user_agent+"+")
-
+        print(result)
 
         db_user_agent = result[0][2]
         print("lengths are:")

@@ -17,7 +17,6 @@ class HashFunctions():
             cursor.execute(command)
             password = cursor.fetchone()
             db.connection.close()
-            #print(password[0])
             return password[0]
         except TypeError:
             return None
@@ -40,9 +39,9 @@ class HashFunctions():
             db.connection.close()
             # print("Hashed pass line 40")
             # print(hashed_pass)
-            # print("Compare check and hased line 42")
-            # print (check_pass[0])
-            # print(hashed_pass[0])
+            #print("Compare check and hashed line 42")
+            #print (check_pass[0])
+            #print(hashed_pass[0])
             if check_pass[0] == hashed_pass[0]:
                 return True
             else:
@@ -64,7 +63,7 @@ class HashFunctions():
             cursor.execute(command)
             salt = cursor.fetchone()
             db.connection.close()
-            # print(salt[0])
+            #print("salt is: " + salt[0])
             return salt[0]
         except TypeError:
             return None
@@ -73,10 +72,13 @@ class HashFunctions():
     def hash_no_salt(self, password, salt):
         HS = HashSelection()
         policy = HS.read_password_hash_policy()
-        # print(policy)
+        #print("Policy is: " + policy)
+        #print("salt is: " + salt)
+        #print("Password is: " + password)
         if policy == "sha1":
             return HS.sha1_hash(password, salt)
-        if policy == "sha256":
+        if policy == "sha_256":
+            #print("this is being sent to sha256: "+ password + " "+ salt)
             return HS.sha256_hash(password, salt)
         if policy == "sha3_256":
             return HS.sha3_256_hash(password, salt)
@@ -86,7 +88,7 @@ class HashFunctions():
         else:
             error_message="Incorrect hash policy. Check hash_policy.txt file. Using Sha256 as default "
             # print(error_message)
-            salt = Salting().generate_salt()
+            #salt = Salting().generate_salt() - THERE IS NO NEED FOR THIS LINE AS YOU ALREADY HAVE THE SALT
             return HS.sha256_hash(password, salt)
     #try:
         # print(type(password))

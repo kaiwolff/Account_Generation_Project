@@ -56,39 +56,38 @@ def login():
     user_name = request.form.get('username')
     password = request.form.get('pwd')
 
+    #print("checking password on login page")
+
     if user.user_login(user_name,password) == True:
 
         message = "Login successful"
 
         if user.check_admin(user_name, password)== True:
-            print("survived admin check")
-            NowTime = str(datetime.now() + timedelta(minutes = 72))
-            print(NowTime)
+            #print("survived admin check")
+            NowTime = str(datetime.utcnow() + timedelta(minutes = 72))
+            #print(NowTime)
             token = jwt.encode({
                 'Username': user_name,
                 'Expiry': NowTime,
                 'Manager': 'yes',
             },'SECRET_KEY_123456798', algorithm= 'HS256')
-            print(token)
+            #print(token)
 
-            #get stuff from the header here: username and user-agent
-            user_agent = request.headers['User-Agent']
-            # print("user_agent is: " + user_agent)
-
-            token_manager = TokenManager()
-            token_manager.store_token(token, user_name, user_agent)
-
-            return render_template("login.html",myToken=token)
 
         else:
-            NowTime = str(datetime.now() + timedelta(minutes = 72))
+            NowTime = str(datetime.utcnow() + timedelta(minutes = 72))
             token = jwt.encode({
                 'Username': user_name,
                 'Expiry': NowTime,
                 'Manager': 'no',
             },'SECRET_KEY_123456798', algorithm= 'HS256')
             print(token) # needs secret key
-            return render_template("login.html",myToken = token)
+
+
+        user_agent = request.headers['User-Agent']
+        token_manager = TokenManager()
+        token_manager.store_token(token, user_name, user_agent)
+        return render_template("login.html",myToken = token)
 
     else:
         abort(403)
@@ -98,6 +97,7 @@ def login():
 @decorators.token_required
 
 def dashboard(username):
+
     headers = {'Content-Type': 'text/html'}
     token=request.args.get('myToken')
 
@@ -142,7 +142,8 @@ def select_management_option(token, username):
 @app.route('/user_list', methods = ['GET'])
 @decorators.manager_token_required
 def show_userlist(*args):
-	return render_template('user_list.html')
+    print("user list called")
+    return render_template('user_list.html')
 
 @app.route('/user_list/show', methods = ['GET'])
 @decorators.manager_token_required
@@ -156,6 +157,10 @@ def get_db_page(*args):
     pprint(readable_page)
 
     return make_response(jsonify(readable_page),200)
+
+@app.route('/invalid_token', methods = ['GET'])
+def delete_token():
+    return render_template('invalid_token.html')
     #user_name = request.form.get('username')
 #
 #

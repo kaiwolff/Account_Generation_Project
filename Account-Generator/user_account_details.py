@@ -8,19 +8,20 @@ class UserAccountDetails():
     # host=configs[0]52.214.153.42
 
     def user_login(self, username, password):
-        # print(password)
-        # print(username)
+        hf_access = HashFunctions()
+        print(password)
+        print(username)
         if self.check_existence(username):
-            # print("ok, you're real")
-            if HashFunctions().check_pass(username, password):
-                # print("even your password is real")
-                return True # change it to return a JSON token
+            #print("ok, you're real")
+            if hf_access.check_pass(username, password):
+                print("even your password is real")
+                return True
 
             else:
-                # print("password is wrong")
+                print("password is wrong")
                 return False # Wrong password
         else:
-            #print("Username is wrong")
+            print("Username is wrong")
             return False # Wrong username
 
 
@@ -35,6 +36,7 @@ class UserAccountDetails():
         #connection.commit()
         cursor.fetchall()
         num_occurences = cursor.rowcount
+        print(num_occurences)
         # print("num_occurences assigned")
         db.close_down()
         # print(HashFunctions().get_user_pass(user_name))
