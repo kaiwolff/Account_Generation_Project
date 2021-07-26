@@ -1,16 +1,18 @@
 import pytest
 import unittest
-
-from hashfunctions import HashFunctions
+from hashing.hashfunctions import HashFunctions
+from user_account_details import UserAccountDetails
 
 class PassTest(unittest.TestCase):
 
     checker = HashFunctions()
+    UserDetails = UserAccountDetails()
 
     def test_hash(self):
-        self.assertTrue(self.checker.check_pass("test_username1", "s$Y9h70OXO)nXb7Y"))
-        self.assertFalse(self.checker.check_pass("WrongUserName", "s$Y9h70OXO)nXb7Y"))
+        self.UserDetails.create_new_user("test_username1", "test_first", "test_last", "1990", "h_sux9jY")
+        self.assertTrue(self.checker.check_pass("test_username1", "h_sux9jY"))
         self.assertFalse(self.checker.check_pass("test_username1", "WrongPasswordHere"))
 
     def test_salt(self):
-        self.assertEqual(self.checker.get_user_salt("test_username1"), "Njc0NjY2NDA3eTA2djk0")
+        self.assertTrue(self.checker.get_user_salt("test_username1"))
+        self.UserDetails.delete_user("test_username1")

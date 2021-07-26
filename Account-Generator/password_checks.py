@@ -81,7 +81,7 @@ class UserPasswordDetails():
     def check_policy(self, password):
         # reads password policy, checks if password complies with requirements. Returns True if yes, False if not. Written by KW
         policy_list = self.read_password_policy()
-        print(policy_list)
+        # print(policy_list)
         # now have a list defining password policy
         num_specials = policy_list[0]
         num_lowercase = policy_list[1]
@@ -98,7 +98,7 @@ class UserPasswordDetails():
 
         if len(password) < min_length or len(password) > max_length:
             # not compliant if too short or too long
-            print("Wrong length")
+            # print("Wrong length")
             return False
 
         for letter in password:
@@ -116,10 +116,10 @@ class UserPasswordDetails():
                 # return false if part of password is not in any allowed category
                 print("illegal character")
                 return False
-        print(str(count_specials) + " >= " + str(num_specials))
-        print(str(count_upper) + " >= " + str(num_uppercase))
-        print(str(count_numbers) + " >= " + str(num_numbers))
-        print(str(count_lower) + " >= " + str(num_lowercase))
+        # print(str(count_specials) + " >= " + str(num_specials))
+        # print(str(count_upper) + " >= " + str(num_uppercase))
+        # print(str(count_numbers) + " >= " + str(num_numbers))
+        # print(str(count_lower) + " >= " + str(num_lowercase))
         #Used to test the number of each input charcter compared to the password policy
 
         # now have a count of all the lower, upper, special characters and numbers
@@ -127,23 +127,23 @@ class UserPasswordDetails():
             # print("Returning True")
             return True
         else:
-            print("Num count error")
+            # print("Num count error")
             return False
 
 
     def check_user_details(self, user_firstname, user_lastname, user_birthyear, password):
         # checks if the password contains the user name or year of birth. Outputs True if no user details in the password. Written by KW
         if user_firstname in password:
-            print("First")
+            # print("First")
             return False
         elif user_lastname in password:
-            print("last")
+            # print("last")
             return False
         elif user_birthyear in password:
-            print("birth")
+            # print("birth")
             return False
         else:
-            print("USer OK")
+            # print("USer OK")
             return True
     def read_password_policy(self):
         # reads in password policy, returns variables as a list. Written by KW
